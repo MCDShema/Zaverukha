@@ -260,19 +260,16 @@ export default function SoulPathCalculator() {
     <div className="w-full max-w-4xl mx-auto">
       
       {/* INPUT FORM CARD */}
-      <div className="sacred-card rounded-2xl p-6 sm:p-8 border border-sacred-gold/30 shadow-2xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-sacred-gold/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 -ml-16 -mb-16 w-64 h-64 bg-sacred-blue/30 rounded-full blur-3xl pointer-events-none" />
-
+      <div className="card-zaverukha rounded-3xl p-6 sm:p-10 border border-[#2E2B75]/15 shadow-xl bg-white relative overflow-hidden">
         <div className="text-center max-w-2xl mx-auto mb-8 relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sacred-gold/15 border border-sacred-gold/40 text-sacred-goldLight text-xs font-semibold uppercase tracking-widest mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-sacred-gold" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 border border-amber-300 text-[#996B08] text-xs font-semibold uppercase tracking-widest mb-3">
+            <Sparkles className="w-3.5 h-3.5 text-[#B37E11]" />
             <span>Безкоштовна експрес-діагностика долі</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-serif text-white font-semibold">
+          <h2 className="text-2xl sm:text-3xl font-serif text-[#2E2B75] font-bold">
             Розрахуйте свій <span className="gold-text-gradient">«Путь Душі»</span>
           </h2>
-          <p className="text-sm text-white/70 mt-2">
+          <p className="text-sm text-slate-600 mt-2">
             Введіть дату вашого народження, щоб розкрити 5 ключових енергій матриці призначень за авторською методикою Ірини Заверухи (Way of the Soul)®.
           </p>
         </div>
@@ -280,7 +277,7 @@ export default function SoulPathCalculator() {
         <form onSubmit={calculate} className="space-y-6 relative z-10">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
-              <label htmlFor="calc-day" className="block text-xs font-semibold text-sacred-goldLight uppercase tracking-wider mb-2">
+              <label htmlFor="calc-day" className="block text-xs font-bold text-[#2E2B75] uppercase tracking-wider mb-2">
                 День народження
               </label>
               <input
@@ -292,12 +289,12 @@ export default function SoulPathCalculator() {
                 placeholder="Наприклад: 14"
                 value={day}
                 onChange={(e) => setDay(e.target.value ? parseInt(e.target.value, 10) : '')}
-                className="w-full bg-sacred-dark/80 border border-white/20 focus:border-sacred-gold rounded-xl px-4 py-3 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-sacred-gold/20 text-center text-lg font-medium transition-all"
+                className="w-full bg-slate-50 border border-slate-300 focus:border-[#2E2B75] rounded-xl px-4 py-3 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#2E2B75]/20 text-center text-lg font-medium transition-all"
               />
             </div>
 
             <div>
-              <label htmlFor="calc-month" className="block text-xs font-semibold text-sacred-goldLight uppercase tracking-wider mb-2">
+              <label htmlFor="calc-month" className="block text-xs font-bold text-[#2E2B75] uppercase tracking-wider mb-2">
                 Місяць народження
               </label>
               <input
@@ -309,12 +306,12 @@ export default function SoulPathCalculator() {
                 placeholder="Наприклад: 9"
                 value={month}
                 onChange={(e) => setMonth(e.target.value ? parseInt(e.target.value, 10) : '')}
-                className="w-full bg-sacred-dark/80 border border-white/20 focus:border-sacred-gold rounded-xl px-4 py-3 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-sacred-gold/20 text-center text-lg font-medium transition-all"
+                className="w-full bg-slate-50 border border-slate-300 focus:border-[#2E2B75] rounded-xl px-4 py-3 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#2E2B75]/20 text-center text-lg font-medium transition-all"
               />
             </div>
 
             <div>
-              <label htmlFor="calc-year" className="block text-xs font-semibold text-sacred-goldLight uppercase tracking-wider mb-2">
+              <label htmlFor="calc-year" className="block text-xs font-bold text-[#2E2B75] uppercase tracking-wider mb-2">
                 Рік народження
               </label>
               <input
@@ -326,7 +323,7 @@ export default function SoulPathCalculator() {
                 placeholder="Наприклад: 1992"
                 value={year}
                 onChange={(e) => setYear(e.target.value ? parseInt(e.target.value, 10) : '')}
-                className="w-full bg-sacred-dark/80 border border-white/20 focus:border-sacred-gold rounded-xl px-4 py-3 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-sacred-gold/20 text-center text-lg font-medium transition-all"
+                className="w-full bg-slate-50 border border-slate-300 focus:border-[#2E2B75] rounded-xl px-4 py-3 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#2E2B75]/20 text-center text-lg font-medium transition-all"
               />
             </div>
           </div>
@@ -334,16 +331,16 @@ export default function SoulPathCalculator() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
             <button
               type="submit"
-              className="w-full sm:w-auto px-8 py-3.5 rounded-full sacred-gold-btn flex items-center justify-center gap-2 text-sm uppercase tracking-wider font-semibold hover:scale-105 transition-all shadow-lg"
+              className="w-full sm:w-auto px-8 py-3.5 rounded-xl btn-gold flex items-center justify-center gap-2 text-xs uppercase tracking-wider font-semibold hover:scale-105 transition-all shadow-md"
             >
-              <Calculator className="w-4 h-4 text-sacred-dark" />
+              <Calculator className="w-4 h-4" />
               <span>Отримати розрахунок матриці</span>
             </button>
             {result && (
               <button
                 type="button"
                 onClick={handleReset}
-                className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-white/80 hover:text-white text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-1.5 transition-colors"
+                className="w-full sm:w-auto px-6 py-3.5 rounded-xl btn-outline-blue text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-1.5 transition-colors"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
                 <span>Скинути</span>
@@ -355,129 +352,129 @@ export default function SoulPathCalculator() {
 
       {/* RESULTS DISPLAY */}
       {result && (
-        <div className="mt-8 space-y-6 animate-fadeIn">
+        <div className="mt-10 space-y-6 animate-fadeIn">
           
           <div className="text-center">
-            <h3 className="text-xl sm:text-2xl font-serif text-white">
+            <h3 className="text-xl sm:text-2xl font-serif text-[#2E2B75] font-bold">
               Ваші ключові сакральні коди долі:
             </h3>
-            <p className="text-xs sm:text-sm text-sacred-goldLight mt-1">
+            <p className="text-xs sm:text-sm text-[#B37E11] font-semibold mt-1">
               Дата: {day}.{month}.{year} • Закони гармонії та квантового розвитку
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             
             {/* 1. Особистісна Енергія */}
-            <div className="sacred-card rounded-xl p-5 border border-sacred-gold/40 relative">
+            <div className="card-zaverukha rounded-2xl p-5 border border-slate-200 relative shadow-md">
               <div className="flex items-center justify-between mb-3">
-                <span className="text-[11px] font-semibold text-sacred-gold uppercase tracking-wider">
+                <span className="text-[11px] font-bold text-[#B37E11] uppercase tracking-wider">
                   Енергія Проявлення (День)
                 </span>
-                <span className="w-8 h-8 rounded-full bg-sacred-gold text-sacred-dark font-bold text-sm flex items-center justify-center shadow">
+                <span className="w-8 h-8 rounded-full bg-[#2E2B75] text-white font-bold text-sm flex items-center justify-center shadow">
                   {result.personalEnergy.number}
                 </span>
               </div>
-              <h4 className="text-lg font-serif text-white font-medium">{result.personalEnergy.name}</h4>
-              <p className="text-xs text-sacred-goldLight mb-2">{result.personalEnergy.archetype}</p>
-              <p className="text-xs text-white/80 leading-relaxed"><strong className="text-white">Ресурс:</strong> {result.personalEnergy.light}</p>
-              <p className="text-xs text-white/60 mt-1"><strong className="text-white/70">Тінь:</strong> {result.personalEnergy.shadow}</p>
+              <h4 className="text-lg font-serif text-[#2E2B75] font-bold">{result.personalEnergy.name}</h4>
+              <p className="text-xs text-[#B37E11] font-semibold mb-2">{result.personalEnergy.archetype}</p>
+              <p className="text-xs text-slate-700 leading-relaxed"><strong className="text-slate-900">Ресурс:</strong> {result.personalEnergy.light}</p>
+              <p className="text-xs text-slate-500 mt-1"><strong className="text-slate-700">Тінь:</strong> {result.personalEnergy.shadow}</p>
             </div>
 
             {/* 2. Таланти та Інтуїція */}
-            <div className="sacred-card rounded-xl p-5 border border-sacred-gold/40 relative">
+            <div className="card-zaverukha rounded-2xl p-5 border border-slate-200 relative shadow-md">
               <div className="flex items-center justify-between mb-3">
-                <span className="text-[11px] font-semibold text-sacred-gold uppercase tracking-wider">
+                <span className="text-[11px] font-bold text-[#B37E11] uppercase tracking-wider">
                   Таланти & Інтуїція (Місяць)
                 </span>
-                <span className="w-8 h-8 rounded-full bg-sacred-gold text-sacred-dark font-bold text-sm flex items-center justify-center shadow">
+                <span className="w-8 h-8 rounded-full bg-[#2E2B75] text-white font-bold text-sm flex items-center justify-center shadow">
                   {result.talentEnergy.number}
                 </span>
               </div>
-              <h4 className="text-lg font-serif text-white font-medium">{result.talentEnergy.name}</h4>
-              <p className="text-xs text-sacred-goldLight mb-2">{result.talentEnergy.archetype}</p>
-              <p className="text-xs text-white/80 leading-relaxed"><strong className="text-white">Ресурс:</strong> {result.talentEnergy.light}</p>
-              <p className="text-xs text-white/60 mt-1"><strong className="text-white/70">Тінь:</strong> {result.talentEnergy.shadow}</p>
+              <h4 className="text-lg font-serif text-[#2E2B75] font-bold">{result.talentEnergy.name}</h4>
+              <p className="text-xs text-[#B37E11] font-semibold mb-2">{result.talentEnergy.archetype}</p>
+              <p className="text-xs text-slate-700 leading-relaxed"><strong className="text-slate-900">Ресурс:</strong> {result.talentEnergy.light}</p>
+              <p className="text-xs text-slate-500 mt-1"><strong className="text-slate-700">Тінь:</strong> {result.talentEnergy.shadow}</p>
             </div>
 
             {/* 3. Кармічний Багаж */}
-            <div className="sacred-card rounded-xl p-5 border border-sacred-gold/40 relative">
+            <div className="card-zaverukha rounded-2xl p-5 border border-slate-200 relative shadow-md">
               <div className="flex items-center justify-between mb-3">
-                <span className="text-[11px] font-semibold text-sacred-gold uppercase tracking-wider">
+                <span className="text-[11px] font-bold text-[#B37E11] uppercase tracking-wider">
                   Кармічний досвід (Рік)
                 </span>
-                <span className="w-8 h-8 rounded-full bg-sacred-gold text-sacred-dark font-bold text-sm flex items-center justify-center shadow">
+                <span className="w-8 h-8 rounded-full bg-[#2E2B75] text-white font-bold text-sm flex items-center justify-center shadow">
                   {result.karmicBaseEnergy.number}
                 </span>
               </div>
-              <h4 className="text-lg font-serif text-white font-medium">{result.karmicBaseEnergy.name}</h4>
-              <p className="text-xs text-sacred-goldLight mb-2">{result.karmicBaseEnergy.archetype}</p>
-              <p className="text-xs text-white/80 leading-relaxed"><strong className="text-white">Ресурс:</strong> {result.karmicBaseEnergy.light}</p>
-              <p className="text-xs text-white/60 mt-1"><strong className="text-white/70">Тінь:</strong> {result.karmicBaseEnergy.shadow}</p>
+              <h4 className="text-lg font-serif text-[#2E2B75] font-bold">{result.karmicBaseEnergy.name}</h4>
+              <p className="text-xs text-[#B37E11] font-semibold mb-2">{result.karmicBaseEnergy.archetype}</p>
+              <p className="text-xs text-slate-700 leading-relaxed"><strong className="text-slate-900">Ресурс:</strong> {result.karmicBaseEnergy.light}</p>
+              <p className="text-xs text-slate-500 mt-1"><strong className="text-slate-700">Тінь:</strong> {result.karmicBaseEnergy.shadow}</p>
             </div>
 
             {/* 4. Точка Комфорту Душі */}
-            <div className="sacred-card rounded-xl p-5 border border-sacred-gold/40 relative">
+            <div className="card-zaverukha rounded-2xl p-5 border border-slate-200 relative shadow-md">
               <div className="flex items-center justify-between mb-3">
-                <span className="text-[11px] font-semibold text-sacred-gold uppercase tracking-wider">
+                <span className="text-[11px] font-bold text-[#B37E11] uppercase tracking-wider">
                   Точка комфорту душі
                 </span>
-                <span className="w-8 h-8 rounded-full bg-sacred-gold text-sacred-dark font-bold text-sm flex items-center justify-center shadow">
+                <span className="w-8 h-8 rounded-full bg-[#2E2B75] text-white font-bold text-sm flex items-center justify-center shadow">
                   {result.comfortEnergy.number}
                 </span>
               </div>
-              <h4 className="text-lg font-serif text-white font-medium">{result.comfortEnergy.name}</h4>
-              <p className="text-xs text-sacred-goldLight mb-2">{result.comfortEnergy.archetype}</p>
-              <p className="text-xs text-white/80 leading-relaxed"><strong className="text-white">Ресурс:</strong> {result.comfortEnergy.light}</p>
-              <p className="text-xs text-white/60 mt-1"><strong className="text-white/70">Тінь:</strong> {result.comfortEnergy.shadow}</p>
+              <h4 className="text-lg font-serif text-[#2E2B75] font-bold">{result.comfortEnergy.name}</h4>
+              <p className="text-xs text-[#B37E11] font-semibold mb-2">{result.comfortEnergy.archetype}</p>
+              <p className="text-xs text-slate-700 leading-relaxed"><strong className="text-slate-900">Ресурс:</strong> {result.comfortEnergy.light}</p>
+              <p className="text-xs text-slate-500 mt-1"><strong className="text-slate-700">Тінь:</strong> {result.comfortEnergy.shadow}</p>
             </div>
 
             {/* 5. Головне Призначення */}
-            <div className="sacred-card rounded-xl p-5 border-2 border-sacred-gold relative bg-sacred-gold/10">
+            <div className="card-zaverukha rounded-2xl p-5 border-2 border-[#C99A2C] relative bg-amber-50/50 shadow-lg">
               <div className="flex items-center justify-between mb-3">
-                <span className="text-[11px] font-bold text-sacred-goldLight uppercase tracking-wider">
+                <span className="text-[11px] font-bold text-[#B37E11] uppercase tracking-wider">
                   ★ Головне Призначення
                 </span>
-                <span className="w-8 h-8 rounded-full bg-gradient-to-r from-sacred-gold to-sacred-goldHover text-sacred-dark font-extrabold text-sm flex items-center justify-center shadow-lg">
+                <span className="w-8 h-8 rounded-full bg-[#C99A2C] text-white font-extrabold text-sm flex items-center justify-center shadow">
                   {result.destinyEnergy.number}
                 </span>
               </div>
-              <h4 className="text-lg font-serif text-white font-medium">{result.destinyEnergy.name}</h4>
-              <p className="text-xs text-sacred-goldLight mb-2">{result.destinyEnergy.archetype}</p>
-              <p className="text-xs text-white/90 leading-relaxed"><strong className="text-sacred-goldLight">Послання:</strong> {result.destinyEnergy.guidance}</p>
+              <h4 className="text-lg font-serif text-[#2E2B75] font-bold">{result.destinyEnergy.name}</h4>
+              <p className="text-xs text-[#B37E11] font-semibold mb-2">{result.destinyEnergy.archetype}</p>
+              <p className="text-xs text-slate-700 leading-relaxed"><strong className="text-[#2E2B75]">Послання:</strong> {result.destinyEnergy.guidance}</p>
             </div>
 
             {/* 6. Енергія Року */}
-            <div className="sacred-card rounded-xl p-5 border border-sacred-gold/40 relative">
+            <div className="card-zaverukha rounded-2xl p-5 border border-slate-200 relative shadow-md">
               <div className="flex items-center justify-between mb-3">
-                <span className="text-[11px] font-semibold text-sacred-gold uppercase tracking-wider">
+                <span className="text-[11px] font-bold text-[#B37E11] uppercase tracking-wider">
                   Енергія поточного року
                 </span>
-                <span className="w-8 h-8 rounded-full bg-sacred-gold text-sacred-dark font-bold text-sm flex items-center justify-center shadow">
+                <span className="w-8 h-8 rounded-full bg-[#2E2B75] text-white font-bold text-sm flex items-center justify-center shadow">
                   {result.yearEnergy.number}
                 </span>
               </div>
-              <h4 className="text-lg font-serif text-white font-medium">{result.yearEnergy.name}</h4>
-              <p className="text-xs text-sacred-goldLight mb-2">{result.yearEnergy.archetype}</p>
-              <p className="text-xs text-white/80 leading-relaxed"><strong className="text-white">Фокус року:</strong> {result.yearEnergy.light}</p>
+              <h4 className="text-lg font-serif text-[#2E2B75] font-bold">{result.yearEnergy.name}</h4>
+              <p className="text-xs text-[#B37E11] font-semibold mb-2">{result.yearEnergy.archetype}</p>
+              <p className="text-xs text-slate-700 leading-relaxed"><strong className="text-slate-900">Фокус року:</strong> {result.yearEnergy.light}</p>
             </div>
 
           </div>
 
           {/* CTA BANNER: Deep Consultation */}
-          <div className="bg-gradient-to-r from-sacred-blue via-sacred-indigo to-sacred-night p-6 sm:p-8 rounded-2xl border border-sacred-gold/40 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+          <div className="bg-[#2E2B75] p-6 sm:p-8 rounded-3xl border border-[#3833BA] shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left text-white">
             <div>
-              <h4 className="text-xl font-serif text-white font-semibold">
+              <h4 className="text-xl font-serif font-bold text-white">
                 Бажаєте отримати повний глибинний розбір матриці долі?
               </h4>
-              <p className="text-xs sm:text-sm text-white/80 mt-1 max-w-xl">
+              <p className="text-xs sm:text-sm text-white/80 mt-1 max-w-xl leading-relaxed">
                 Сертифіковані майстри Консультаційного центру Ірини Заверухи проведуть індивідуальну діагностику родових каналів, фінансів та призначення.
               </p>
             </div>
             <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
               <Link
                 href="/consultation-center"
-                className="sacred-gold-btn px-6 py-3 rounded-full text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5 shadow-md"
+                className="btn-gold px-6 py-3 rounded-xl text-xs font-semibold uppercase tracking-wider flex items-center gap-2 shadow-lg"
               >
                 <span>Замовити консультацію</span>
                 <ArrowRight className="w-4 h-4" />

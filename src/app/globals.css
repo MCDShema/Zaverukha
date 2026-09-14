@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,46 +6,166 @@
 
 @layer base {
   :root {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
+    --color-dark-blue: #2E2B75;
+    --color-blue-accent: #3833BA;
+    --color-gold: #B37E11;
+    --color-gold-light: #C99A2C;
+    --color-text-dark: #28303D;
+    --color-bg-light: #F7F8FC;
   }
 
   body {
-    @apply bg-[#0b0a1a] text-slate-100 antialiased font-sans selection:bg-sacred-gold selection:text-sacred-dark;
+    background-color: #FFFFFF;
+    color: #28303D;
+    font-family: 'Roboto', 'Montserrat', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-serif tracking-wide;
+    color: #2E2B75;
+    font-family: 'Roboto', 'Montserrat', sans-serif;
+    font-weight: 700;
+    line-height: 1.25;
   }
 }
 
-/* Custom Sacred Accents & Utilities */
-.sacred-gradient-bg {
-  background: radial-gradient(circle at 50% 0%, rgba(46, 43, 117, 0.45) 0%, rgba(14, 12, 36, 0.95) 75%, #080714 100%);
+/* Authentic Buttons from zaverukha.com */
+.btn-primary-dark {
+  background-color: #2E2B75;
+  color: #FFFFFF !important;
+  font-weight: 600;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(46, 43, 117, 0.25);
+  transition: all 0.25s ease;
 }
 
-.sacred-card {
-  background: rgba(25, 22, 61, 0.45);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(201, 154, 44, 0.2);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+.btn-primary-dark:hover {
+  background-color: #3833BA;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(46, 43, 117, 0.35);
 }
 
-.sacred-card:hover {
-  border-color: rgba(245, 223, 126, 0.5);
-  box-shadow: 0 10px 30px -10px rgba(201, 154, 44, 0.2);
+.btn-gold {
+  background: linear-gradient(135deg, #D4AF37 0%, #C99A2C 50%, #B37E11 100%);
+  color: #0E0C24 !important;
+  font-weight: 600;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(201, 154, 44, 0.3);
+  transition: all 0.25s ease;
+}
+
+.btn-gold:hover {
+  background: linear-gradient(135deg, #F5DF7E 0%, #D4AF37 50%, #C99A2C 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(201, 154, 44, 0.45);
+}
+
+.btn-outline-blue {
+  background-color: #FFFFFF;
+  color: #2E2B75 !important;
+  border: 1.5px solid #2E2B75;
+  font-weight: 600;
+  border-radius: 10px;
+  transition: all 0.25s ease;
+}
+
+.btn-outline-blue:hover {
+  background-color: #2E2B75;
+  color: #FFFFFF !important;
+  transform: translateY(-1px);
+}
+
+/* Authentic Section Strips */
+.strip-light {
+  background-color: #FFFFFF;
+}
+
+.strip-blue {
+  background-color: rgba(46, 43, 117, 0.04);
+}
+
+/* Card Style */
+.card-zaverukha {
+  background-color: #FFFFFF;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(46, 43, 117, 0.08);
+  border: 1px solid rgba(46, 43, 117, 0.1);
+  transition: all 0.3s ease;
+}
+
+.card-zaverukha:hover {
+  box-shadow: 0 10px 30px rgba(46, 43, 117, 0.14);
   transform: translateY(-2px);
 }
 
+/* Image with authentic drop shadow */
+.img-zaverukha {
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Gradient and sacred compatibility classes */
 .gold-text-gradient {
-  background: linear-gradient(135deg, #FFF3A7 0%, #F5DF7E 25%, #C99A2C 60%, #996D14 100%);
+  background: linear-gradient(135deg, #B37E11 0%, #D4AF37 50%, #996B08 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
+.sacred-gradient-bg {
+  background: linear-gradient(180deg, #FFFFFF 0%, #F4F5FB 100%);
+}
+
+.sacred-card {
+  background-color: #FFFFFF;
+  color: #28303D;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(46, 43, 117, 0.08);
+  border: 1px solid rgba(46, 43, 117, 0.12);
+  transition: all 0.3s ease;
+}
+
+.sacred-card:hover {
+  box-shadow: 0 10px 30px rgba(46, 43, 117, 0.16);
+  transform: translateY(-2px);
+}
+
+.sacred-card h1,
+.sacred-card h2,
+.sacred-card h3,
+.sacred-card h4,
+.sacred-card h5,
+.sacred-card h6 {
+  color: #2E2B75 !important;
+}
+
+.sacred-card .text-white {
+  color: #28303D !important;
+}
+
+.sacred-card [class*="text-white/"] {
+  color: #4A5568 !important;
+}
+
+.sacred-card .text-sacred-goldLight {
+  color: #B37E11 !important;
+}
+
+.sacred-card .bg-white\/5,
+.sacred-card .bg-white\/10 {
+  background-color: #F8F9FD !important;
+  border-color: rgba(46, 43, 117, 0.12) !important;
+}
+
+.sacred-card .border-white\/10,
+.sacred-card .border-white\/20 {
+  border-color: rgba(46, 43, 117, 0.12) !important;
+}
+
 .sacred-gold-btn {
   background: linear-gradient(135deg, #D4AF37 0%, #C99A2C 50%, #B37E11 100%);
-  color: #0E0C24;
+  color: #0E0C24 !important;
   font-weight: 600;
   box-shadow: 0 4px 15px rgba(201, 154, 44, 0.3);
   transition: all 0.25s ease;
@@ -53,19 +173,21 @@
 
 .sacred-gold-btn:hover {
   background: linear-gradient(135deg, #F5DF7E 0%, #D4AF37 50%, #C99A2C 100%);
-  box-shadow: 0 6px 20px rgba(201, 154, 44, 0.45);
   transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(201, 154, 44, 0.45);
 }
 
 .sacred-blue-btn {
-  background: linear-gradient(135deg, #2E2B75 0%, #3B3691 100%);
-  border: 1px solid rgba(201, 154, 44, 0.4);
-  color: #FFFFFF;
+  background-color: #2E2B75;
+  color: #FFFFFF !important;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(46, 43, 117, 0.25);
   transition: all 0.25s ease;
 }
 
 .sacred-blue-btn:hover {
-  background: linear-gradient(135deg, #3B3691 0%, #4A44B0 100%);
-  border-color: rgba(245, 223, 126, 0.7);
+  background-color: #3833BA;
   transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(46, 43, 117, 0.35);
 }
+

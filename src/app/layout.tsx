@@ -26,7 +26,7 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
-      <body className="min-h-screen flex flex-col bg-[#0b0a1a] text-slate-100 font-sans">
+      <body className="min-h-screen flex flex-col bg-white text-[#28303d] font-sans antialiased">
         <AppProvider>
           {children}
         </AppProvider>

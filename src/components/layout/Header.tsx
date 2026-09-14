@@ -53,8 +53,8 @@ export default function Header() {
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       scrolled 
-        ? 'bg-sacred-dark/95 backdrop-blur-md shadow-lg border-b border-sacred-gold/20 py-2' 
-        : 'bg-sacred-dark/85 backdrop-blur-sm border-b border-white/10 py-3'
+        ? 'bg-[#2E2B75] shadow-lg border-b border-[#3833BA] py-2.5' 
+        : 'bg-[#2E2B75] border-b border-[#3833BA]/50 py-3'
     }`}>
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between gap-2">
@@ -212,9 +212,9 @@ export default function Header() {
             {/* 7. Консультаційний центр (CTA Button) */}
             <Link 
               href="/consultation-center" 
-              className="ml-1 xl:ml-2 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider text-white bg-gradient-to-r from-sacred-blue via-sacred-indigo to-sacred-blue hover:from-sacred-indigo hover:to-sacred-blue border border-sacred-gold/50 shadow-md shadow-sacred-blue/30 hover:scale-105 transition-all"
+              className="ml-1 xl:ml-2 inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider btn-gold shadow-md hover:scale-105 transition-all"
             >
-              <CalendarCheck className="w-3.5 h-3.5 text-sacred-gold" />
+              <CalendarCheck className="w-3.5 h-3.5 text-[#0E0C24]" />
               <span>Консультаційний центр</span>
             </Link>
 
