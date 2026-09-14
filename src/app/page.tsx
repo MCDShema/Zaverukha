@@ -188,7 +188,7 @@ export default function HomePage() {
 
 
       {/* 2. TOP BANNER CAROUSEL: Всі автентичні банери курсів і програм з сайту zaverukha.com */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-center">
         <BannerSlider />
       </section>
 

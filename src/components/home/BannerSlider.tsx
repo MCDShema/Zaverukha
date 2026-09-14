@@ -85,11 +85,11 @@ export default function BannerSlider() {
 
   return (
     <div 
-      className="relative max-w-5xl mx-auto px-4 sm:px-6"
+      className="relative w-full max-w-5xl mx-auto px-4 sm:px-6 flex justify-center"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      <div className="relative overflow-hidden rounded-2xl shadow-2xl border border-sacred-gold/30 aspect-[1024/694] max-h-[500px] bg-sacred-dark">
+      <div className="relative w-full max-w-[860px] mx-auto overflow-hidden rounded-2xl shadow-2xl border border-[#C99A2C]/40 aspect-[1024/694] max-h-[520px] bg-sacred-dark">
         {slides.map((slide, idx) => (
           <div
             key={slide.id}
