@@ -74,18 +74,18 @@ export default function Header() {
               4. Калькулятор («Way of the Soul»)
               5. Блог
               6. Контакти і реквізити
-              7. Консультаційний центр (CTA)
+              7. Консультаційний центр
           ) */}
-          <nav className="hidden lg:flex items-center space-x-0.5 xl:space-x-1">
+          <nav className="hidden lg:flex items-center justify-center gap-1 xl:gap-2.5 2xl:gap-3.5 mx-auto">
             
             {/* 1. Навчання (Dropdown: Екосистема PIPL / IMARIA Academia) */}
             <div 
-              className="relative group"
+              className="relative group shrink-0"
               onMouseEnter={() => setEducationOpen(true)}
               onMouseLeave={() => setEducationOpen(false)}
             >
               <button 
-                className={`flex items-center gap-1 px-2.5 py-1.5 text-xs xl:text-sm font-light tracking-wide transition-colors ${
+                className={`flex items-center gap-1 px-2 xl:px-2.5 py-1.5 text-xs xl:text-sm font-light tracking-wide whitespace-nowrap transition-colors ${
                   isActive('/education') 
                     ? 'text-white font-normal underline underline-offset-4 decoration-white/60' 
                     : 'text-white/90 hover:text-white'
@@ -130,7 +130,7 @@ export default function Header() {
                 
                 <div className="mt-1 pt-1 border-t border-white/10">
                   <Link 
-                    href="/education"
+                    href="/education" 
                     className="block text-center text-xs text-white/80 hover:text-white hover:underline py-1 font-light"
                   >
                     Огляд розділу «Навчання» →
@@ -142,7 +142,7 @@ export default function Header() {
             {/* 2. Моя творчість */}
             <Link 
               href="/creativity" 
-              className={`px-2.5 py-1.5 text-xs xl:text-sm font-light tracking-wide transition-colors ${
+              className={`shrink-0 px-2 xl:px-2.5 py-1.5 text-xs xl:text-sm font-light tracking-wide whitespace-nowrap transition-colors ${
                 isActive('/creativity') 
                   ? 'text-white font-normal underline underline-offset-4 decoration-white/60' 
                   : 'text-white/90 hover:text-white'
@@ -154,7 +154,7 @@ export default function Header() {
             {/* 3. Сатсанги.DivineYoga (без бейджа УТП) */}
             <Link 
               href="/satsang-divine-yoga" 
-              className={`px-2.5 py-1.5 text-xs xl:text-sm font-light tracking-wide transition-colors ${
+              className={`shrink-0 px-2 xl:px-2.5 py-1.5 text-xs xl:text-sm font-light tracking-wide whitespace-nowrap transition-colors ${
                 isActive('/satsang-divine-yoga') 
                   ? 'text-white font-normal underline underline-offset-4 decoration-white/60' 
                   : 'text-white/90 hover:text-white'
@@ -167,7 +167,7 @@ export default function Header() {
             {/* 4. Калькулятор (однаковий білий тонкий стиль) */}
             <Link 
               href="/calculator" 
-              className={`px-2.5 py-1.5 text-xs xl:text-sm font-light tracking-wide transition-colors ${
+              className={`shrink-0 px-2 xl:px-2.5 py-1.5 text-xs xl:text-sm font-light tracking-wide whitespace-nowrap transition-colors ${
                 isActive('/calculator')
                   ? 'text-white font-normal underline underline-offset-4 decoration-white/60'
                   : 'text-white/90 hover:text-white'
@@ -180,7 +180,7 @@ export default function Header() {
             {/* 5. Блог */}
             <Link 
               href="/blog" 
-              className={`px-2.5 py-1.5 text-xs xl:text-sm font-light tracking-wide transition-colors ${
+              className={`shrink-0 px-2 xl:px-2.5 py-1.5 text-xs xl:text-sm font-light tracking-wide whitespace-nowrap transition-colors ${
                 isActive('/blog') 
                   ? 'text-white font-normal underline underline-offset-4 decoration-white/60' 
                   : 'text-white/90 hover:text-white'
@@ -192,7 +192,7 @@ export default function Header() {
             {/* 6. Контакти і реквізити */}
             <Link 
               href="/contacts" 
-              className={`px-2.5 py-1.5 text-xs xl:text-sm font-light tracking-wide transition-colors ${
+              className={`shrink-0 px-2 xl:px-2.5 py-1.5 text-xs xl:text-sm font-light tracking-wide whitespace-nowrap transition-colors ${
                 isActive('/contacts') 
                   ? 'text-white font-normal underline underline-offset-4 decoration-white/60' 
                   : 'text-white/90 hover:text-white'
@@ -204,7 +204,7 @@ export default function Header() {
             {/* 7. Консультаційний центр (однаковий білий тонкий стиль як у всіх) */}
             <Link 
               href="/consultation-center" 
-              className={`px-2.5 py-1.5 text-xs xl:text-sm font-light tracking-wide transition-colors ${
+              className={`shrink-0 px-2 xl:px-2.5 py-1.5 text-xs xl:text-sm font-light tracking-wide whitespace-nowrap transition-colors ${
                 isActive('/consultation-center')
                   ? 'text-white font-normal underline underline-offset-4 decoration-white/60'
                   : 'text-white/90 hover:text-white'
@@ -216,7 +216,7 @@ export default function Header() {
           </nav>
 
           {/* RIGHT UTILITIES: Search + Language switcher */}
-          <div className="hidden lg:flex items-center gap-2 pl-2 border-l border-white/15">
+          <div className="hidden lg:flex items-center gap-2 pl-3 xl:pl-4 border-l border-white/15 shrink-0">
             {/* Search Toggle */}
             <div className="relative">
               <button 
