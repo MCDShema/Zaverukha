@@ -60,7 +60,7 @@ export default function AdminSettingsPage() {
     URL.revokeObjectURL(url);
   };
 
-  const handleImport = (e: React.FormEvent) => {
+  const handleImport = async (e: React.FormEvent) => {
     e.preventDefault();
     setImportError('');
     setImportSuccess(false);
@@ -70,7 +70,7 @@ export default function AdminSettingsPage() {
       return;
     }
 
-    const ok = importJson(importText);
+    const ok = await importJson(importText);
     if (ok) {
       setImportSuccess(true);
       setImportText('');

@@ -24,5 +24,5 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules", "www", "www_old", "krylia", "school", "pipl", "celostnost", "from-sacrifice-to-love", "iamwoman", "meditation-course", "prostir-2023", "s-family", "samotsennost", "svoboda", "vid-hordyni-do-hordosti", "woman-power", "contacts"]
+  "exclude": ["node_modules", "functions", "www", "www_old", "krylia", "school", "pipl", "celostnost", "from-sacrifice-to-love", "iamwoman", "meditation-course", "prostir-2023", "s-family", "samotsennost", "svoboda", "vid-hordyni-do-hordosti", "woman-power", "contacts"]
 }

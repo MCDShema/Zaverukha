@@ -20,7 +20,7 @@ import {
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
-  const { isAuthenticated, logout, leads } = useContent();
+  const { isAuthenticated, logout, leads, dbStatus, refreshFromDb } = useContent();
 
   const isLoginPage = pathname === '/admin/login';
 
@@ -111,8 +111,27 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
         {/* Footer info & Logout */}
         <div className="p-4 border-t border-white/10 space-y-3">
-          <div className="text-[11px] text-white/50 px-2">
-            <div>Версія ядра: Next.js 15</div>
+          <div className="text-[11px] text-white/60 px-2 space-y-1.5">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-1.5">
+                <span className={`w-2 h-2 rounded-full ${
+                  dbStatus === 'connected' ? 'bg-emerald-400 animate-pulse' : 
+                  dbStatus === 'syncing' ? 'bg-amber-400 animate-ping' : 
+                  'bg-slate-400'
+                }`} />
+                <span className="text-white font-medium">
+                  {dbStatus === 'connected' ? 'D1: Підключено' : dbStatus === 'syncing' ? 'D1: Синхронізація...' : 'D1: Автономний режим'}
+                </span>
+              </div>
+              <button 
+                onClick={() => refreshFromDb()} 
+                title="Оновити з бази даних"
+                className="text-[10px] text-sacred-gold hover:underline cursor-pointer"
+              >
+                Оновити
+              </button>
+            </div>
+            <div>База даних: Cloudflare D1</div>
             <div>Хостинг: Cloudflare Pages</div>
           </div>
           <button

@@ -1,8 +1,8 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { SiteContent, INITIAL_CONTENT } from '@/data/siteContent';
-import { Article } from '@/data/articles';
+import { Article, ARTICLES as DEFAULT_ARTICLES } from '@/data/articles';
 
 export interface Lead {
   id: string;
@@ -18,23 +18,27 @@ export interface Lead {
   status: 'new' | 'contacted' | 'completed';
 }
 
+export type DbStatus = 'connected' | 'syncing' | 'offline';
+
 interface ContentContextType {
   content: SiteContent;
-  updateSection: <K extends keyof SiteContent>(section: K, values: Partial<SiteContent[K]>) => void;
-  addArticle: (article: Article) => void;
-  updateArticle: (slug: string, article: Partial<Article>) => void;
-  deleteArticle: (slug: string) => void;
+  updateSection: <K extends keyof SiteContent>(section: K, values: Partial<SiteContent[K]>) => Promise<void>;
+  addArticle: (article: Article) => Promise<void>;
+  updateArticle: (slug: string, article: Partial<Article>) => Promise<void>;
+  deleteArticle: (slug: string) => Promise<void>;
   leads: Lead[];
-  addLead: (lead: Omit<Lead, 'id' | 'createdAt' | 'status'>) => void;
-  updateLeadStatus: (id: string, status: Lead['status']) => void;
-  deleteLead: (id: string) => void;
+  addLead: (lead: Omit<Lead, 'id' | 'createdAt' | 'status'>) => Promise<void>;
+  updateLeadStatus: (id: string, status: Lead['status']) => Promise<void>;
+  deleteLead: (id: string) => Promise<void>;
   isAuthenticated: boolean;
-  login: (password: string) => boolean;
+  login: (password: string) => Promise<boolean>;
   logout: () => void;
-  changePassword: (newPassword: string) => void;
+  changePassword: (newPassword: string) => Promise<void>;
   exportJson: () => string;
-  importJson: (jsonString: string) => boolean;
+  importJson: (jsonString: string) => Promise<boolean>;
   resetToDefaults: () => void;
+  dbStatus: DbStatus;
+  refreshFromDb: () => Promise<void>;
 }
 
 const ContentContext = createContext<ContentContextType | undefined>(undefined);
@@ -49,9 +53,84 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
   const [content, setContent] = useState<SiteContent>(INITIAL_CONTENT);
   const [leads, setLeads] = useState<Lead[]>([]);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [isHydrated, setIsHydrated] = useState<boolean>(false);
+  const [dbStatus, setDbStatus] = useState<DbStatus>('syncing');
 
-  // Hydrate from localStorage on client mount
+  // Save content changes to localStorage (immediate local fallback cache)
+  const saveContentLocal = useCallback((newContent: SiteContent) => {
+    setContent(newContent);
+    try {
+      localStorage.setItem(CONTENT_STORAGE_KEY, JSON.stringify(newContent));
+    } catch (e) {
+      console.error('Error saving content locally:', e);
+    }
+  }, []);
+
+  // Save leads to localStorage (immediate local fallback cache)
+  const saveLeadsLocal = useCallback((newLeads: Lead[]) => {
+    setLeads(newLeads);
+    try {
+      localStorage.setItem(LEADS_STORAGE_KEY, JSON.stringify(newLeads));
+    } catch (e) {
+      console.error('Error saving leads locally:', e);
+    }
+  }, []);
+
+  // Function to sync latest data from Cloudflare D1
+  const refreshFromDb = useCallback(async () => {
+    try {
+      setDbStatus('syncing');
+
+      // Fetch site content & articles in parallel
+      const [contentRes, articlesRes, leadsRes] = await Promise.allSettled([
+        fetch('/api/content'),
+        fetch('/api/articles'),
+        fetch('/api/leads'),
+      ]);
+
+      let hasDbConnection = false;
+      let updatedContent = { ...content };
+
+      if (contentRes.status === 'fulfilled' && contentRes.value.ok) {
+        const json = await contentRes.value.json();
+        if (json.success && json.content && Object.keys(json.content).length > 0) {
+          updatedContent = {
+            ...updatedContent,
+            ...json.content,
+          };
+          hasDbConnection = true;
+        }
+      }
+
+      if (articlesRes.status === 'fulfilled' && articlesRes.value.ok) {
+        const json = await articlesRes.value.json();
+        if (json.success && Array.isArray(json.articles) && json.articles.length > 0) {
+          updatedContent.articles = json.articles;
+          hasDbConnection = true;
+        }
+      }
+
+      if (leadsRes.status === 'fulfilled' && leadsRes.value.ok) {
+        const json = await leadsRes.value.json();
+        if (json.success && Array.isArray(json.leads)) {
+          setLeads(json.leads);
+          localStorage.setItem(LEADS_STORAGE_KEY, JSON.stringify(json.leads));
+          hasDbConnection = true;
+        }
+      }
+
+      if (hasDbConnection) {
+        saveContentLocal(updatedContent);
+        setDbStatus('connected');
+      } else {
+        setDbStatus('offline');
+      }
+    } catch (e) {
+      console.warn('API/D1 unavailable, running in local cached mode:', e);
+      setDbStatus('offline');
+    }
+  }, [content, saveContentLocal]);
+
+  // Initial client hydration from localStorage, then background sync from D1
   useEffect(() => {
     try {
       const savedContent = localStorage.getItem(CONTENT_STORAGE_KEY);
@@ -69,33 +148,15 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
         setIsAuthenticated(true);
       }
     } catch (e) {
-      console.error('Error hydrating content from localStorage:', e);
-    } finally {
-      setIsHydrated(true);
+      console.error('Error hydrating from localStorage:', e);
     }
+
+    // Attempt D1 database sync
+    refreshFromDb();
   }, []);
 
-  // Save content changes to localStorage
-  const saveContent = (newContent: SiteContent) => {
-    setContent(newContent);
-    try {
-      localStorage.setItem(CONTENT_STORAGE_KEY, JSON.stringify(newContent));
-    } catch (e) {
-      console.error('Error saving content:', e);
-    }
-  };
-
-  // Save leads to localStorage
-  const saveLeads = (newLeads: Lead[]) => {
-    setLeads(newLeads);
-    try {
-      localStorage.setItem(LEADS_STORAGE_KEY, JSON.stringify(newLeads));
-    } catch (e) {
-      console.error('Error saving leads:', e);
-    }
-  };
-
-  const updateSection = <K extends keyof SiteContent>(section: K, values: Partial<SiteContent[K]>) => {
+  // Update section: immediate optimistic update + D1 sync
+  const updateSection = async <K extends keyof SiteContent>(section: K, values: Partial<SiteContent[K]>) => {
     const updated = {
       ...content,
       [section]: {
@@ -103,50 +164,149 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
         ...values,
       },
     };
-    saveContent(updated);
+    saveContentLocal(updated);
+
+    try {
+      await fetch('/api/content', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ section, data: updated[section] }),
+      });
+      setDbStatus('connected');
+    } catch (e) {
+      console.warn('Failed to sync section to D1, preserved locally:', e);
+    }
   };
 
-  const addArticle = (article: Article) => {
+  // Add article: immediate optimistic update + D1 sync
+  const addArticle = async (article: Article) => {
     const updated = {
       ...content,
       articles: [article, ...content.articles],
     };
-    saveContent(updated);
+    saveContentLocal(updated);
+
+    try {
+      await fetch('/api/articles', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(article),
+      });
+      setDbStatus('connected');
+    } catch (e) {
+      console.warn('Failed to sync new article to D1, preserved locally:', e);
+    }
   };
 
-  const updateArticle = (slug: string, values: Partial<Article>) => {
+  // Update article: immediate optimistic update + D1 sync
+  const updateArticle = async (slug: string, values: Partial<Article>) => {
+    const existing = content.articles.find((a) => a.slug === slug);
     const updatedArticles = content.articles.map((a) =>
       a.slug === slug ? { ...a, ...values } : a
     );
-    saveContent({ ...content, articles: updatedArticles });
+    saveContentLocal({ ...content, articles: updatedArticles });
+
+    try {
+      const mergedArticle = existing ? { ...existing, ...values } : { slug, ...values };
+      await fetch('/api/articles', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(mergedArticle),
+      });
+      setDbStatus('connected');
+    } catch (e) {
+      console.warn('Failed to sync updated article to D1, preserved locally:', e);
+    }
   };
 
-  const deleteArticle = (slug: string) => {
+  // Delete article: immediate optimistic update + D1 sync
+  const deleteArticle = async (slug: string) => {
     const updatedArticles = content.articles.filter((a) => a.slug !== slug);
-    saveContent({ ...content, articles: updatedArticles });
+    saveContentLocal({ ...content, articles: updatedArticles });
+
+    try {
+      await fetch('/api/articles', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      });
+      setDbStatus('connected');
+    } catch (e) {
+      console.warn('Failed to sync article deletion to D1, preserved locally:', e);
+    }
   };
 
-  const addLead = (leadData: Omit<Lead, 'id' | 'createdAt' | 'status'>) => {
+  // Add lead: immediate optimistic update + D1 sync
+  const addLead = async (leadData: Omit<Lead, 'id' | 'createdAt' | 'status'>) => {
     const newLead: Lead = {
       ...leadData,
       id: 'lead_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6),
       createdAt: new Date().toLocaleString('uk-UA'),
       status: 'new',
     };
-    saveLeads([newLead, ...leads]);
+    saveLeadsLocal([newLead, ...leads]);
+
+    try {
+      await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newLead),
+      });
+      setDbStatus('connected');
+    } catch (e) {
+      console.warn('Failed to sync lead to D1, preserved locally:', e);
+    }
   };
 
-  const updateLeadStatus = (id: string, status: Lead['status']) => {
+  // Update lead status: immediate optimistic update + D1 sync
+  const updateLeadStatus = async (id: string, status: Lead['status']) => {
     const updated = leads.map((l) => (l.id === id ? { ...l, status } : l));
-    saveLeads(updated);
+    saveLeadsLocal(updated);
+
+    try {
+      await fetch('/api/leads', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, status }),
+      });
+      setDbStatus('connected');
+    } catch (e) {
+      console.warn('Failed to sync lead status to D1, preserved locally:', e);
+    }
   };
 
-  const deleteLead = (id: string) => {
+  // Delete lead: immediate optimistic update + D1 sync
+  const deleteLead = async (id: string) => {
     const updated = leads.filter((l) => l.id !== id);
-    saveLeads(updated);
+    saveLeadsLocal(updated);
+
+    try {
+      await fetch(`/api/leads?id=${encodeURIComponent(id)}`, {
+        method: 'DELETE',
+      });
+      setDbStatus('connected');
+    } catch (e) {
+      console.warn('Failed to sync lead deletion to D1, preserved locally:', e);
+    }
   };
 
-  const login = (password: string): boolean => {
+  const login = async (password: string): Promise<boolean> => {
+    // Attempt backend authentication
+    try {
+      const res = await fetch('/api/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password }),
+      });
+      if (res.ok) {
+        setIsAuthenticated(true);
+        sessionStorage.setItem(AUTH_STORAGE_KEY, 'true');
+        return true;
+      }
+    } catch {
+      // Fallback to local authentication
+    }
+
     const currentPassword = localStorage.getItem(PASSWORD_STORAGE_KEY) || DEFAULT_PASSWORD;
     if (password === currentPassword) {
       setIsAuthenticated(true);
@@ -161,32 +321,55 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
     sessionStorage.removeItem(AUTH_STORAGE_KEY);
   };
 
-  const changePassword = (newPassword: string) => {
+  const changePassword = async (newPassword: string) => {
     localStorage.setItem(PASSWORD_STORAGE_KEY, newPassword);
+    try {
+      await fetch('/api/auth', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ newPassword }),
+      });
+    } catch (e) {
+      console.warn('Failed to sync password to D1:', e);
+    }
   };
 
   const exportJson = (): string => {
     return JSON.stringify({ content, leads }, null, 2);
   };
 
-  const importJson = (jsonString: string): boolean => {
+  const importJson = async (jsonString: string): Promise<boolean> => {
     try {
       const parsed = JSON.parse(jsonString);
       if (parsed.content) {
-        saveContent(parsed.content);
+        saveContentLocal(parsed.content);
+        // Sync imported content to D1
+        try {
+          await fetch('/api/content', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ fullContent: parsed.content }),
+          });
+        } catch {
+          // ignore
+        }
       }
-      if (parsed.leads) {
-        saveLeads(parsed.leads);
+      if (parsed.leads && Array.isArray(parsed.leads)) {
+        saveLeadsLocal(parsed.leads);
       }
       return true;
     } catch (e) {
-      console.error('Failed to parse import JSON:', e);
+      console.error('Import failed:', e);
       return false;
     }
   };
 
   const resetToDefaults = () => {
-    saveContent(INITIAL_CONTENT);
+    saveContentLocal(INITIAL_CONTENT);
+    setLeads([]);
+    localStorage.removeItem(LEADS_STORAGE_KEY);
+    localStorage.removeItem(CONTENT_STORAGE_KEY);
+    localStorage.removeItem(PASSWORD_STORAGE_KEY);
   };
 
   return (
@@ -208,6 +391,8 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
         exportJson,
         importJson,
         resetToDefaults,
+        dbStatus,
+        refreshFromDb,
       }}
     >
       {children}
