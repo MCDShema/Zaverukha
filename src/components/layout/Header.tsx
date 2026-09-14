@@ -76,7 +76,7 @@ export default function Header() {
               6. Контакти і реквізити
               7. Консультаційний центр (CTA)
           ) */}
-          <nav className="hidden lg:flex items-center space-x-1 xl:space-x-1.5">
+          <nav className="hidden lg:flex items-center space-x-0.5 xl:space-x-1">
             
             {/* 1. Навчання (Dropdown: Екосистема PIPL / IMARIA Academia) */}
             <div 
@@ -85,53 +85,53 @@ export default function Header() {
               onMouseLeave={() => setEducationOpen(false)}
             >
               <button 
-                className={`flex items-center gap-1 px-2.5 py-1.5 text-xs xl:text-sm font-medium transition-colors rounded-lg ${
+                className={`flex items-center gap-1 px-2.5 py-1.5 text-xs xl:text-sm font-light tracking-wide transition-colors ${
                   isActive('/education') 
-                    ? 'text-sacred-goldLight bg-white/10' 
-                    : 'text-white/90 hover:text-white hover:bg-white/5'
+                    ? 'text-white font-normal underline underline-offset-4 decoration-white/60' 
+                    : 'text-white/90 hover:text-white'
                 }`}
                 aria-expanded={educationOpen}
               >
                 <span>Навчання</span>
-                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${educationOpen ? 'rotate-180 text-sacred-gold' : 'text-white/60'}`} />
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${educationOpen ? 'rotate-180 text-white' : 'text-white/70'}`} />
               </button>
 
               {/* Dropdown Menu */}
               <div 
-                className={`absolute left-0 mt-1 w-64 rounded-xl bg-sacred-night/95 backdrop-blur-xl border border-sacred-gold/30 shadow-2xl p-2 transition-all duration-200 origin-top-left ${
+                className={`absolute left-0 mt-1 w-64 rounded-xl bg-[#2E2B75] border border-white/20 shadow-2xl p-2 transition-all duration-200 origin-top-left ${
                   educationOpen ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'
                 }`}
               >
-                <div className="px-3 py-1.5 text-[11px] font-semibold text-sacred-gold tracking-wider uppercase border-b border-white/10 mb-1">
+                <div className="px-3 py-1.5 text-[11px] font-medium text-white/60 tracking-wider uppercase border-b border-white/10 mb-1">
                   2 напрямки розвитку
                 </div>
                 
                 <Link 
                   href="/education/pipl" 
-                  className="flex items-start gap-3 p-2.5 rounded-lg hover:bg-sacred-blue/40 text-white/90 hover:text-white transition-colors group/item"
+                  className="flex items-start gap-2.5 p-2.5 rounded-lg hover:bg-white/10 text-white/90 hover:text-white transition-colors group/item"
                 >
-                  <Compass className="w-5 h-5 text-sacred-gold mt-0.5 group-hover/item:scale-110 transition-transform" />
+                  <Compass className="w-4 h-4 text-white/80 mt-0.5" />
                   <div>
-                    <div className="font-medium text-sm text-white">Екосистема PIPL</div>
-                    <div className="text-xs text-white/60">Курси, марафони, клуб для новачків і практиків</div>
+                    <div className="font-normal text-sm text-white">Екосистема PIPL</div>
+                    <div className="text-xs text-white/60 font-light">Курси, марафони, клуб для новачків і практиків</div>
                   </div>
                 </Link>
 
                 <Link 
                   href="/education/academia" 
-                  className="flex items-start gap-3 p-2.5 rounded-lg hover:bg-sacred-blue/40 text-white/90 hover:text-white transition-colors group/item"
+                  className="flex items-start gap-2.5 p-2.5 rounded-lg hover:bg-white/10 text-white/90 hover:text-white transition-colors group/item"
                 >
-                  <GraduationCap className="w-5 h-5 text-sacred-goldLight mt-0.5 group-hover/item:scale-110 transition-transform" />
+                  <GraduationCap className="w-4 h-4 text-white/80 mt-0.5" />
                   <div>
-                    <div className="font-medium text-sm text-white">IMARIA Academia</div>
-                    <div className="text-xs text-white/60">Сертифікація провідників, хілерів та менторів</div>
+                    <div className="font-normal text-sm text-white">IMARIA Academia</div>
+                    <div className="text-xs text-white/60 font-light">Сертифікація провідників, хілерів та менторів</div>
                   </div>
                 </Link>
                 
                 <div className="mt-1 pt-1 border-t border-white/10">
                   <Link 
                     href="/education"
-                    className="block text-center text-xs text-sacred-goldLight hover:underline py-1"
+                    className="block text-center text-xs text-white/80 hover:text-white hover:underline py-1 font-light"
                   >
                     Огляд розділу «Навчання» →
                   </Link>
@@ -142,56 +142,48 @@ export default function Header() {
             {/* 2. Моя творчість */}
             <Link 
               href="/creativity" 
-              className={`px-2.5 py-1.5 text-xs xl:text-sm font-medium transition-colors rounded-lg ${
+              className={`px-2.5 py-1.5 text-xs xl:text-sm font-light tracking-wide transition-colors ${
                 isActive('/creativity') 
-                  ? 'text-sacred-goldLight bg-white/10' 
-                  : 'text-white/90 hover:text-white hover:bg-white/5'
+                  ? 'text-white font-normal underline underline-offset-4 decoration-white/60' 
+                  : 'text-white/90 hover:text-white'
               }`}
             >
               Моя творчість
             </Link>
 
-            {/* 3. Про мене (Сатсанги.DivineYoga) */}
+            {/* 3. Сатсанги.DivineYoga (без бейджа УТП) */}
             <Link 
               href="/satsang-divine-yoga" 
-              className={`px-2.5 py-1.5 text-xs xl:text-sm font-medium transition-colors rounded-lg flex items-center gap-1 ${
+              className={`px-2.5 py-1.5 text-xs xl:text-sm font-light tracking-wide transition-colors ${
                 isActive('/satsang-divine-yoga') 
-                  ? 'text-sacred-goldLight bg-white/10' 
-                  : 'text-white/90 hover:text-white hover:bg-white/5'
+                  ? 'text-white font-normal underline underline-offset-4 decoration-white/60' 
+                  : 'text-white/90 hover:text-white'
               }`}
               title="Сатсанги та DivineYoga by IMARIA"
             >
-              <span>Сатсанги.DivineYoga</span>
-              <span className="text-[9px] bg-sacred-gold/20 text-sacred-goldLight px-1 rounded font-normal border border-sacred-gold/30">
-                УТП
-              </span>
+              Сатсанги.DivineYoga
             </Link>
 
-            {/* 4. Калькулятор («Way of the Soul» / «Путь Душі») — Accent Badge */}
+            {/* 4. Калькулятор (однаковий білий тонкий стиль) */}
             <Link 
               href="/calculator" 
-              className={`relative px-3 py-1.5 text-xs xl:text-sm font-semibold transition-all rounded-lg flex items-center gap-1.5 ${
+              className={`px-2.5 py-1.5 text-xs xl:text-sm font-light tracking-wide transition-colors ${
                 isActive('/calculator')
-                  ? 'bg-gradient-to-r from-sacred-gold to-sacred-goldHover text-sacred-dark shadow-md shadow-sacred-gold/25 font-bold'
-                  : 'text-sacred-goldLight bg-sacred-gold/20 hover:bg-sacred-gold/30 border border-sacred-gold/50 hover:border-sacred-gold shadow-sm'
+                  ? 'text-white font-normal underline underline-offset-4 decoration-white/60'
+                  : 'text-white/90 hover:text-white'
               }`}
               title="Калькулятор «Путь Душі» (Way of the Soul)"
             >
-              <Calculator className="w-3.5 h-3.5 text-sacred-goldLight" />
-              <span>Калькулятор</span>
-              <span className="flex h-2 w-2 relative">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sacred-gold opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-sacred-goldLight"></span>
-              </span>
+              Калькулятор
             </Link>
 
             {/* 5. Блог */}
             <Link 
               href="/blog" 
-              className={`px-2.5 py-1.5 text-xs xl:text-sm font-medium transition-colors rounded-lg ${
+              className={`px-2.5 py-1.5 text-xs xl:text-sm font-light tracking-wide transition-colors ${
                 isActive('/blog') 
-                  ? 'text-sacred-goldLight bg-white/10' 
-                  : 'text-white/90 hover:text-white hover:bg-white/5'
+                  ? 'text-white font-normal underline underline-offset-4 decoration-white/60' 
+                  : 'text-white/90 hover:text-white'
               }`}
             >
               Блог
@@ -200,22 +192,25 @@ export default function Header() {
             {/* 6. Контакти і реквізити */}
             <Link 
               href="/contacts" 
-              className={`px-2.5 py-1.5 text-xs xl:text-sm font-medium transition-colors rounded-lg ${
+              className={`px-2.5 py-1.5 text-xs xl:text-sm font-light tracking-wide transition-colors ${
                 isActive('/contacts') 
-                  ? 'text-sacred-goldLight bg-white/10' 
-                  : 'text-white/90 hover:text-white hover:bg-white/5'
+                  ? 'text-white font-normal underline underline-offset-4 decoration-white/60' 
+                  : 'text-white/90 hover:text-white'
               }`}
             >
               Контакти і реквізити
             </Link>
 
-            {/* 7. Консультаційний центр (CTA Button) */}
+            {/* 7. Консультаційний центр (однаковий білий тонкий стиль як у всіх) */}
             <Link 
               href="/consultation-center" 
-              className="ml-1 xl:ml-2 inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider btn-gold shadow-md hover:scale-105 transition-all"
+              className={`px-2.5 py-1.5 text-xs xl:text-sm font-light tracking-wide transition-colors ${
+                isActive('/consultation-center')
+                  ? 'text-white font-normal underline underline-offset-4 decoration-white/60'
+                  : 'text-white/90 hover:text-white'
+              }`}
             >
-              <CalendarCheck className="w-3.5 h-3.5 text-[#0E0C24]" />
-              <span>Консультаційний центр</span>
+              Консультаційний центр
             </Link>
 
           </nav>
@@ -305,39 +300,36 @@ export default function Header() {
 
       {/* MOBILE DRAWER */}
       {isOpen && (
-        <div className="lg:hidden bg-sacred-dark/98 backdrop-blur-2xl border-b border-sacred-gold/30 px-4 pt-3 pb-6 max-h-[85vh] overflow-y-auto">
+        <div className="lg:hidden bg-[#2E2B75] border-b border-white/15 px-4 pt-3 pb-6 max-h-[85vh] overflow-y-auto">
           <div className="space-y-1">
 
             {/* 1. Навчання (Mobile Accordion) */}
             <div className="border-b border-white/10 pb-2">
               <button
                 onClick={() => setEducationOpen(!educationOpen)}
-                className="w-full flex items-center justify-between px-3 py-2.5 text-base font-medium text-white hover:bg-white/5 rounded-lg"
+                className="w-full flex items-center justify-between px-3 py-2.5 text-base font-light text-white hover:bg-white/5 rounded-lg"
               >
-                <span className="flex items-center gap-2">
-                  <GraduationCap className="w-5 h-5 text-sacred-gold" />
-                  <span>Навчання</span>
-                </span>
-                <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${educationOpen ? 'rotate-180 text-sacred-gold' : 'text-white/60'}`} />
+                <span>Навчання</span>
+                <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${educationOpen ? 'rotate-180 text-white' : 'text-white/60'}`} />
               </button>
 
               {educationOpen && (
-                <div className="pl-6 pr-2 py-1 space-y-1 bg-white/5 rounded-lg mt-1">
+                <div className="pl-4 pr-2 py-1 space-y-1 bg-white/5 rounded-lg mt-1">
                   <Link
                     href="/education/pipl"
-                    className="block py-2 px-3 text-sm text-white/90 hover:text-sacred-goldLight font-medium"
+                    className="block py-2 px-3 text-sm text-white/90 hover:text-white font-light"
                   >
-                    ✦ Екосистема PIPL (курси та клуб)
+                    Екосистема PIPL (курси та клуб)
                   </Link>
                   <Link
                     href="/education/academia"
-                    className="block py-2 px-3 text-sm text-white/90 hover:text-sacred-goldLight font-medium"
+                    className="block py-2 px-3 text-sm text-white/90 hover:text-white font-light"
                   >
-                    ✦ IMARIA Academia (сертифікація)
+                    IMARIA Academia (сертифікація)
                   </Link>
                   <Link
                     href="/education"
-                    className="block py-1.5 px-3 text-xs text-sacred-gold hover:underline"
+                    className="block py-1.5 px-3 text-xs text-white/70 hover:text-white hover:underline font-light"
                   >
                     Огляд розділу Навчання →
                   </Link>
@@ -348,68 +340,50 @@ export default function Header() {
             {/* 2. Моя творчість */}
             <Link
               href="/creativity"
-              className="flex items-center gap-2.5 px-3 py-2.5 text-base font-medium text-white hover:bg-white/5 rounded-lg"
+              className="block px-3 py-2.5 text-base font-light text-white hover:bg-white/5 rounded-lg"
             >
-              <BookOpen className="w-5 h-5 text-sacred-gold" />
-              <span>Моя творчість</span>
+              Моя творчість
             </Link>
 
-            {/* 3. Про мене (Сатсанги.DivineYoga) */}
+            {/* 3. Сатсанги.DivineYoga (без УТП) */}
             <Link
               href="/satsang-divine-yoga"
-              className="flex items-center justify-between px-3 py-2.5 text-base font-medium text-white hover:bg-white/5 rounded-lg"
+              className="block px-3 py-2.5 text-base font-light text-white hover:bg-white/5 rounded-lg"
             >
-              <span className="flex items-center gap-2.5">
-                <Sparkles className="w-5 h-5 text-sacred-gold" />
-                <span>Сатсанги.DivineYoga</span>
-              </span>
-              <span className="text-[10px] bg-sacred-gold/20 text-sacred-goldLight px-2 py-0.5 rounded border border-sacred-gold/30">
-                УТП
-              </span>
+              Сатсанги.DivineYoga
             </Link>
 
-            {/* 4. Калькулятор «Путь Душі» */}
+            {/* 4. Калькулятор (однаковий білий тонкий стиль) */}
             <Link
               href="/calculator"
-              className="flex items-center justify-between px-3 py-2.5 text-base font-semibold bg-sacred-gold/20 text-sacred-goldLight border border-sacred-gold/50 rounded-lg"
+              className="block px-3 py-2.5 text-base font-light text-white hover:bg-white/5 rounded-lg"
             >
-              <span className="flex items-center gap-2.5">
-                <Calculator className="w-5 h-5 text-sacred-gold" />
-                <span>Калькулятор «Путь Душі»</span>
-              </span>
-              <span className="text-xs bg-sacred-gold text-sacred-dark font-bold px-2 py-0.5 rounded">
-                FREE
-              </span>
+              Калькулятор
             </Link>
 
             {/* 5. Блог */}
             <Link
               href="/blog"
-              className="flex items-center gap-2.5 px-3 py-2.5 text-base font-medium text-white hover:bg-white/5 rounded-lg"
+              className="block px-3 py-2.5 text-base font-light text-white hover:bg-white/5 rounded-lg"
             >
-              <Send className="w-5 h-5 text-sacred-gold" />
-              <span>Блог</span>
+              Блог
             </Link>
 
             {/* 6. Контакти і реквізити */}
             <Link
               href="/contacts"
-              className="flex items-center gap-2.5 px-3 py-2.5 text-base font-medium text-white hover:bg-white/5 rounded-lg"
+              className="block px-3 py-2.5 text-base font-light text-white hover:bg-white/5 rounded-lg"
             >
-              <PhoneCall className="w-5 h-5 text-sacred-gold" />
-              <span>Контакти і реквізити</span>
+              Контакти і реквізити
             </Link>
 
-            {/* 7. Консультаційний центр */}
-            <div className="pt-3">
-              <Link
-                href="/consultation-center"
-                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-sm font-semibold uppercase tracking-wider text-white bg-gradient-to-r from-sacred-blue via-sacred-indigo to-sacred-blue border border-sacred-gold/50 shadow-lg"
-              >
-                <CalendarCheck className="w-4 h-4 text-sacred-gold" />
-                <span>Консультаційний центр</span>
-              </Link>
-            </div>
+            {/* 7. Консультаційний центр (однаковий білий тонкий стиль) */}
+            <Link
+              href="/consultation-center"
+              className="block px-3 py-2.5 text-base font-light text-white hover:bg-white/5 rounded-lg"
+            >
+              Консультаційний центр
+            </Link>
 
             {/* Language Switcher Mobile */}
             <div className="pt-4 border-t border-white/10 flex items-center justify-between px-3 text-sm text-white/80">
