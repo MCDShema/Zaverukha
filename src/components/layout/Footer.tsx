@@ -37,7 +37,7 @@ export default function Footer() {
                   className="w-10 h-10 rounded-full bg-white/5 hover:bg-sacred-blue text-white flex items-center justify-center transition-all hover:scale-110 border border-white/10"
                   aria-label="Telegram"
                 >
-                  <Send className="w-4 h-4 text-sacred-gold" />
+                  <TelegramIcon className="w-4 h-4 text-sacred-gold" />
                 </a>
                 <a 
                   href={contacts.instagramUrl} 

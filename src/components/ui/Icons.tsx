@@ -1,37 +1,39 @@
 import React from 'react';
 
-export function InstagramIcon({ className = "w-4 h-4" }: { className?: string }) {
+/**
+ * Authentic Social SVGs extracted directly from zaverukha.com theme
+ */
+
+export function FacebookIcon({ className = "w-6 h-6" }: { className?: string }) {
   return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
-      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M21.3,0H2.7C1.2,0,0,1.2,0,2.7v18.7C0,22.8,1.2,24,2.7,24h10.2v-9.3H9.7v-3.6h3.1V8.4c0-3.1,1.9-4.8,4.7-4.8 c0.9,0,1.9,0,2.8,0.1V7h-1.9c-1.5,0-1.8,0.7-1.8,1.8v2.3h3.6l-0.5,3.6h-3.2V24h4.8c1.5,0,2.7-1.2,2.7-2.7V2.7C24,1.2,22.8,0,21.3,0z" />
     </svg>
   );
 }
 
-export function YoutubeIcon({ className = "w-4 h-4" }: { className?: string }) {
+export function InstagramIcon({ className = "w-6 h-6" }: { className?: string }) {
   return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17" />
-      <polygon points="10 15 15 12 10 9 10 15" fill="currentColor" />
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12,8.7c-1.8,0-3.3,1.5-3.3,3.3s1.5,3.3,3.3,3.3s3.3-1.5,3.3-3.3S13.8,8.7,12,8.7z" />
+      <path d="M16,4.7H8C6.2,4.7,4.7,6.2,4.7,8v8c0,1.8,1.5,3.3,3.3,3.3h8c1.8,0,3.3-1.5,3.3-3.3V8C19.3,6.2,17.8,4.7,16,4.7 z M12,16.7c-2.6,0-4.7-2.1-4.7-4.7S9.4,7.3,12,7.3c2.6,0,4.7,2.1,4.7,4.7S14.6,16.7,12,16.7z M17,8c-0.6,0-1-0.4-1-1 c0-0.6,0.4-1,1-1s1,0.4,1,1C18,7.6,17.5,8,17,8z" />
+      <path d="M24,5.3C24,2.4,21.6,0,18.7,0L5.3,0C2.4,0,0,2.4,0,5.3l0,13.3C0,21.6,2.4,24,5.3,24l13.3,0 c2.9,0,5.3-2.4,5.3-5.3L24,5.3z M20.7,16c0,2.6-2.1,4.7-4.7,4.7H8c-2.6,0-4.7-2.1-4.7-4.7V8c0-2.6,2.1-4.7,4.7-4.7h8 c2.6,0,4.7,2.1,4.7,4.7V16z" />
     </svg>
   );
 }
 
-export function FacebookIcon({ className = "w-4 h-4" }: { className?: string }) {
+export function TelegramIcon({ className = "w-6 h-6" }: { className?: string }) {
   return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M22,1.2c-0.3,0-0.7,0.1-0.9,0.2c-0.3,0.1-1.2,0.5-2.7,1.1c-1.5,0.6-3.4,1.4-5.5,2.3C8.7,6.6,4,8.6,1.6,9.6 c-0.1,0-0.4,0.1-0.8,0.4C0.4,10.3,0,10.9,0,11.6c0,0.5,0.3,1.1,0.6,1.4c0.3,0.3,0.7,0.5,0.9,0.6v0c0.9,0.4,3.7,1.5,4.4,1.8 C6.2,16,7.2,19,7.4,19.8h0C7.6,20.3,7.8,20.7,8,21c0.1,0.1,0.3,0.3,0.4,0.4c0.1,0,0.1,0.1,0.2,0.1c0,0,0,0,0,0l0,0c0,0,0,0,0.1,0 c0,0,0.1,0,0.1,0c0.2,0.1,0.3,0.1,0.5,0.1c0.7,0,1.1-0.4,1.1-0.4l0,0l2.8-2.4l3.5,3.2c0.1,0.1,0.6,0.8,1.7,0.8 c0.7,0,1.2-0.3,1.6-0.7c0.3-0.4,0.6-0.7,0.7-1.2l0,0c0.1-0.4,3.4-17,3.4-17l0,0C24,3.5,24,3,23.9,2.6c-0.1-0.5-0.4-0.9-0.8-1.1 S22.3,1.2,22,1.2z M21.5,3.8c-0.1,0.7-3.1,15.5-3.3,16.5l-5-4.6l-3.4,2.8l0.9-3.6c0,0,6.4-6.5,6.8-6.9C17.9,7.7,18,7.5,18,7.4 c0-0.1-0.1-0.2-0.2-0.2c-0.2,0-0.4,0.1-0.5,0.2c-1.4,0.9-7.2,4.2-10.1,5.8C7,13.2,4.4,12.1,3,11.6c2.5-1,6.8-2.8,10.7-4.5 c2.1-0.9,4-1.7,5.5-2.3C20.5,4.2,21.2,3.9,21.5,3.8z M18.2,20.4L18.2,20.4C18.2,20.4,18.2,20.4,18.2,20.4 C18.2,20.4,18.2,20.4,18.2,20.4z" />
     </svg>
   );
 }
 
-export function TelegramIcon({ className = "w-4 h-4" }: { className?: string }) {
+export function YoutubeIcon({ className = "w-6 h-6" }: { className?: string }) {
   return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="m22 2-7 20-4-9-9-4Z" />
-      <path d="M22 2 11 13" />
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M23.5,5c-0.3-1-1.1-1.8-2.1-2.1C19.5,2.4,12,2.4,12,2.4s-7.5,0-9.4,0.5C1.6,3.2,0.8,4,0.5,5C0,6.9,0,12,0,12 s0,5.1,0.5,7c0.3,1,1.1,1.8,2.1,2.1c1.9,0.5,9.4,0.5,9.4,0.5s7.5,0,9.4-0.5c1-0.3,1.8-1.1,2.1-2.1c0.5-1.9,0.5-7,0.5-7 S24,6.9,23.5,5z M9.6,16.2V7.8l7.2,4.2L9.6,16.2z" />
     </svg>
   );
 }

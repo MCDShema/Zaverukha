@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import BannerSlider from '@/components/home/BannerSlider';
 import SoulPathCalculator from '@/components/calculator/SoulPathCalculator';
+import { FacebookIcon, InstagramIcon, TelegramIcon, YoutubeIcon } from '@/components/ui/Icons';
 import { useContent } from '@/context/ContentContext';
 
 export default function HomePage() {
@@ -112,43 +113,51 @@ export default function HomePage() {
                 </li>
               </ul>
 
-              {/* Social Icons */}
-              <div className="flex items-center gap-3 pt-2 justify-center lg:justify-start">
+              {/* Social Icons (Authentic SVGs from zaverukha.com) */}
+              <div className="flex items-center gap-4 pt-2 justify-center lg:justify-start">
                 <a 
+                  id="facebook_icon"
                   href="https://www.facebook.com/zaverukhairyna" 
                   target="_blank" 
                   rel="noreferrer noopener"
-                  className="w-10 h-10 rounded-full bg-[#1877F2] text-white flex items-center justify-center transition-all hover:scale-110 shadow-sm"
-                  aria-label="Facebook Ірина Заверуха"
+                  className="text-[#2E2B75] hover:text-[#B37E11] transition-all duration-300 hover:scale-110 flex items-center justify-center p-1"
+                  aria-label="Офіційний Facebook Ірини Заверухи"
+                  title="Facebook Ірина Заверуха"
                 >
-                  <span className="font-bold text-sm">f</span>
+                  <FacebookIcon className="w-8 h-8 fill-current" />
                 </a>
                 <a 
+                  id="Instagram_icon"
                   href="https://www.instagram.com/irynazaverukha_imaria?igsh=MXI5bmVuOG5sNWd4bw==" 
                   target="_blank" 
                   rel="noreferrer noopener"
-                  className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] text-white flex items-center justify-center transition-all hover:scale-110 shadow-sm"
-                  aria-label="Instagram Ірина Заверуха"
+                  className="text-[#2E2B75] hover:text-[#B37E11] transition-all duration-300 hover:scale-110 flex items-center justify-center p-1"
+                  aria-label="Офіційний Instagram Ірини Заверухи"
+                  title="Instagram Ірина Заверуха"
                 >
-                  <span className="font-bold text-xs">IG</span>
+                  <InstagramIcon className="w-8 h-8 fill-current" />
                 </a>
                 <a 
+                  id="telegram_icon"
                   href="https://t.me/ZaverukhaIrina" 
                   target="_blank" 
                   rel="noreferrer noopener"
-                  className="w-10 h-10 rounded-full bg-[#229ED9] text-white flex items-center justify-center transition-all hover:scale-110 shadow-sm"
+                  className="text-[#2E2B75] hover:text-[#B37E11] transition-all duration-300 hover:scale-110 flex items-center justify-center p-1"
                   aria-label="Telegram Ірина Заверуха"
+                  title="Telegram Ірина Заверуха"
                 >
-                  <span className="font-bold text-xs">TG</span>
+                  <TelegramIcon className="w-8 h-8 fill-current" />
                 </a>
                 <a 
+                  id="youtube_icon"
                   href="https://www.youtube.com/channel/UCz9oI1MnVkUTH_MCchtZDuA" 
                   target="_blank" 
                   rel="noreferrer noopener"
-                  className="w-10 h-10 rounded-full bg-[#FF0000] text-white flex items-center justify-center transition-all hover:scale-110 shadow-sm"
+                  className="text-[#2E2B75] hover:text-[#B37E11] transition-all duration-300 hover:scale-110 flex items-center justify-center p-1"
                   aria-label="YouTube канал DivineYoga"
+                  title="YouTube канал DivineYoga"
                 >
-                  <Play className="w-4 h-4 fill-current" />
+                  <YoutubeIcon className="w-8 h-8 fill-current" />
                 </a>
               </div>
 
