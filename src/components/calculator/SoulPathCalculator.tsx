@@ -331,7 +331,7 @@ export default function SoulPathCalculator() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
             <button
               type="submit"
-              className="w-full sm:w-auto px-8 py-3.5 rounded-xl btn-gold flex items-center justify-center gap-2 text-xs uppercase tracking-wider font-semibold hover:scale-105 transition-all shadow-md"
+              className="w-full sm:w-auto px-8 py-3.5 rounded-xl btn-primary-dark flex items-center justify-center gap-2 text-xs uppercase tracking-wider font-semibold shadow-md"
             >
               <Calculator className="w-4 h-4" />
               <span>Отримати розрахунок матриці</span>
@@ -474,7 +474,7 @@ export default function SoulPathCalculator() {
             <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
               <Link
                 href="/consultation-center"
-                className="btn-gold px-6 py-3 rounded-xl text-xs font-semibold uppercase tracking-wider flex items-center gap-2 shadow-lg"
+                className="btn-outline-blue px-6 py-3 rounded-xl text-xs font-semibold uppercase tracking-wider flex items-center gap-2 shadow-lg"
               >
                 <span>Замовити консультацію</span>
                 <ArrowRight className="w-4 h-4" />

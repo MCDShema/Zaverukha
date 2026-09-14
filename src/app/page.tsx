@@ -173,7 +173,7 @@ export default function HomePage() {
 
                 <Link 
                   href="/calculator"
-                  className="w-full sm:w-auto px-7 py-3.5 rounded-xl btn-gold text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2 shadow-md"
+                  className="w-full sm:w-auto px-7 py-3.5 rounded-xl btn-outline-blue text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2 shadow-md"
                 >
                   <Calculator className="w-4 h-4" />
                   <span>Калькулятор «Путь Душі»</span>
@@ -250,7 +250,7 @@ export default function HomePage() {
               </div>
               <Link 
                 href="/education/pipl"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl btn-gold text-xs font-semibold uppercase tracking-wider shadow-md"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl btn-outline-blue text-xs font-semibold uppercase tracking-wider shadow-md"
               >
                 <span>Обрати сеанс</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -503,7 +503,7 @@ export default function HomePage() {
               <span className="text-xs text-slate-500 font-medium">Для кожного, хто прагне змін</span>
               <Link 
                 href="/education/pipl"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl btn-gold text-xs font-semibold uppercase tracking-wider shadow"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl btn-outline-blue text-xs font-semibold uppercase tracking-wider shadow"
               >
                 <span>Увійти в PIPL</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -594,7 +594,7 @@ export default function HomePage() {
                 <span className="text-xs text-[#B37E11] font-bold">Безкоштовний доступ</span>
                 <Link 
                   href="/satsang-divine-yoga"
-                  className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl btn-gold text-xs font-semibold uppercase tracking-wider shadow"
+                  className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl btn-outline-blue text-xs font-semibold uppercase tracking-wider shadow"
                 >
                   <Play className="w-3 h-3 fill-current" />
                   <span>Дивитись записи</span>

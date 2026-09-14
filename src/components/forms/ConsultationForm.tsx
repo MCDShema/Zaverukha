@@ -210,16 +210,16 @@ export default function ConsultationForm({ isModal = false }: { isModal?: boolea
       <button
         type="submit"
         disabled={loading}
-        className="w-full py-3.5 px-6 rounded-full sacred-gold-btn text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2 hover:scale-[1.02] transition-transform shadow-lg disabled:opacity-50"
+        className="w-full py-3.5 px-6 rounded-xl btn-primary-dark text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg disabled:opacity-50"
       >
         {loading ? (
           <>
-            <Loader2 className="w-4 h-4 animate-spin text-sacred-dark" />
+            <Loader2 className="w-4 h-4 animate-spin text-white" />
             <span>Відправка запиту...</span>
           </>
         ) : (
           <>
-            <Send className="w-4 h-4 text-sacred-dark" />
+            <Send className="w-4 h-4 text-white" />
             <span>Замовити консультацію</span>
           </>
         )}

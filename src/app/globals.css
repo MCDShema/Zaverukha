@@ -31,50 +31,142 @@
   }
 }
 
-/* Authentic Buttons from zaverukha.com */
-.btn-primary-dark {
-  background-color: #2E2B75;
+/* ==========================================================================
+   Authentic Buttons from zaverukha.com
+   Type 1: Blue Button (default: #2E2B75, hover: Golden gradient + glare shimmer)
+   Type 2: White Button (default: #FFFFFF, hover: Golden gradient + glare shimmer)
+   ========================================================================== */
+
+.btn-primary,
+.btn-primary-dark,
+.btn-outline-blue,
+.btn-blue,
+.btn-white,
+.btn-gold,
+.sacred-blue-btn,
+.sacred-gold-btn {
+  position: relative !important;
+  overflow: hidden !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none !important;
+  font-family: 'Roboto', 'Montserrat', sans-serif !important;
+  font-weight: 600 !important;
+  border-radius: 10px !important;
+  cursor: pointer;
+  z-index: 1;
+  transition: background 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease !important;
+}
+
+/* Glare / Shimmer Effect (exact recreation from zaverukha.com style.css) */
+.btn-primary::before,
+.btn-primary-dark::before,
+.btn-outline-blue::before,
+.btn-blue::before,
+.btn-white::before,
+.btn-gold::before,
+.sacred-blue-btn::before,
+.sacred-gold-btn::before {
+  content: "" !important;
+  position: absolute !important;
+  top: -15px !important;
+  left: -90px !important;
+  width: 55px !important;
+  height: calc(100% + 30px) !important;
+  min-height: 60px !important;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.65) 50%,
+    rgba(255, 255, 255, 0.05) 100%
+  ) !important;
+  transform: skewX(-45deg) !important;
+  pointer-events: none !important;
+  will-change: left !important;
+  transition: left 0.55s ease-in-out !important;
+  z-index: 2 !important;
+}
+
+/* TYPE 1: Blue Button (default #2E2B75 background, #FFFFFF text) */
+.btn-primary-dark,
+.btn-blue,
+.btn-gold,
+.sacred-blue-btn,
+.sacred-gold-btn {
+  background-color: #2E2B75 !important;
+  background-image: none !important;
   color: #FFFFFF !important;
-  font-weight: 600;
-  border-radius: 10px;
+  border: 1.5px solid #2E2B75 !important;
   box-shadow: 0 4px 15px rgba(46, 43, 117, 0.25);
-  transition: all 0.25s ease;
 }
 
-.btn-primary-dark:hover {
-  background-color: #3833BA;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(46, 43, 117, 0.35);
+.btn-primary-dark *,
+.btn-blue *,
+.btn-gold *,
+.sacred-blue-btn *,
+.sacred-gold-btn * {
+  color: #FFFFFF !important;
+  transition: color 0.3s ease;
 }
 
-.btn-gold {
-  background: linear-gradient(135deg, #D4AF37 0%, #C99A2C 50%, #B37E11 100%);
-  color: #0E0C24 !important;
-  font-weight: 600;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(201, 154, 44, 0.3);
-  transition: all 0.25s ease;
-}
-
-.btn-gold:hover {
-  background: linear-gradient(135deg, #F5DF7E 0%, #D4AF37 50%, #C99A2C 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(201, 154, 44, 0.45);
-}
-
-.btn-outline-blue {
-  background-color: #FFFFFF;
+/* TYPE 2: White Button (default #FFFFFF background, #2E2B75 border & text) */
+.btn-primary,
+.btn-outline-blue,
+.btn-white {
+  background-color: #FFFFFF !important;
+  background-image: none !important;
   color: #2E2B75 !important;
-  border: 1.5px solid #2E2B75;
-  font-weight: 600;
-  border-radius: 10px;
-  transition: all 0.25s ease;
+  border: 1.5px solid #2E2B75 !important;
+  box-shadow: 0 4px 15px rgba(46, 43, 117, 0.1);
 }
 
-.btn-outline-blue:hover {
-  background-color: #2E2B75;
+.btn-primary *,
+.btn-outline-blue *,
+.btn-white * {
+  color: #2E2B75 !important;
+  transition: color 0.3s ease;
+}
+
+/* HOVER FOR BOTH TYPES: Golden background + White text */
+.btn-primary:hover,
+.btn-primary-dark:hover,
+.btn-outline-blue:hover,
+.btn-blue:hover,
+.btn-white:hover,
+.btn-gold:hover,
+.sacred-blue-btn:hover,
+.sacred-gold-btn:hover {
+  background: linear-gradient(135deg, #D4AF37 0%, #C99A2C 50%, #B37E11 100%) !important;
+  background-color: #C99A2C !important;
+  border-color: #C99A2C !important;
   color: #FFFFFF !important;
   transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(201, 154, 44, 0.4) !important;
+}
+
+.btn-primary:hover *,
+.btn-primary-dark:hover *,
+.btn-outline-blue:hover *,
+.btn-blue:hover *,
+.btn-white:hover *,
+.btn-gold:hover *,
+.sacred-blue-btn:hover *,
+.sacred-gold-btn:hover * {
+  color: #FFFFFF !important;
+}
+
+/* GLARE SWEEP ON HOVER */
+.btn-primary:hover::before,
+.btn-primary-dark:hover::before,
+.btn-outline-blue:hover::before,
+.btn-blue:hover::before,
+.btn-white:hover::before,
+.btn-gold:hover::before,
+.sacred-blue-btn:hover::before,
+.sacred-gold-btn:hover::before {
+  left: calc(100% + 90px) !important;
+  transition: left 0.55s ease-in-out !important;
 }
 
 /* Authentic Section Strips */
@@ -163,31 +255,5 @@
   border-color: rgba(46, 43, 117, 0.12) !important;
 }
 
-.sacred-gold-btn {
-  background: linear-gradient(135deg, #D4AF37 0%, #C99A2C 50%, #B37E11 100%);
-  color: #0E0C24 !important;
-  font-weight: 600;
-  box-shadow: 0 4px 15px rgba(201, 154, 44, 0.3);
-  transition: all 0.25s ease;
-}
 
-.sacred-gold-btn:hover {
-  background: linear-gradient(135deg, #F5DF7E 0%, #D4AF37 50%, #C99A2C 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(201, 154, 44, 0.45);
-}
-
-.sacred-blue-btn {
-  background-color: #2E2B75;
-  color: #FFFFFF !important;
-  font-weight: 600;
-  box-shadow: 0 4px 15px rgba(46, 43, 117, 0.25);
-  transition: all 0.25s ease;
-}
-
-.sacred-blue-btn:hover {
-  background-color: #3833BA;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(46, 43, 117, 0.35);
-}
 
