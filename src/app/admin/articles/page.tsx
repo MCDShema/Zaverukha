@@ -1,0 +1,348 @@
+'use client';
+
+import React, { useState } from 'react';
+import { useContent } from '@/context/ContentContext';
+import { Article } from '@/data/articles';
+import { 
+  FileText, 
+  Plus, 
+  Search, 
+  Edit3, 
+  Trash2, 
+  ExternalLink, 
+  Check, 
+  X, 
+  Calendar, 
+  Clock, 
+  Tag 
+} from 'lucide-react';
+import Link from 'next/link';
+
+export default function AdminArticlesPage() {
+  const { content, addArticle, updateArticle, deleteArticle } = useContent();
+  const [search, setSearch] = useState('');
+  const [editingArticle, setEditingArticle] = useState<Article | null>(null);
+  const [isCreating, setIsCreating] = useState(false);
+
+  // Form State
+  const [formSlug, setFormSlug] = useState('');
+  const [formTitle, setFormTitle] = useState('');
+  const [formExcerpt, setFormExcerpt] = useState('');
+  const [formCategory, setFormCategory] = useState<'Новини' | 'Блог' | 'Творчість' | 'Екологія'>('Блог');
+  const [formDate, setFormDate] = useState('');
+  const [formReadTime, setFormReadTime] = useState('');
+  const [formContentText, setFormContentText] = useState('');
+
+  const openCreate = () => {
+    setFormSlug('');
+    setFormTitle('');
+    setFormExcerpt('');
+    setFormCategory('Блог');
+    setFormDate(new Date().toLocaleDateString('uk-UA', { day: 'numeric', month: 'long', year: 'numeric' }));
+    setFormReadTime('5 хв читання');
+    setFormContentText('');
+    setIsCreating(true);
+    setEditingArticle(null);
+  };
+
+  const openEdit = (article: Article) => {
+    setFormSlug(article.slug);
+    setFormTitle(article.title);
+    setFormExcerpt(article.excerpt);
+    setFormCategory(article.category);
+    setFormDate(article.date);
+    setFormReadTime(article.readTime);
+    setFormContentText(article.content.join('\n\n'));
+    setEditingArticle(article);
+    setIsCreating(false);
+  };
+
+  const handleSave = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const paragraphs = formContentText
+      .split('\n\n')
+      .map((p) => p.trim())
+      .filter((p) => p.length > 0);
+
+    const articleData: Article = {
+      slug: formSlug || formTitle.toLowerCase().replace(/[^a-z0-9а-яіїєґ]+/gi, '-').replace(/^-|-$/g, ''),
+      title: formTitle,
+      excerpt: formExcerpt,
+      category: formCategory,
+      date: formDate,
+      readTime: formReadTime,
+      content: paragraphs.length > 0 ? paragraphs : [formExcerpt],
+    };
+
+    if (isCreating) {
+      addArticle(articleData);
+    } else if (editingArticle) {
+      updateArticle(editingArticle.slug, articleData);
+    }
+
+    setIsCreating(false);
+    setEditingArticle(null);
+  };
+
+  const handleDelete = (slug: string, title: string) => {
+    if (confirm(`Ви впевнені, що бажаєте видалити статтю «${title}»?`)) {
+      deleteArticle(slug);
+    }
+  };
+
+  const filtered = content.articles.filter((a) =>
+    a.title.toLowerCase().includes(search.toLowerCase()) ||
+    a.category.toLowerCase().includes(search.toLowerCase()) ||
+    a.excerpt.toLowerCase().includes(search.toLowerCase())
+  );
+
+  return (
+    <div className="space-y-8">
+      
+      {/* HEADER */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-6">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-serif font-bold text-white flex items-center gap-2.5">
+            <FileText className="w-6 h-6 text-sacred-gold" />
+            <span>Керування статтями блогу</span>
+          </h1>
+          <p className="text-xs text-white/60 mt-1">
+            Створення нових публікацій, редагування існуючих та керування категоріями
+          </p>
+        </div>
+
+        <button
+          onClick={openCreate}
+          className="sacred-gold-btn px-5 py-2.5 rounded-xl text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-1.5 shadow"
+        >
+          <Plus className="w-4 h-4" />
+          <span>Додати статтю</span>
+        </button>
+      </div>
+
+      {/* MODAL / DRAWER FOR CREATE & EDIT */}
+      {(isCreating || editingArticle) && (
+        <div className="sacred-card rounded-2xl p-6 sm:p-8 border-2 border-sacred-gold/60 shadow-2xl relative bg-sacred-night">
+          <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
+            <h2 className="text-xl font-serif text-white font-semibold">
+              {isCreating ? 'Створення нової статті' : `Редагування: ${editingArticle?.title}`}
+            </h2>
+            <button
+              onClick={() => {
+                setIsCreating(false);
+                setEditingArticle(null);
+              }}
+              className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white/60 hover:text-white"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          <form onSubmit={handleSave} className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="sm:col-span-2">
+                <label className="block text-xs font-semibold text-sacred-goldLight uppercase mb-1">
+                  Заголовок статті *
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="Введіть заголовок..."
+                  value={formTitle}
+                  onChange={(e) => setFormTitle(e.target.value)}
+                  className="w-full bg-white/5 border border-white/20 focus:border-sacred-gold rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-sacred-goldLight uppercase mb-1">
+                  Категорія
+                </label>
+                <select
+                  value={formCategory}
+                  onChange={(e) => setFormCategory(e.target.value as any)}
+                  className="w-full bg-[#161338] border border-white/20 focus:border-sacred-gold rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none"
+                >
+                  <option value="Блог">Блог</option>
+                  <option value="Новини">Новини</option>
+                  <option value="Творчість">Творчість</option>
+                  <option value="Екологія">Екологія</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-xs font-semibold text-white/70 mb-1">
+                  URL-ідентифікатор (Slug)
+                </label>
+                <input
+                  type="text"
+                  placeholder="viva-interview (латиницею)"
+                  value={formSlug}
+                  onChange={(e) => setFormSlug(e.target.value)}
+                  className="w-full bg-white/5 border border-white/20 focus:border-sacred-gold rounded-xl px-4 py-2 text-xs text-white focus:outline-none font-mono"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-white/70 mb-1">
+                  Дата публікації
+                </label>
+                <input
+                  type="text"
+                  value={formDate}
+                  onChange={(e) => setFormDate(e.target.value)}
+                  placeholder="Наприклад: 14 вересня, 2026"
+                  className="w-full bg-white/5 border border-white/20 focus:border-sacred-gold rounded-xl px-4 py-2 text-xs text-white focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-white/70 mb-1">
+                  Час читання
+                </label>
+                <input
+                  type="text"
+                  value={formReadTime}
+                  onChange={(e) => setFormReadTime(e.target.value)}
+                  placeholder="Наприклад: 5 хв читання"
+                  className="w-full bg-white/5 border border-white/20 focus:border-sacred-gold rounded-xl px-4 py-2 text-xs text-white focus:outline-none"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-sacred-goldLight uppercase mb-1">
+                Короткий опис (анонс для списку) *
+              </label>
+              <textarea
+                required
+                rows={2}
+                value={formExcerpt}
+                onChange={(e) => setFormExcerpt(e.target.value)}
+                placeholder="Короткий зміст у 2-3 реченнях..."
+                className="w-full bg-white/5 border border-white/20 focus:border-sacred-gold rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-sacred-goldLight uppercase mb-1">
+                Повний текст статті (відокремлюйте абзаци порожнім рядком) *
+              </label>
+              <textarea
+                required
+                rows={8}
+                value={formContentText}
+                onChange={(e) => setFormContentText(e.target.value)}
+                placeholder="Введіть повний текст публікації..."
+                className="w-full bg-white/5 border border-white/20 focus:border-sacred-gold rounded-xl px-4 py-3 text-sm text-white focus:outline-none font-sans"
+              />
+            </div>
+
+            <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsCreating(false);
+                  setEditingArticle(null);
+                }}
+                className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-medium"
+              >
+                Скасувати
+              </button>
+              <button
+                type="submit"
+                className="sacred-gold-btn px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 shadow"
+              >
+                <Check className="w-4 h-4" />
+                <span>Зберегти статтю</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {/* SEARCH BAR */}
+      <div className="relative">
+        <Search className="w-4 h-4 text-white/40 absolute left-3.5 top-3" />
+        <input
+          type="text"
+          placeholder="Пошук статті за назвою або категорією..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full bg-white/5 border border-white/15 focus:border-sacred-gold rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-white/40 focus:outline-none"
+        />
+      </div>
+
+      {/* ARTICLES TABLE / LIST */}
+      <div className="sacred-card rounded-2xl border border-white/10 overflow-hidden">
+        <div className="p-4 bg-white/5 border-b border-white/10 text-xs font-semibold text-sacred-goldLight uppercase tracking-wider flex items-center justify-between">
+          <span>Список опублікованих статей ({filtered.length})</span>
+        </div>
+
+        <div className="divide-y divide-white/10">
+          {filtered.length === 0 ? (
+            <div className="text-center py-10 text-xs text-white/50">
+              Статей не знайдено за вашим запитом.
+            </div>
+          ) : (
+            filtered.map((article) => (
+              <div
+                key={article.slug}
+                className="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+              >
+                <div className="space-y-1.5 max-w-2xl">
+                  <div className="flex items-center gap-2 text-[11px] text-white/60">
+                    <span className="px-2 py-0.5 rounded bg-sacred-gold/20 text-sacred-gold font-semibold uppercase text-[10px]">
+                      {article.category}
+                    </span>
+                    <span>•</span>
+                    <span>{article.date}</span>
+                    <span>•</span>
+                    <span>{article.readTime}</span>
+                  </div>
+                  <h3 className="text-base font-serif font-medium text-white leading-snug">
+                    {article.title}
+                  </h3>
+                  <p className="text-xs text-white/60 line-clamp-2">
+                    {article.excerpt}
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2 self-end sm:self-center shrink-0">
+                  <Link
+                    href={`/blog/${article.slug}`}
+                    target="_blank"
+                    title="Переглянути на сайті"
+                    className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-white/70 hover:text-white"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                  </Link>
+
+                  <button
+                    onClick={() => openEdit(article)}
+                    title="Редагувати"
+                    className="p-2 rounded-lg bg-sacred-blue/40 hover:bg-sacred-blue text-sacred-goldLight hover:text-white"
+                  >
+                    <Edit3 className="w-4 h-4" />
+                  </button>
+
+                  <button
+                    onClick={() => handleDelete(article.slug, article.title)}
+                    title="Видалити"
+                    className="p-2 rounded-lg bg-red-500/10 hover:bg-red-500/30 text-red-300"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+
+    </div>
+  );
+}
