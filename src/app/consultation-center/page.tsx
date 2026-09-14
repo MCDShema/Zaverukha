@@ -35,6 +35,16 @@ export default function ConsultationCenterPage() {
         <p className="text-sm sm:text-base text-white/80 leading-relaxed">
           {consultationCenter.intro}
         </p>
+
+        {/* Authentic Consultation Banner Image */}
+        <div className="pt-2 max-w-2xl mx-auto rounded-2xl overflow-hidden shadow-2xl border border-sacred-gold/30">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img 
+            src="/images/consultations-banner.jpg" 
+            alt="Консультації Ірини Заверухи" 
+            className="w-full h-auto object-cover"
+          />
+        </div>
       </div>
 
 

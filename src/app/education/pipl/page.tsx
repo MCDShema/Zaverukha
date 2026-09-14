@@ -136,36 +136,45 @@ export default function PiplEcosystemPage() {
 
 
         {/* 3. КРИЛА® (ОКРЕМИЙ БРЕНД-БАНЕР ТА САМОСТІЙНИЙ БРЕНД) */}
-        <div id="kryla" className="sacred-card rounded-2xl p-8 sm:p-12 border-2 border-sacred-gold relative overflow-hidden bg-gradient-to-r from-sacred-dark via-sacred-blue/40 to-sacred-night shadow-2xl">
+        <div id="kryla" className="sacred-card rounded-2xl p-6 sm:p-10 border-2 border-sacred-gold relative overflow-hidden bg-gradient-to-r from-sacred-dark via-sacred-blue/40 to-sacred-night shadow-2xl">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-8 space-y-4">
+            <div className="lg:col-span-7 space-y-4">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sacred-gold/20 text-sacred-goldLight text-xs font-bold uppercase tracking-widest">
                 <Star className="w-3.5 h-3.5 text-sacred-gold" />
                 <span>Самостійний бренд-проєкт</span>
               </div>
-              <h2 className="text-3xl sm:text-5xl font-serif text-white font-bold tracking-wide">
+              <h2 className="text-2xl sm:text-4xl font-serif text-white font-bold tracking-wide">
                 Річна програма «КРИЛА®»
               </h2>
-              <p className="text-base text-sacred-goldLight font-medium">
+              <p className="text-sm sm:text-base text-sacred-goldLight font-medium">
                 Ієрархічні академічні знання для повної квантової трансформації жінки
               </p>
               <p className="text-sm text-white/80 leading-relaxed">
                 {education.krylaDesc}
               </p>
+
+              <div className="pt-2">
+                <a
+                  href="https://pipl.net.ua/kryla"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="inline-flex items-center gap-2 py-3 px-6 rounded-full sacred-gold-btn text-xs font-semibold uppercase tracking-wider shadow-xl"
+                >
+                  <span>Перейти на сайт «КРИЛА»</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
             </div>
 
-            <div className="lg:col-span-4 flex flex-col items-center justify-center p-6 bg-sacred-dark/80 rounded-2xl border border-sacred-gold/50 space-y-4 text-center shadow-lg">
-              <div className="text-xs text-sacred-gold uppercase tracking-wider font-semibold">Головна жіноча програма</div>
-              <div className="text-2xl font-serif text-white font-bold">КРИЛА® 2026</div>
-              <a
-                href="https://pipl.net.ua/kryla"
-                target="_blank"
-                rel="noreferrer noopener"
-                className="w-full py-4 px-6 rounded-full sacred-gold-btn text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-1.5 shadow-xl"
-              >
-                <span>Перейти на сайт «КРИЛА»</span>
-                <ExternalLink className="w-3.5 h-3.5" />
-              </a>
+            <div className="lg:col-span-5 flex justify-center">
+              <div className="rounded-2xl overflow-hidden shadow-2xl border border-sacred-gold/50 group">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img 
+                  src="/images/banners/kryla-banner.jpg" 
+                  alt="Крила Ірини Заверухи" 
+                  className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -173,23 +182,37 @@ export default function PiplEcosystemPage() {
 
         {/* 4. МАЙСТЕРНЯ ЖІНОЧИХ ТАЇНСТВ (НОВИЙ БЛОК: АЛХІМІКУМ, ІНІЦІАЦІЇ, СЕМІНАРИ) */}
         <div id="mysteries" className="sacred-card rounded-2xl p-6 sm:p-10 border-2 border-sacred-gold/50 relative bg-gradient-to-br from-sacred-night via-sacred-dark to-purple-950/20">
-          <div className="space-y-4">
-            <div className="flex flex-wrap items-center gap-3">
-              <span className="text-xs font-semibold text-sacred-gold uppercase tracking-wider">
-                Сакральний простір
-              </span>
-              <span className="text-[10px] bg-sacred-gold/20 text-white px-2.5 py-0.5 rounded-full border border-sacred-gold/30">
-                Новий розділ сайту
-              </span>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center mb-6">
+            <div className="lg:col-span-7 space-y-4">
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="text-xs font-semibold text-sacred-gold uppercase tracking-wider">
+                  Сакральний простір
+                </span>
+                <span className="text-[10px] bg-sacred-gold/20 text-white px-2.5 py-0.5 rounded-full border border-sacred-gold/30">
+                  Новий розділ сайту
+                </span>
+              </div>
+
+              <h2 className="text-2xl sm:text-4xl font-serif text-white font-semibold">
+                Майстерня жіночих таїнств
+              </h2>
+
+              <p className="text-sm sm:text-base text-white/80 leading-relaxed">
+                {education.mysteriesDesc}
+              </p>
             </div>
 
-            <h2 className="text-2xl sm:text-4xl font-serif text-white font-semibold">
-              Майстерня жіночих таїнств
-            </h2>
-
-            <p className="text-sm sm:text-base text-white/80 leading-relaxed max-w-3xl">
-              {education.mysteriesDesc}
-            </p>
+            <div className="lg:col-span-5 flex justify-center">
+              <div className="rounded-2xl overflow-hidden shadow-2xl border border-sacred-gold/50 group">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img 
+                  src="/images/banners/alhimicum-banner.jpg" 
+                  alt="Алхімікум" 
+                  className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+            </div>
+          </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
               <div className="p-4 rounded-xl bg-white/5 border border-white/10 space-y-1">
@@ -226,7 +249,6 @@ export default function PiplEcosystemPage() {
               </Link>
             </div>
           </div>
-        </div>
 
 
         {/* 5. PIPL CLUB (КЛУБ ПРАКТИКІВ) */}

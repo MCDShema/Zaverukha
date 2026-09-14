@@ -12,17 +12,20 @@ import {
   Calculator, 
   Send, 
   BookOpen, 
-  HeartHandshake,
   Compass,
   GraduationCap,
-  Music,
   CalendarCheck,
-  PhoneCall
+  PhoneCall,
+  Search,
+  Globe
 } from 'lucide-react';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [educationOpen, setEducationOpen] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
@@ -38,6 +41,8 @@ export default function Header() {
   useEffect(() => {
     setIsOpen(false);
     setEducationOpen(false);
+    setLangOpen(false);
+    setSearchOpen(false);
   }, [pathname]);
 
   const isActive = (path: string) => {
@@ -48,22 +53,30 @@ export default function Header() {
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       scrolled 
-        ? 'bg-sacred-dark/95 backdrop-blur-md shadow-lg border-b border-sacred-gold/20 py-2.5' 
-        : 'bg-sacred-dark/80 backdrop-blur-sm border-b border-white/10 py-3.5'
+        ? 'bg-sacred-dark/95 backdrop-blur-md shadow-lg border-b border-sacred-gold/20 py-2' 
+        : 'bg-sacred-dark/85 backdrop-blur-sm border-b border-white/10 py-3'
     }`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between gap-2">
           
-          {/* LOGOS */}
-          <div className="flex items-center gap-3 md:gap-5 shrink-0">
-            <LogoZaverukha />
+          {/* LOGOS (Exact authentic pair: Zaverukha + IMARIA) */}
+          <div className="flex items-center gap-2 sm:gap-4 shrink-0">
+            <LogoZaverukha className="h-7 sm:h-8 md:h-9 w-auto" />
             <div className="hidden sm:block">
-              <LogoImaria />
+              <LogoImaria className="h-6 sm:h-7 md:h-8 w-auto" />
             </div>
           </div>
 
-          {/* DESKTOP NAV (From left to right per TZ) */}
-          <nav className="hidden lg:flex items-center space-x-1 xl:space-x-2">
+          {/* DESKTOP NAV (From left to right per TZ & Drawing:
+              1. Навчання (з випадаючим: Екосистема PIPL, IMARIA Academia)
+              2. Моя творчість
+              3. Сатсанги.DivineYoga (Про мене)
+              4. Калькулятор («Way of the Soul»)
+              5. Блог
+              6. Контакти і реквізити
+              7. Консультаційний центр (CTA)
+          ) */}
+          <nav className="hidden lg:flex items-center space-x-1 xl:space-x-1.5">
             
             {/* 1. Навчання (Dropdown: Екосистема PIPL / IMARIA Academia) */}
             <div 
@@ -72,7 +85,7 @@ export default function Header() {
               onMouseLeave={() => setEducationOpen(false)}
             >
               <button 
-                className={`flex items-center gap-1.5 px-3 py-2 text-sm font-medium transition-colors rounded-lg ${
+                className={`flex items-center gap-1 px-2.5 py-1.5 text-xs xl:text-sm font-medium transition-colors rounded-lg ${
                   isActive('/education') 
                     ? 'text-sacred-goldLight bg-white/10' 
                     : 'text-white/90 hover:text-white hover:bg-white/5'
@@ -80,7 +93,7 @@ export default function Header() {
                 aria-expanded={educationOpen}
               >
                 <span>Навчання</span>
-                <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${educationOpen ? 'rotate-180 text-sacred-gold' : 'text-white/60'}`} />
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${educationOpen ? 'rotate-180 text-sacred-gold' : 'text-white/60'}`} />
               </button>
 
               {/* Dropdown Menu */}
@@ -129,7 +142,7 @@ export default function Header() {
             {/* 2. Моя творчість */}
             <Link 
               href="/creativity" 
-              className={`px-3 py-2 text-sm font-medium transition-colors rounded-lg ${
+              className={`px-2.5 py-1.5 text-xs xl:text-sm font-medium transition-colors rounded-lg ${
                 isActive('/creativity') 
                   ? 'text-sacred-goldLight bg-white/10' 
                   : 'text-white/90 hover:text-white hover:bg-white/5'
@@ -141,14 +154,15 @@ export default function Header() {
             {/* 3. Про мене (Сатсанги.DivineYoga) */}
             <Link 
               href="/satsang-divine-yoga" 
-              className={`px-3 py-2 text-sm font-medium transition-colors rounded-lg flex items-center gap-1.5 ${
+              className={`px-2.5 py-1.5 text-xs xl:text-sm font-medium transition-colors rounded-lg flex items-center gap-1 ${
                 isActive('/satsang-divine-yoga') 
                   ? 'text-sacred-goldLight bg-white/10' 
                   : 'text-white/90 hover:text-white hover:bg-white/5'
               }`}
+              title="Сатсанги та DivineYoga by IMARIA"
             >
               <span>Сатсанги.DivineYoga</span>
-              <span className="text-[10px] bg-sacred-gold/20 text-sacred-goldLight px-1.5 py-0.2 rounded font-normal border border-sacred-gold/30">
+              <span className="text-[9px] bg-sacred-gold/20 text-sacred-goldLight px-1 rounded font-normal border border-sacred-gold/30">
                 УТП
               </span>
             </Link>
@@ -156,14 +170,14 @@ export default function Header() {
             {/* 4. Калькулятор («Way of the Soul» / «Путь Душі») — Accent Badge */}
             <Link 
               href="/calculator" 
-              className={`relative px-3 py-2 text-sm font-semibold transition-all rounded-lg flex items-center gap-1.5 ${
+              className={`relative px-3 py-1.5 text-xs xl:text-sm font-semibold transition-all rounded-lg flex items-center gap-1.5 ${
                 isActive('/calculator')
-                  ? 'bg-gradient-to-r from-sacred-gold to-sacred-goldHover text-sacred-dark shadow-md shadow-sacred-gold/20'
-                  : 'text-sacred-goldLight bg-sacred-gold/15 hover:bg-sacred-gold/25 border border-sacred-gold/40 hover:border-sacred-gold'
+                  ? 'bg-gradient-to-r from-sacred-gold to-sacred-goldHover text-sacred-dark shadow-md shadow-sacred-gold/25 font-bold'
+                  : 'text-sacred-goldLight bg-sacred-gold/20 hover:bg-sacred-gold/30 border border-sacred-gold/50 hover:border-sacred-gold shadow-sm'
               }`}
               title="Калькулятор «Путь Душі» (Way of the Soul)"
             >
-              <Calculator className="w-4 h-4 text-sacred-goldLight" />
+              <Calculator className="w-3.5 h-3.5 text-sacred-goldLight" />
               <span>Калькулятор</span>
               <span className="flex h-2 w-2 relative">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sacred-gold opacity-75"></span>
@@ -174,7 +188,7 @@ export default function Header() {
             {/* 5. Блог */}
             <Link 
               href="/blog" 
-              className={`px-3 py-2 text-sm font-medium transition-colors rounded-lg ${
+              className={`px-2.5 py-1.5 text-xs xl:text-sm font-medium transition-colors rounded-lg ${
                 isActive('/blog') 
                   ? 'text-sacred-goldLight bg-white/10' 
                   : 'text-white/90 hover:text-white hover:bg-white/5'
@@ -186,19 +200,19 @@ export default function Header() {
             {/* 6. Контакти і реквізити */}
             <Link 
               href="/contacts" 
-              className={`px-3 py-2 text-sm font-medium transition-colors rounded-lg ${
+              className={`px-2.5 py-1.5 text-xs xl:text-sm font-medium transition-colors rounded-lg ${
                 isActive('/contacts') 
                   ? 'text-sacred-goldLight bg-white/10' 
                   : 'text-white/90 hover:text-white hover:bg-white/5'
               }`}
             >
-              Контакти
+              Контакти і реквізити
             </Link>
 
             {/* 7. Консультаційний центр (CTA Button) */}
             <Link 
               href="/consultation-center" 
-              className="ml-2 inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider text-white bg-gradient-to-r from-sacred-blue to-sacred-indigo hover:from-sacred-indigo hover:to-sacred-blue border border-sacred-gold/40 shadow-md shadow-sacred-blue/30 hover:scale-105 transition-all"
+              className="ml-1 xl:ml-2 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider text-white bg-gradient-to-r from-sacred-blue via-sacred-indigo to-sacred-blue hover:from-sacred-indigo hover:to-sacred-blue border border-sacred-gold/50 shadow-md shadow-sacred-blue/30 hover:scale-105 transition-all"
             >
               <CalendarCheck className="w-3.5 h-3.5 text-sacred-gold" />
               <span>Консультаційний центр</span>
@@ -206,13 +220,74 @@ export default function Header() {
 
           </nav>
 
+          {/* RIGHT UTILITIES: Search + Language switcher */}
+          <div className="hidden lg:flex items-center gap-2 pl-2 border-l border-white/15">
+            {/* Search Toggle */}
+            <div className="relative">
+              <button 
+                onClick={() => setSearchOpen(!searchOpen)}
+                className="p-1.5 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+                title="Пошук по сайту"
+                aria-label="Пошук"
+              >
+                <Search className="w-4 h-4" />
+              </button>
+              {searchOpen && (
+                <div className="absolute right-0 mt-2 w-72 p-2 bg-sacred-night/95 backdrop-blur-xl border border-sacred-gold/30 rounded-xl shadow-2xl">
+                  <form onSubmit={(e) => {
+                    e.preventDefault();
+                    if (searchQuery.trim()) {
+                      window.location.href = `/blog?search=${encodeURIComponent(searchQuery)}`;
+                    }
+                  }} className="flex items-center gap-1.5">
+                    <input 
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder="Пошук статей, курсів..."
+                      className="w-full px-3 py-1.5 text-xs bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-sacred-gold"
+                      autoFocus
+                    />
+                    <button type="submit" className="p-1.5 bg-sacred-gold text-sacred-dark rounded-lg font-medium text-xs hover:bg-sacred-goldLight">
+                      <Search className="w-3.5 h-3.5" />
+                    </button>
+                  </form>
+                </div>
+              )}
+            </div>
+
+            {/* Language Switcher */}
+            <div className="relative">
+              <button 
+                onClick={() => setLangOpen(!langOpen)}
+                className="flex items-center gap-1 px-2 py-1 text-xs font-semibold text-white/90 hover:text-white hover:bg-white/10 rounded-lg border border-white/20"
+                aria-label="Мова сайту"
+              >
+                <Globe className="w-3.5 h-3.5 text-sacred-gold" />
+                <span>UA</span>
+                <ChevronDown className="w-3 h-3 text-white/60" />
+              </button>
+              {langOpen && (
+                <div className="absolute right-0 mt-1 w-24 py-1 bg-sacred-night/95 backdrop-blur-xl border border-sacred-gold/30 rounded-lg shadow-xl text-xs">
+                  <button className="w-full text-left px-3 py-1.5 text-sacred-gold font-bold hover:bg-white/10 flex items-center justify-between">
+                    <span>UA</span>
+                    <span className="text-[10px]">✓</span>
+                  </button>
+                  <button className="w-full text-left px-3 py-1.5 text-white/70 hover:text-white hover:bg-white/10">
+                    EN
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+
           {/* MOBILE MENU TOGGLE BUTTON */}
           <div className="flex items-center gap-2 lg:hidden">
             <Link 
               href="/calculator" 
-              className="p-1.5 bg-sacred-gold/20 text-sacred-goldLight border border-sacred-gold/40 rounded-lg text-xs font-semibold flex items-center gap-1"
+              className="p-1.5 bg-sacred-gold/25 text-sacred-goldLight border border-sacred-gold/50 rounded-lg text-xs font-semibold flex items-center gap-1"
             >
-              <Calculator className="w-4 h-4" />
+              <Calculator className="w-3.5 h-3.5" />
               <span className="text-[11px]">Калькулятор</span>
             </Link>
 
@@ -296,7 +371,7 @@ export default function Header() {
             {/* 4. Калькулятор «Путь Душі» */}
             <Link
               href="/calculator"
-              className="flex items-center justify-between px-3 py-2.5 text-base font-semibold bg-sacred-gold/15 text-sacred-goldLight border border-sacred-gold/40 rounded-lg"
+              className="flex items-center justify-between px-3 py-2.5 text-base font-semibold bg-sacred-gold/20 text-sacred-goldLight border border-sacred-gold/50 rounded-lg"
             >
               <span className="flex items-center gap-2.5">
                 <Calculator className="w-5 h-5 text-sacred-gold" />
@@ -313,10 +388,10 @@ export default function Header() {
               className="flex items-center gap-2.5 px-3 py-2.5 text-base font-medium text-white hover:bg-white/5 rounded-lg"
             >
               <Send className="w-5 h-5 text-sacred-gold" />
-              <span>Блог та Новини</span>
+              <span>Блог</span>
             </Link>
 
-            {/* 6. Контакти */}
+            {/* 6. Контакти і реквізити */}
             <Link
               href="/contacts"
               className="flex items-center gap-2.5 px-3 py-2.5 text-base font-medium text-white hover:bg-white/5 rounded-lg"
@@ -336,25 +411,16 @@ export default function Header() {
               </Link>
             </div>
 
-            {/* Quick Telegram Support */}
-            <div className="pt-4 flex items-center justify-center gap-4 text-xs text-white/60">
-              <a 
-                href="https://t.me/pipl_platform_bot?start=support" 
-                target="_blank" 
-                rel="noreferrer noopener"
-                className="flex items-center gap-1.5 hover:text-sacred-gold transition-colors"
-              >
-                <span>💬 Команда турботи Pipl</span>
-              </a>
-              <span>•</span>
-              <a 
-                href="https://www.instagram.com/pi_platform/" 
-                target="_blank" 
-                rel="noreferrer noopener"
-                className="hover:text-sacred-gold transition-colors"
-              >
-                Instagram
-              </a>
+            {/* Language Switcher Mobile */}
+            <div className="pt-4 border-t border-white/10 flex items-center justify-between px-3 text-sm text-white/80">
+              <div className="flex items-center gap-2">
+                <Globe className="w-4 h-4 text-sacred-gold" />
+                <span>Мова:</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="px-2 py-0.5 rounded bg-sacred-gold text-sacred-dark font-bold text-xs">UA</span>
+                <span className="px-2 py-0.5 rounded bg-white/10 text-white/60 text-xs">EN</span>
+              </div>
             </div>
 
           </div>

@@ -176,8 +176,12 @@ export default function CreativityPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           
-          <div className="p-6 rounded-xl bg-white/5 border border-white/10 space-y-3 flex flex-col justify-between">
-            <div className="space-y-2">
+          <div className="p-6 rounded-xl bg-white/5 border border-white/10 space-y-4 flex flex-col justify-between">
+            <div className="space-y-3">
+              <div className="h-48 flex items-center justify-center bg-sacred-night/50 rounded-lg p-2">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/images/creativity/dress.png" alt="Сукня Споріднені" className="max-h-full object-contain drop-shadow-xl" />
+              </div>
               <h3 className="text-lg font-serif text-sacred-goldLight font-semibold">
                 Сукня Берегині «Споріднені»
               </h3>
@@ -195,8 +199,12 @@ export default function CreativityPage() {
             </a>
           </div>
 
-          <div className="p-6 rounded-xl bg-white/5 border border-white/10 space-y-3 flex flex-col justify-between">
-            <div className="space-y-2">
+          <div className="p-6 rounded-xl bg-white/5 border border-white/10 space-y-4 flex flex-col justify-between">
+            <div className="space-y-3">
+              <div className="h-48 flex items-center justify-center bg-sacred-night/50 rounded-lg p-2">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/images/creativity/amulet.png" alt="Кулон АВАТАР" className="max-h-full object-contain drop-shadow-xl" />
+              </div>
               <h3 className="text-lg font-serif text-sacred-goldLight font-semibold">
                 Кулон-оберіг «АВАТАР»
               </h3>
@@ -214,13 +222,17 @@ export default function CreativityPage() {
             </a>
           </div>
 
-          <div className="p-6 rounded-xl bg-white/5 border border-white/10 space-y-3 flex flex-col justify-between">
-            <div className="space-y-2">
+          <div className="p-6 rounded-xl bg-white/5 border border-white/10 space-y-4 flex flex-col justify-between">
+            <div className="space-y-3">
+              <div className="h-48 flex items-center justify-center bg-sacred-night/50 rounded-lg p-2">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/images/creativity/book.png" alt="Бесіди з Ангелами" className="max-h-full object-contain drop-shadow-xl" />
+              </div>
               <h3 className="text-lg font-serif text-sacred-goldLight font-semibold">
-                Метафоричні колоди
+                Книга «Бесіди з Ангелами»
               </h3>
               <p className="text-xs text-white/70 leading-relaxed">
-                {creativity.cardsDesc}
+                {creativity.book1Desc}
               </p>
             </div>
             <a

@@ -24,20 +24,33 @@ export default function SatsangDivineYogaPage() {
     <div className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-16">
       
       {/* HERO BANNER WITH SACRED IDENTITY */}
-      <div className="sacred-card rounded-3xl p-8 sm:p-14 border-2 border-sacred-gold/50 relative overflow-hidden bg-gradient-to-r from-sacred-night via-sacred-dark to-sacred-blue/40 shadow-2xl">
-        <div className="max-w-3xl space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sacred-gold/20 border border-sacred-gold/40 text-sacred-goldLight text-xs font-semibold uppercase tracking-widest">
-            <Sparkles className="w-3.5 h-3.5 text-sacred-gold" />
-            <span>УТП проєкту • Практики служіння</span>
+      <div className="sacred-card rounded-3xl p-6 sm:p-12 border-2 border-sacred-gold/50 relative overflow-hidden bg-gradient-to-r from-sacred-night via-sacred-dark to-sacred-blue/40 shadow-2xl">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div className="lg:col-span-7 space-y-4 text-center lg:text-left">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sacred-gold/20 border border-sacred-gold/40 text-sacred-goldLight text-xs font-semibold uppercase tracking-widest">
+              <Sparkles className="w-3.5 h-3.5 text-sacred-gold" />
+              <span>УТП проєкту • Практики служіння</span>
+            </div>
+
+            <h1 className="text-3xl sm:text-5xl font-serif text-white font-bold tracking-tight">
+              Сатсанги.<span className="gold-text-gradient">DivineYoga</span>
+            </h1>
+
+            <p className="text-sm sm:text-base text-white/80 leading-relaxed">
+              {satsangYoga.intro}
+            </p>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl font-serif text-white font-bold tracking-tight">
-            Сатсанги.<span className="gold-text-gradient">DivineYoga</span>
-          </h1>
-
-          <p className="text-sm sm:text-base text-white/80 leading-relaxed">
-            {satsangYoga.intro}
-          </p>
+          <div className="lg:col-span-5 flex justify-center">
+            <div className="rounded-2xl overflow-hidden shadow-2xl border border-sacred-gold/40 group max-w-md w-full">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img 
+                src="/images/satsang-banner.jpg" 
+                alt="Сатсанги та DivineYoga" 
+                className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+          </div>
         </div>
       </div>
 
