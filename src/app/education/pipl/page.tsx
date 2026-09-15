@@ -26,16 +26,16 @@ export default function PiplEcosystemPage() {
     <div className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-16">
       
       {/* HEADER BANNER */}
-      <div className="sacred-card rounded-3xl p-8 sm:p-12 border border-sacred-gold/30 relative overflow-hidden bg-gradient-to-r from-sacred-night via-sacred-dark to-sacred-blue/30">
+      <div className="rounded-3xl p-8 sm:p-12 border border-[#3833BA]/20 relative overflow-hidden bg-[rgba(56,51,186,0.1)] shadow-sm">
         <div className="max-w-3xl space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sacred-gold/15 border border-sacred-gold/40 text-sacred-goldLight text-xs font-semibold uppercase tracking-widest">
-            <Compass className="w-3.5 h-3.5 text-sacred-gold" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 border border-[#3833BA]/25 text-[#2E2B75] text-xs font-semibold uppercase tracking-widest shadow-xs">
+            <Compass className="w-3.5 h-3.5 text-[#3833BA]" />
             <span>Напрямок №1 • Для себе і життя</span>
           </div>
-          <h1 className="text-3xl sm:text-5xl font-serif text-white font-bold">
+          <h1 className="text-3xl sm:text-5xl font-serif text-[#2E2B75] font-bold">
             Екосистема <span className="gold-text-gradient">PIPL®</span>
           </h1>
-          <p className="text-sm sm:text-base text-white/80 leading-relaxed">
+          <p className="text-sm sm:text-base text-slate-700 leading-relaxed">
             {education.piplIntro}
           </p>
         </div>

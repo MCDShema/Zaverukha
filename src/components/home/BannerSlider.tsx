@@ -89,7 +89,7 @@ export default function BannerSlider() {
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      <div className="relative w-full max-w-[860px] mx-auto overflow-hidden rounded-2xl shadow-2xl border border-[#C99A2C]/40 aspect-[1024/694] max-h-[520px] bg-sacred-dark">
+      <div className="relative w-full max-w-[860px] mx-auto overflow-hidden rounded-2xl shadow-2xl border border-[#C99A2C]/40 aspect-[1024/694] max-h-[520px] bg-[rgba(56,51,186,0.1)]">
         {slides.map((slide, idx) => (
           <div
             key={slide.id}

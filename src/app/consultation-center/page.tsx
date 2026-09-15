@@ -49,27 +49,25 @@ export default function ConsultationCenterPage() {
 
 
       {/* ========================================================= */}
-      {/* БЛОК 1: БЕЗКОШТОВНИЙ КАЛЬКУЛЯТОР ПУТЬ ДУШІ (Вимога ТЗ) */}
+      {/* БЛОК 1: БЕЗКОШТОВНИЙ КАЛЬКУЛЯТОР ПУТЬ ДУШІ */}
       {/* ========================================================= */}
-      <div className="sacred-card rounded-3xl p-8 sm:p-12 border-2 border-sacred-gold relative overflow-hidden bg-gradient-to-r from-sacred-dark via-sacred-blue/40 to-sacred-night shadow-2xl">
-        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-80 h-80 bg-sacred-gold/15 rounded-full blur-3xl pointer-events-none" />
-        
+      <div className="rounded-3xl p-8 sm:p-12 border border-[#3833BA]/20 relative overflow-hidden bg-[rgba(56,51,186,0.1)] shadow-sm">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
           <div className="lg:col-span-8 space-y-4 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sacred-gold/20 text-sacred-goldLight text-xs font-bold uppercase">
-              <Calculator className="w-3.5 h-3.5 text-sacred-gold" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/80 border border-[#3833BA]/25 text-[#2E2B75] text-xs font-bold uppercase shadow-xs">
+              <Calculator className="w-3.5 h-3.5 text-[#3833BA]" />
               <span>Експрес-діагностика перед консультацією</span>
             </div>
 
-            <h2 className="text-2xl sm:text-4xl font-serif text-white font-bold tracking-wide">
+            <h2 className="text-2xl sm:text-4xl font-serif text-[#2E2B75] font-bold tracking-wide">
               {consultationCenter.calculatorBannerTitle}
             </h2>
 
-            <p className="text-sm sm:text-base text-white/80 leading-relaxed max-w-2xl">
+            <p className="text-sm sm:text-base text-slate-700 leading-relaxed max-w-2xl">
               {consultationCenter.calculatorBannerDesc}
             </p>
 
-            <div className="flex flex-wrap gap-4 text-xs text-sacred-goldLight pt-1 justify-center lg:justify-start">
+            <div className="flex flex-wrap gap-4 text-xs text-[#B37E11] font-semibold pt-1 justify-center lg:justify-start">
               <span>✦ Миттєвий розрахунок за датою</span>
               <span>✦ 22 енергії свідомості</span>
               <span>✦ 100% безкоштовно онлайн</span>

@@ -29,21 +29,21 @@ export default function BlogPage() {
     <div className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-12">
       
       {/* BANNER */}
-      <div className="sacred-card rounded-3xl p-8 sm:p-14 border border-sacred-gold/30 text-center relative overflow-hidden bg-gradient-to-r from-sacred-night via-sacred-dark to-sacred-blue/20">
+      <div className="rounded-3xl p-8 sm:p-14 border border-[#3833BA]/20 text-center relative overflow-hidden bg-[rgba(56,51,186,0.1)] shadow-sm">
         <div className="max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sacred-gold/15 border border-sacred-gold/40 text-sacred-goldLight text-xs font-semibold uppercase tracking-widest">
-            <Sparkles className="w-3.5 h-3.5 text-sacred-gold" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 border border-[#3833BA]/25 text-[#2E2B75] text-xs font-semibold uppercase tracking-widest shadow-xs">
+            <Sparkles className="w-3.5 h-3.5 text-[#B37E11]" />
             <span>Статті, роздуми, творчість</span>
           </div>
-          <h1 className="text-3xl sm:text-5xl font-serif text-white font-bold">
+          <h1 className="text-3xl sm:text-5xl font-serif text-[#2E2B75] font-bold">
             <span className="gold-text-gradient">Блог</span>
           </h1>
-          <p className="text-sm sm:text-base text-white/80 leading-relaxed max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base text-slate-700 leading-relaxed max-w-2xl mx-auto">
             Діалоги про духовну логіку, розбори життєвих ситуацій, хроніки посадки лісів та творчі роздуми.
           </p>
           <div className="flex items-center justify-center gap-4 pt-2">
-            <Link href="/news" className="inline-flex items-center gap-1.5 text-xs text-white/70 hover:text-sacred-goldLight transition-colors">
-              <Newspaper className="w-3.5 h-3.5" />
+            <Link href="/news" className="inline-flex items-center gap-1.5 text-xs text-[#2E2B75] hover:text-[#B37E11] font-semibold transition-colors">
+              <Newspaper className="w-3.5 h-3.5 text-[#3833BA]" />
               <span>Перейти до розділу «Новини» →</span>
             </Link>
           </div>

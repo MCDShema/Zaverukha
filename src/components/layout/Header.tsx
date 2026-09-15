@@ -101,10 +101,11 @@ export default function Header() {
             {/* 1. Навчання (Dropdown) */}
             <div 
               className="relative shrink-0"
-              onMouseEnter={handleEducationEnter}
               onMouseLeave={handleEducationLeave}
             >
               <button 
+                onMouseEnter={handleEducationEnter}
+                onClick={() => setEducationOpen(!educationOpen)}
                 className={`flex items-center gap-1 px-2 xl:px-2.5 py-1.5 text-xs xl:text-sm font-light tracking-wide whitespace-nowrap transition-colors ${
                   isActive('/education') 
                     ? 'text-white font-normal underline underline-offset-4 decoration-white/60' 
@@ -116,11 +117,15 @@ export default function Header() {
                 <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${educationOpen ? 'rotate-180 text-white' : 'text-white/70'}`} />
               </button>
 
-              {/* Dropdown — note: pt-2 closes the gap between button and panel */}
-              <div className="absolute left-0 top-full pt-2">
-                <div className={`w-64 rounded-xl bg-[#2E2B75] border border-white/20 shadow-2xl p-2 transition-all duration-200 origin-top-left ${
-                  educationOpen ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'
-                }`}>
+              {/* Dropdown */}
+              <div 
+                onMouseEnter={handleEducationEnter}
+                onMouseLeave={handleEducationLeave}
+                className={`absolute left-0 top-full pt-1.5 transition-all duration-200 origin-top-left ${
+                  educationOpen ? 'opacity-100 scale-100 pointer-events-auto visible' : 'opacity-0 scale-95 pointer-events-none invisible'
+                }`}
+              >
+                <div className="w-64 rounded-xl bg-[#2E2B75] border border-white/20 shadow-2xl p-2">
                   <div className="px-3 py-1.5 text-[11px] font-medium text-white/60 tracking-wider uppercase border-b border-white/10 mb-1">
                     2 напрямки розвитку
                   </div>
@@ -200,10 +205,11 @@ export default function Header() {
             {/* 5. Інфо (Dropdown: Блог + Новини) */}
             <div
               className="relative shrink-0"
-              onMouseEnter={handleInfoEnter}
               onMouseLeave={handleInfoLeave}
             >
               <button
+                onMouseEnter={handleInfoEnter}
+                onClick={() => setInfoOpen(!infoOpen)}
                 className={`flex items-center gap-1 px-2 xl:px-2.5 py-1.5 text-xs xl:text-sm font-light tracking-wide whitespace-nowrap transition-colors ${
                   isActive('/blog') || isActive('/news')
                     ? 'text-white font-normal underline underline-offset-4 decoration-white/60'
@@ -215,11 +221,15 @@ export default function Header() {
                 <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${infoOpen ? 'rotate-180 text-white' : 'text-white/70'}`} />
               </button>
 
-              {/* Dropdown — pt-2 closes the gap */}
-              <div className="absolute left-0 top-full pt-2">
-                <div className={`w-52 rounded-xl bg-[#2E2B75] border border-white/20 shadow-2xl p-2 transition-all duration-200 origin-top-left ${
-                  infoOpen ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'
-                }`}>
+              {/* Dropdown */}
+              <div 
+                onMouseEnter={handleInfoEnter}
+                onMouseLeave={handleInfoLeave}
+                className={`absolute left-0 top-full pt-1.5 transition-all duration-200 origin-top-left ${
+                  infoOpen ? 'opacity-100 scale-100 pointer-events-auto visible' : 'opacity-0 scale-95 pointer-events-none invisible'
+                }`}
+              >
+                <div className="w-52 rounded-xl bg-[#2E2B75] border border-white/20 shadow-2xl p-2">
                   <Link
                     href="/blog"
                     className="flex items-center gap-2.5 p-2.5 rounded-lg hover:bg-white/10 text-white/90 hover:text-white transition-colors"

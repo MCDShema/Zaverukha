@@ -24,19 +24,19 @@ export default function ImariaAcademiaPage() {
     <div className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-16">
       
       {/* HEADER BANNER */}
-      <div className="sacred-card rounded-3xl p-6 sm:p-12 border border-sacred-gold/40 relative overflow-hidden bg-gradient-to-b from-sacred-dark via-sacred-night to-sacred-blue/30">
+      <div className="rounded-3xl p-6 sm:p-12 border border-[#3833BA]/20 relative overflow-hidden bg-[rgba(56,51,186,0.1)] shadow-sm">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           <div className="lg:col-span-7 space-y-4 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sacred-gold/20 border border-sacred-gold/40 text-sacred-goldLight text-xs font-semibold uppercase tracking-widest">
-              <GraduationCap className="w-3.5 h-3.5 text-sacred-gold" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 border border-[#3833BA]/25 text-[#2E2B75] text-xs font-semibold uppercase tracking-widest shadow-xs">
+              <GraduationCap className="w-3.5 h-3.5 text-[#3833BA]" />
               <span>Напрямок №2 • Професійне служіння</span>
             </div>
             
-            <h1 className="text-3xl sm:text-5xl font-serif text-white font-bold">
+            <h1 className="text-3xl sm:text-5xl font-serif text-[#2E2B75] font-bold">
               IMARIA <span className="gold-text-gradient">Academia®</span>
             </h1>
             
-            <p className="text-sm sm:text-base text-white/80 leading-relaxed">
+            <p className="text-sm sm:text-base text-slate-700 leading-relaxed">
               {education.academiaIntro}
             </p>
           </div>

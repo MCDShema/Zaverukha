@@ -28,7 +28,7 @@ export default function NewsDetailView({ initialArticle }: NewsDetailViewProps) 
       </div>
 
       {/* HEADER */}
-      <div className="sacred-card rounded-3xl p-8 sm:p-12 border border-sacred-gold/30 relative overflow-hidden bg-gradient-to-br from-sacred-night via-sacred-dark to-[#1a3a6b]/20 space-y-6">
+      <div className="rounded-3xl p-8 sm:p-12 border border-[#3833BA]/20 relative overflow-hidden bg-[rgba(56,51,186,0.1)] shadow-sm space-y-6">
         {/* Cover image */}
         {(article.cover_image || article.image) && (
           <div className="w-full h-56 sm:h-72 rounded-2xl overflow-hidden mb-6">
@@ -41,12 +41,12 @@ export default function NewsDetailView({ initialArticle }: NewsDetailViewProps) 
           </div>
         )}
 
-        <div className="flex flex-wrap items-center gap-3 text-xs text-white/60">
-          <span className="px-2.5 py-1 rounded bg-blue-500/20 text-blue-300 font-medium border border-blue-500/30 flex items-center gap-1">
-            <Newspaper className="w-3 h-3" />
+        <div className="flex flex-wrap items-center gap-3 text-xs text-slate-600 font-medium">
+          <span className="px-2.5 py-1 rounded bg-[#3833BA]/15 text-[#2E2B75] font-semibold border border-[#3833BA]/25 flex items-center gap-1">
+            <Newspaper className="w-3 h-3 text-[#3833BA]" />
             {article.category}
           </span>
-          <span className="flex items-center gap-1">
+          <span className="flex items-center gap-1 text-[#B37E11] font-semibold">
             <Calendar className="w-3.5 h-3.5" />
             {article.date}
           </span>
@@ -61,18 +61,18 @@ export default function NewsDetailView({ initialArticle }: NewsDetailViewProps) 
           )}
         </div>
 
-        <h1 className="text-2xl sm:text-4xl font-serif text-white font-bold leading-tight">
+        <h1 className="text-2xl sm:text-4xl font-serif text-[#2E2B75] font-bold leading-tight">
           {article.title}
         </h1>
 
         {article.excerpt && (
-          <p className="text-base text-white/70 leading-relaxed border-l-2 border-sacred-gold/50 pl-4">
+          <p className="text-base text-slate-700 leading-relaxed border-l-2 border-[#C99A2C] pl-4">
             {article.excerpt}
           </p>
         )}
 
-        <div className="text-xs text-white/50">
-          Автор: <span className="text-white/80">{article.author || 'Ірина Заверуха'}</span>
+        <div className="text-xs text-slate-500 font-medium">
+          Автор: <span className="text-[#2E2B75] font-semibold">{article.author || 'Ірина Заверуха'}</span>
         </div>
       </div>
 

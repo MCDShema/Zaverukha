@@ -23,20 +23,20 @@ export default function SatsangDivineYogaPage() {
   return (
     <div className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-16">
       
-      {/* HERO BANNER WITH SACRED IDENTITY */}
-      <div className="sacred-card rounded-3xl p-6 sm:p-12 border-2 border-sacred-gold/50 relative overflow-hidden bg-gradient-to-r from-sacred-night via-sacred-dark to-sacred-blue/40 shadow-2xl">
+      {/* HERO BANNER */}
+      <div className="rounded-3xl p-6 sm:p-12 border border-[#3833BA]/20 relative overflow-hidden bg-[rgba(56,51,186,0.1)] shadow-sm">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           <div className="lg:col-span-7 space-y-4 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sacred-gold/20 border border-sacred-gold/40 text-sacred-goldLight text-xs font-semibold uppercase tracking-widest">
-              <Sparkles className="w-3.5 h-3.5 text-sacred-gold" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 border border-[#3833BA]/25 text-[#2E2B75] text-xs font-semibold uppercase tracking-widest shadow-xs">
+              <Sparkles className="w-3.5 h-3.5 text-[#B37E11]" />
               <span>УТП проєкту • Практики служіння</span>
             </div>
 
-            <h1 className="text-3xl sm:text-5xl font-serif text-white font-bold tracking-tight">
+            <h1 className="text-3xl sm:text-5xl font-serif text-[#2E2B75] font-bold tracking-tight">
               Сатсанги.<span className="gold-text-gradient">DivineYoga</span>
             </h1>
 
-            <p className="text-sm sm:text-base text-white/80 leading-relaxed">
+            <p className="text-sm sm:text-base text-slate-700 leading-relaxed">
               {satsangYoga.intro}
             </p>
           </div>
