@@ -325,51 +325,67 @@ export default function AdminArticlesPage() {
               </div>
             </div>
 
-            {/* Image Input with Upload / URL / Presets */}
-            <ImageInputWithPreview
-              label="Головне фото / Обкладинка статті"
-              value={formCoverImage}
-              onChange={setFormCoverImage}
-              placeholder="/images/posts/your-photo.jpg або https://..."
-            />
-
-            <div>
-              <label className="block text-xs font-semibold text-sacred-goldLight uppercase mb-1 flex items-center gap-1.5">
-                <Tag className="w-3.5 h-3.5 text-sacred-gold" />
-                <span>Теги (через кому)</span>
-              </label>
-              <input
-                type="text"
-                value={formTags}
-                onChange={(e) => setFormTags(e.target.value)}
-                placeholder="Психологія, Стосунки, Духовність, Карми..."
-                className="w-full bg-white/5 border border-white/20 focus:border-sacred-gold rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-semibold text-sacred-goldLight uppercase mb-1">
-                Короткий опис (анонс для картки)
-              </label>
-              <textarea
-                rows={2}
-                value={formExcerpt}
-                onChange={(e) => setFormExcerpt(e.target.value)}
-                placeholder="Короткий зміст у 2-3 реченнях..."
-                className="w-full bg-white/5 border border-white/20 focus:border-sacred-gold rounded-xl px-4 py-2 text-sm text-white focus:outline-none"
-              />
-            </div>
-
-            {/* VISUAL WYSIWYG RICH TEXT EDITOR */}
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <label className="block text-xs font-semibold text-sacred-goldLight uppercase">
-                  Текст публікації (візуальний редактор) *
-                </label>
-                <div className="text-[11px] text-white/50">
-                  Звичайний текст • Виділіть потрібні слова для додавання посилання
+            {/* БЛОК 1: ГОЛОВНЕ ФОТО / ОБКЛАДИНКА СТАТТІ */}
+            <div className="bg-white/5 border border-sacred-gold/30 rounded-2xl p-4 sm:p-5 space-y-3">
+              <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-6 rounded-full bg-sacred-gold text-[#1a1836] font-bold text-xs flex items-center justify-center">1</span>
+                  <span className="text-xs font-bold text-white uppercase tracking-wider">Головне фото / Обкладинка статті (Окремий блок)</span>
                 </div>
+                <span className="text-[11px] text-sacred-goldLight font-medium">Титульне фото</span>
               </div>
+              <p className="text-xs text-white/60">
+                Це головна обкладинка публікації. Вона виводиться у шапці статті на сайті та на картці у списку новин чи блогу.
+              </p>
+              <ImageInputWithPreview
+                label=""
+                value={formCoverImage}
+                onChange={setFormCoverImage}
+                placeholder="/images/posts/your-photo.jpg або https://..."
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-semibold text-sacred-goldLight uppercase mb-1 flex items-center gap-1.5">
+                  <Tag className="w-3.5 h-3.5 text-sacred-gold" />
+                  <span>Теги (через кому)</span>
+                </label>
+                <input
+                  type="text"
+                  value={formTags}
+                  onChange={(e) => setFormTags(e.target.value)}
+                  placeholder="Психологія, Стосунки, Духовність..."
+                  className="w-full bg-white/5 border border-white/20 focus:border-sacred-gold rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-sacred-goldLight uppercase mb-1">
+                  Короткий опис (анонс для картки)
+                </label>
+                <input
+                  type="text"
+                  value={formExcerpt}
+                  onChange={(e) => setFormExcerpt(e.target.value)}
+                  placeholder="Короткий зміст у 1-2 реченнях..."
+                  className="w-full bg-white/5 border border-white/20 focus:border-sacred-gold rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none"
+                />
+              </div>
+            </div>
+
+            {/* БЛОК 2: ОСНОВНИЙ ТЕКСТ СТАТТІ */}
+            <div className="bg-white/5 border border-white/15 rounded-2xl p-4 sm:p-5 space-y-3">
+              <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-6 rounded-full bg-[#3833BA] text-white font-bold text-xs flex items-center justify-center">2</span>
+                  <span className="text-xs font-bold text-white uppercase tracking-wider">Основний текст публікації</span>
+                </div>
+                <span className="text-[11px] text-emerald-400 font-medium">Чіткі білі літери</span>
+              </div>
+              <p className="text-xs text-white/60">
+                Пишіть або вставляйте текст. Виділіть слово, щоб зробити його посиланням (кнопка <b>«🔗 Зробити посиланням»</b>). Щоб вставити додаткове фото в текст окремим красивим блоком — натисніть <b>«🖼️ Фото в текст»</b>.
+              </p>
 
               <RichTextVisualEditor
                 value={formContentText}

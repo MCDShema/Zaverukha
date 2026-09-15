@@ -21,7 +21,8 @@ import {
   Check, 
   X,
   ExternalLink,
-  Sparkles
+  Sparkles,
+  Upload
 } from 'lucide-react';
 
 interface RichTextVisualEditorProps {
@@ -36,6 +37,7 @@ export default function RichTextVisualEditor({
   placeholder = 'Введіть або вставте текст публікації сюди. Виділіть потрібні слова та натисніть на іконку «🔗», щоб додати посилання...'
 }: RichTextVisualEditorProps) {
   const editorRef = useRef<HTMLDivElement>(null);
+  const inlineFileInputRef = useRef<HTMLInputElement | null>(null);
   const [activeMode, setActiveMode] = useState<'visual' | 'code' | 'preview'>('visual');
   const [rawHtml, setRawHtml] = useState<string>(value || '');
   const [savedRange, setSavedRange] = useState<Range | null>(null);
@@ -206,6 +208,24 @@ export default function RichTextVisualEditor({
     setIsImageDialogOpen(true);
   };
 
+  // Handle inline file upload for images
+  const handleInlineFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 3 * 1024 * 1024) {
+      alert('Розмір зображення не повинен перевищувати 3 МБ. Будь ласка, оберіть менший файл.');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const dataUrl = event.target?.result as string;
+      if (dataUrl) {
+        setImageUrl(dataUrl);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
   // Apply Image
   const applyImage = (e: React.FormEvent) => {
     e.preventDefault();
@@ -216,10 +236,10 @@ export default function RichTextVisualEditor({
 
     const cleanUrl = imageUrl.trim();
     const captionHtml = imageCaption.trim() 
-      ? `<figcaption class="text-center text-xs text-slate-500 mt-2">${imageCaption.trim()}</figcaption>` 
+      ? `<figcaption class="text-center text-xs text-white/60 mt-2">${imageCaption.trim()}</figcaption>` 
       : '';
     
-    const imageBlock = `<figure class="wp-block-image my-6"><img src="${cleanUrl}" alt="${imageCaption.trim()}" class="rounded-2xl max-w-full mx-auto shadow-sm" />${captionHtml}</figure><p><br></p>`;
+    const imageBlock = `<figure class="wp-block-image my-6 p-3 rounded-2xl bg-white/5 border border-white/10 text-center"><img src="${cleanUrl}" alt="${imageCaption.trim()}" class="rounded-xl max-w-full mx-auto shadow-md" />${captionHtml}</figure><p><br></p>`;
 
     document.execCommand('insertHTML', false, imageBlock);
     handleVisualInput();
@@ -369,15 +389,16 @@ export default function RichTextVisualEditor({
             <ListOrdered className="w-4 h-4" />
           </button>
 
-          {/* IMAGE */}
+          {/* IMAGE BLOCK BUTTON */}
           <button
             type="button"
             onMouseDown={(e) => e.preventDefault()}
             onClick={openImageDialog}
-            className="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-white/90 text-xs transition"
-            title="Вставити зображення в статтю"
+            className="px-2.5 py-1.5 rounded-lg bg-sacred-gold/20 hover:bg-sacred-gold/30 text-sacred-goldLight text-xs font-semibold transition flex items-center gap-1.5 border border-sacred-gold/30 ml-1"
+            title="Вставити фотографію окремим блоком всередину тексту"
           >
-            <ImageIcon className="w-4 h-4" />
+            <ImageIcon className="w-3.5 h-3.5 text-sacred-gold" />
+            <span>🖼️ Фото в текст</span>
           </button>
 
           {/* REMOVE FORMATTING */}
@@ -456,21 +477,24 @@ export default function RichTextVisualEditor({
           suppressContentEditableWarning
           onInput={handleVisualInput}
           onPaste={handlePaste}
-          className="w-full min-h-[350px] max-h-[650px] overflow-y-auto bg-white text-[#28303D] px-6 sm:px-10 py-6 focus:outline-none selection:bg-[#3833BA]/15 selection:text-[#1e1b4b]
-            prose prose-slate max-w-none font-sans leading-relaxed
-            [&_p]:mb-4 [&_p]:text-[16px] [&_p]:leading-[1.8] [&_p]:font-normal
-            [&_strong]:font-bold [&_strong]:text-[#1e1b4b]
-            [&_em]:italic [&_em]:text-slate-800
+          className="w-full min-h-[360px] max-h-[650px] overflow-y-auto bg-[#121026] text-white px-6 sm:px-10 py-6 focus:outline-none selection:bg-[#3833BA]/40 selection:text-white
+            prose prose-invert max-w-none font-sans leading-relaxed
+            [&_*]:!text-white
+            [&_p]:mb-4 [&_p]:!text-white/95 [&_p]:text-[16px] [&_p]:leading-[1.8] [&_p]:font-normal
+            [&_strong]:!text-white [&_strong]:font-bold
+            [&_em]:!text-white/90 [&_em]:italic
             [&_u]:underline [&_u]:underline-offset-2
-            [&_a]:text-[#3833BA] [&_a]:underline [&_a]:underline-offset-4 [&_a]:font-semibold [&_a]:decoration-[#3833BA] hover:[&_a]:text-[#221e75]
-            [&_h2]:text-2xl [&_h2]:font-serif [&_h2]:font-bold [&_h2]:text-[#2b2670] [&_h2]:mt-6 [&_h2]:mb-3
-            [&_h3]:text-xl [&_h3]:font-serif [&_h3]:font-bold [&_h3]:text-[#2b2670] [&_h3]:mt-5 [&_h3]:mb-2
-            [&_blockquote]:border-l-4 [&_blockquote]:border-[#3833ba] [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-slate-700 [&_blockquote]:my-4 [&_blockquote]:bg-slate-50 [&_blockquote]:py-2 [&_blockquote]:rounded-r-lg
-            [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-1 [&_ul]:mb-4
-            [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:space-y-1 [&_ol]:mb-4
-            [&_figure]:my-4 [&_figure]:mx-auto [&_figure]:text-center
-            [&_img]:rounded-xl [&_img]:shadow-sm [&_img]:mx-auto [&_img]:max-w-full
-            empty:before:content-[attr(data-placeholder)] empty:before:text-slate-400 empty:before:pointer-events-none"
+            [&_a]:!text-[#A5B4FC] [&_a]:underline [&_a]:underline-offset-4 [&_a]:font-semibold [&_a]:decoration-[#A5B4FC] hover:[&_a]:!text-[#C7D2FE]
+            [&_h2]:!text-sacred-goldLight [&_h2]:text-2xl [&_h2]:font-serif [&_h2]:font-bold [&_h2]:mt-6 [&_h2]:mb-3
+            [&_h3]:!text-sacred-gold [&_h3]:text-xl [&_h3]:font-serif [&_h3]:font-bold [&_h3]:mt-5 [&_h3]:mb-2
+            [&_blockquote]:border-l-4 [&_blockquote]:border-sacred-gold [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:!text-white/90 [&_blockquote]:my-4 [&_blockquote]:bg-white/5 [&_blockquote]:py-2.5 [&_blockquote]:rounded-r-xl
+            [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-1 [&_ul]:mb-4 [&_ul]:!text-white/90
+            [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:space-y-1 [&_ol]:mb-4 [&_ol]:!text-white/90
+            [&_li]:!text-white/90
+            [&_figure]:my-6 [&_figure]:mx-auto [&_figure]:text-center [&_figure]:p-3 [&_figure]:rounded-2xl [&_figure]:bg-white/5 [&_figure]:border [&_figure]:border-white/10
+            [&_figcaption]:!text-white/60 [&_figcaption]:text-xs [&_figcaption]:mt-2
+            [&_img]:rounded-xl [&_img]:shadow-md [&_img]:mx-auto [&_img]:max-w-full
+            empty:before:content-[attr(data-placeholder)] empty:before:!text-white/40 empty:before:pointer-events-none"
           data-placeholder={placeholder}
         />
       </div>
@@ -478,15 +502,15 @@ export default function RichTextVisualEditor({
       {/* 2. RAW HTML CODE EDITOR */}
       {activeMode === 'code' && (
         <div className="p-4 bg-[#0F0E20]">
-          <div className="text-xs text-white/50 mb-2 flex items-center justify-between">
-            <span>Режим прямого редагування вихідного HTML коду:</span>
-            <span>Підтримуються теги &lt;p&gt;, &lt;a&gt;, &lt;strong&gt;, &lt;figure&gt; тощо</span>
+          <div className="text-xs text-white/70 mb-2 flex items-center justify-between">
+            <span className="font-semibold text-white">Режим прямого редагування HTML коду:</span>
+            <span className="text-white/50">Підтримуються теги &lt;p&gt;, &lt;a&gt;, &lt;strong&gt;, &lt;figure&gt; тощо</span>
           </div>
           <textarea
             value={rawHtml}
             onChange={handleCodeChange}
             rows={15}
-            className="w-full bg-black/40 border border-white/10 rounded-xl p-4 text-xs font-mono text-emerald-300 focus:outline-none focus:border-sacred-gold leading-relaxed"
+            className="w-full bg-[#080714] border border-white/20 rounded-xl p-4 text-xs font-mono !text-white focus:outline-none focus:border-sacred-gold leading-relaxed"
           />
         </div>
       )}
@@ -647,15 +671,15 @@ export default function RichTextVisualEditor({
       {/* IMAGE INSERTION MODAL DIALOG */}
       {isImageDialogOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fadeIn">
-          <div className="bg-[#1C1A3A] border border-white/20 rounded-2xl w-full max-w-md p-6 shadow-2xl text-white">
+          <div className="bg-[#1C1A3A] border border-white/20 rounded-2xl w-full max-w-lg p-6 shadow-2xl text-white">
             <div className="flex items-center justify-between pb-3 border-b border-white/10 mb-4">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-full bg-[#3833BA] flex items-center justify-center">
                   <ImageIcon className="w-4 h-4 text-white" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-white">Вставити зображення в текст</h3>
-                  <p className="text-[11px] text-white/60">Фото всередині статті</p>
+                  <h3 className="text-sm font-bold text-white">Додати фото в текст окремим блоком</h3>
+                  <p className="text-[11px] text-white/60">Зображення розміщується окремим красивим блоком всередині статті</p>
                 </div>
               </div>
               <button
@@ -668,10 +692,26 @@ export default function RichTextVisualEditor({
             </div>
 
             <form onSubmit={applyImage} className="space-y-4">
+              {/* UPLOAD FROM COMPUTER OR URL */}
               <div>
-                <label className="block text-xs font-semibold text-sacred-goldLight uppercase mb-1">
-                  Адреса фотографії (URL) *
+                <label className="block text-xs font-semibold text-sacred-goldLight uppercase mb-1.5 flex items-center justify-between">
+                  <span>Адреса фотографії (URL) *</span>
+                  <button
+                    type="button"
+                    onClick={() => inlineFileInputRef.current?.click()}
+                    className="text-sacred-gold hover:text-sacred-goldLight text-[11px] flex items-center gap-1 font-normal lowercase tracking-normal"
+                  >
+                    <Upload className="w-3 h-3" />
+                    <span>завантажити файл з компʼютера</span>
+                  </button>
                 </label>
+                <input
+                  type="file"
+                  ref={inlineFileInputRef}
+                  accept="image/*"
+                  onChange={handleInlineFileUpload}
+                  className="hidden"
+                />
                 <input
                   type="text"
                   autoFocus
@@ -683,6 +723,36 @@ export default function RichTextVisualEditor({
                 />
               </div>
 
+              {/* QUICK IMAGE PRESETS */}
+              <div>
+                <span className="block text-[11px] text-white/50 mb-1.5">Швидкий вибір із фотогалереї сайту:</span>
+                <div className="grid grid-cols-3 gap-2">
+                  {[
+                    { label: 'Інтервʼю Viva', url: '/images/posts/viva-interview.jpg' },
+                    { label: 'Премʼєра', url: '/images/posts/media-premiere.jpg' },
+                    { label: 'Посадка лісу', url: '/images/posts/forest-planting.jpg' },
+                    { label: 'Творчість', url: '/images/posts/creativity-presentation.jpg' },
+                    { label: 'Ірина Заверуха', url: '/images/hero-irina.jpg' },
+                    { label: 'Сатсанг', url: '/images/satsang-banner.jpg' },
+                  ].map((preset) => (
+                    <button
+                      key={preset.url}
+                      type="button"
+                      onClick={() => setImageUrl(preset.url)}
+                      className={`p-1.5 rounded-xl border text-left flex items-center gap-2 transition ${
+                        imageUrl === preset.url
+                          ? 'bg-[#3833BA]/30 border-[#3833BA] text-white'
+                          : 'bg-white/5 border-white/10 hover:bg-white/10 text-white/70'
+                      }`}
+                    >
+                      <img src={preset.url} alt="" className="w-8 h-8 rounded-lg object-cover shrink-0" />
+                      <span className="text-[11px] font-medium truncate">{preset.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* IMAGE CAPTION */}
               <div>
                 <label className="block text-xs font-semibold text-sacred-goldLight uppercase mb-1">
                   Підпис під фото (необовʼязково)
@@ -709,7 +779,7 @@ export default function RichTextVisualEditor({
                   className="px-5 py-2 rounded-xl bg-[#3833BA] hover:bg-[#4E48D6] text-xs font-bold text-white shadow-md transition flex items-center gap-1.5"
                 >
                   <Check className="w-3.5 h-3.5" />
-                  <span>Вставити фото</span>
+                  <span>Вставити окремим блоком</span>
                 </button>
               </div>
             </form>
