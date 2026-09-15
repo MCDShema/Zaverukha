@@ -135,7 +135,19 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
     try {
       const savedContent = localStorage.getItem(CONTENT_STORAGE_KEY);
       if (savedContent) {
-        setContent(JSON.parse(savedContent));
+        const parsed = JSON.parse(savedContent);
+        if (Array.isArray(parsed.articles)) {
+          parsed.articles = parsed.articles.map((art: Article) => {
+            const def = DEFAULT_ARTICLES.find(
+              (d) => d.slug === art.slug || (art.id && d.id === art.id) || (d.raw_slug && d.raw_slug === art.slug)
+            );
+            if (def && (!art.contentHtml || art.contentHtml.length < 50)) {
+              return { ...art, contentHtml: def.contentHtml };
+            }
+            return art;
+          });
+        }
+        setContent(parsed);
       }
 
       const savedLeads = localStorage.getItem(LEADS_STORAGE_KEY);

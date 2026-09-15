@@ -11,12 +11,14 @@ export interface DbArticleRow {
   title: string;
   excerpt: string;
   content: string;
+  content_html?: string;
   category: string;
   author: string;
   date: string;
   read_time: string;
   cover_image: string;
   tags: string;
+  aliases?: string;
   published: number;
   created_at: string;
   updated_at: string;
@@ -43,9 +45,21 @@ function rowToArticle(row: DbArticleRow) {
     parsedTags = [];
   }
 
+  let parsedAliases: string[] = [];
+  try {
+    parsedAliases = JSON.parse(row.aliases || '[]');
+    if (!Array.isArray(parsedAliases)) {
+      parsedAliases = [];
+    }
+  } catch {
+    parsedAliases = [];
+  }
+
   const cover = row.cover_image || '/images/posts/viva-interview.jpg';
+  const htmlContent = row.content_html || (parsedContent.length > 0 ? parsedContent.map((p) => `<p>${p}</p>`).join('\n') : '');
 
   return {
+    id: row.id,
     slug: row.slug,
     title: row.title,
     excerpt: row.excerpt,
@@ -55,8 +69,10 @@ function rowToArticle(row: DbArticleRow) {
     image: cover,
     cover_image: cover,
     tags: parsedTags,
+    aliases: parsedAliases,
     author: row.author || 'Ірина Заверуха',
     content: parsedContent,
+    contentHtml: htmlContent,
     published: Boolean(row.published),
     created_at: row.created_at,
   };
@@ -76,7 +92,16 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     const slug = url.searchParams.get('slug');
 
     if (slug) {
-      const row = await db.prepare('SELECT * FROM articles WHERE slug = ?').bind(slug).first<DbArticleRow>();
+      let decoded = slug;
+      try {
+        decoded = decodeURIComponent(slug);
+      } catch {}
+
+      const row = await db
+        .prepare('SELECT * FROM articles WHERE slug = ? OR slug = ? OR aliases LIKE ? LIMIT 1')
+        .bind(slug, decoded, `%"${slug}"%`)
+        .first<DbArticleRow>();
+
       if (!row) {
         return new Response(JSON.stringify({ success: false, error: 'Article not found' }), {
           status: 404,
@@ -112,7 +137,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
       });
     }
 
-    const article = await context.request.json() as any;
+    const article = (await context.request.json()) as any;
     if (!article.slug || !article.title) {
       return new Response(JSON.stringify({ success: false, error: 'Title and slug are required' }), {
         status: 400,
@@ -122,39 +147,51 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
 
     const id = article.id || `art_${Date.now()}`;
     const contentStr = Array.isArray(article.content) ? JSON.stringify(article.content) : JSON.stringify([article.content || '']);
+    const contentHtml = article.contentHtml || (Array.isArray(article.content) ? article.content.map((p: string) => `<p>${p}</p>`).join('\n') : `<p>${article.content || ''}</p>`);
     const tagsStr = JSON.stringify(article.tags || []);
+    const aliasesStr = JSON.stringify(article.aliases || []);
     const published = article.published !== false ? 1 : 0;
+    const coverImage = article.cover_image || article.image || '/images/posts/viva-interview.jpg';
 
-    await db.prepare(`
+    await db
+      .prepare(
+        `
       INSERT INTO articles (
-        id, slug, title, excerpt, content, category, author, date, read_time, cover_image, tags, published, created_at, updated_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+        id, slug, title, excerpt, content, content_html, category, author, date, read_time, cover_image, tags, aliases, published, created_at, updated_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
       ON CONFLICT(slug) DO UPDATE SET
         title = excluded.title,
         excerpt = excluded.excerpt,
         content = excluded.content,
+        content_html = excluded.content_html,
         category = excluded.category,
         author = excluded.author,
         date = excluded.date,
         read_time = excluded.read_time,
         cover_image = excluded.cover_image,
         tags = excluded.tags,
+        aliases = excluded.aliases,
         published = excluded.published,
         updated_at = CURRENT_TIMESTAMP
-    `).bind(
-      id,
-      article.slug,
-      article.title,
-      article.excerpt || '',
-      contentStr,
-      article.category || 'Блог',
-      article.author || 'Ірина Заверуха',
-      article.date || new Date().toLocaleDateString('uk-UA'),
-      article.readTime || '5 хв',
-      article.cover_image || article.image || '/images/posts/viva-interview.jpg',
-      tagsStr,
-      published
-    ).run();
+    `
+      )
+      .bind(
+        id,
+        article.slug,
+        article.title,
+        article.excerpt || '',
+        contentStr,
+        contentHtml,
+        article.category || 'Блог',
+        article.author || 'Ірина Заверуха',
+        article.date || new Date().toLocaleDateString('uk-UA'),
+        article.readTime || '5 хв',
+        coverImage,
+        tagsStr,
+        aliasesStr,
+        published
+      )
+      .run();
 
     return new Response(JSON.stringify({ success: true, slug: article.slug }), {
       headers: { 'Content-Type': 'application/json' },
@@ -186,7 +223,7 @@ export const onRequestDelete: PagesFunction<Env> = async (context) => {
 
     if (!slug) {
       try {
-        const body = await context.request.json() as { slug?: string };
+        const body = (await context.request.json()) as { slug?: string };
         slug = body.slug || null;
       } catch {
         // ignore

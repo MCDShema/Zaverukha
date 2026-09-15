@@ -30,16 +30,22 @@ export default function ArticleDetailView({ initialArticle, slug: propSlug }: Ar
 
   const targetSlug = initialArticle?.slug || propSlug || '';
 
-  // Look in ContentContext first, fallback to initialArticle or fetchedArticle
+  // Look in ContentContext first
+  const contextArticle = content.articles.find(
+    (a) =>
+      a.slug === targetSlug ||
+      a.raw_slug === targetSlug ||
+      a.aliases?.includes(targetSlug) ||
+      a.id === targetSlug
+  );
+
+  // ALWAYS prioritize the version that has full contentHtml with links!
   const article =
-    content.articles.find(
-      (a) =>
-        a.slug === targetSlug ||
-        a.raw_slug === targetSlug ||
-        a.aliases?.includes(targetSlug) ||
-        a.id === targetSlug
-    ) ||
+    (initialArticle?.contentHtml ? initialArticle : null) ||
+    (contextArticle?.contentHtml ? contextArticle : null) ||
+    (fetchedArticle?.contentHtml ? fetchedArticle : null) ||
     initialArticle ||
+    contextArticle ||
     fetchedArticle;
 
   // Fallback client-side fetch from D1 API if not pre-rendered
