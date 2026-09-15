@@ -46,7 +46,7 @@ interface ContentContextType {
 
 const ContentContext = createContext<ContentContextType | undefined>(undefined);
 
-const CONTENT_STORAGE_KEY = 'zaverukha_site_content_v7';
+const CONTENT_STORAGE_KEY = 'zaverukha_site_content_v8';
 const LEADS_STORAGE_KEY = 'zaverukha_leads_v1';
 const AUTH_STORAGE_KEY = 'zaverukha_admin_auth_v1';
 const PASSWORD_STORAGE_KEY = 'zaverukha_admin_password_v1';
@@ -165,7 +165,7 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     try {
       // Purge obsolete cache keys that stored incomplete/dummy articles
-      ['zaverukha_site_content_v1', 'zaverukha_site_content_v2', 'zaverukha_site_content_v3', 'zaverukha_site_content_v4', 'zaverukha_site_content_v5', 'zaverukha_site_content_v6'].forEach((k) => {
+      ['zaverukha_site_content_v1', 'zaverukha_site_content_v2', 'zaverukha_site_content_v3', 'zaverukha_site_content_v4', 'zaverukha_site_content_v5', 'zaverukha_site_content_v6', 'zaverukha_site_content_v7'].forEach((k) => {
         try { localStorage.removeItem(k); } catch {}
       });
 
