@@ -14,7 +14,7 @@ import {
   MessageSquareHeart,
   ChevronRight
 } from 'lucide-react';
-import { Article } from '@/data/articles';
+import { Article, ARTICLES, findArticleBySlug } from '@/data/articles';
 import { useContent } from '@/context/ContentContext';
 
 interface ArticleDetailViewProps {
@@ -30,22 +30,17 @@ export default function ArticleDetailView({ initialArticle, slug: propSlug }: Ar
 
   const targetSlug = initialArticle?.slug || propSlug || '';
 
-  // Look in ContentContext first
-  const contextArticle = content.articles.find(
-    (a) =>
-      a.slug === targetSlug ||
-      a.raw_slug === targetSlug ||
-      a.aliases?.includes(targetSlug) ||
-      a.id === targetSlug
-  );
+  // Look up article using robust normalized slug matching
+  const matchedInitial = initialArticle || findArticleBySlug(targetSlug, ARTICLES);
+  const matchedContext = findArticleBySlug(targetSlug, content.articles);
 
   // ALWAYS prioritize the version that has full contentHtml with links!
   const article =
-    (initialArticle?.contentHtml ? initialArticle : null) ||
-    (contextArticle?.contentHtml ? contextArticle : null) ||
+    (matchedInitial?.contentHtml ? matchedInitial : null) ||
+    (matchedContext?.contentHtml ? matchedContext : null) ||
     (fetchedArticle?.contentHtml ? fetchedArticle : null) ||
-    initialArticle ||
-    contextArticle ||
+    matchedInitial ||
+    matchedContext ||
     fetchedArticle;
 
   // Fallback client-side fetch from D1 API if not pre-rendered
