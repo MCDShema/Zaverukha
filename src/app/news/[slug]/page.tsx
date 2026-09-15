@@ -1,12 +1,10 @@
 import React from 'react';
-import { notFound } from 'next/navigation';
-import { ARTICLES } from '@/data/articles';
-import NewsDetailView from '@/components/news/NewsDetailView';
+import { ARTICLES, findArticleBySlug, getAllArticleSlugs } from '@/data/articles';
+import ArticleDetailView from '@/components/blog/ArticleDetailView';
 
 export async function generateStaticParams() {
-  return ARTICLES.map((article) => ({
-    slug: article.slug,
-  }));
+  const slugs = getAllArticleSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export default async function NewsArticlePage({
@@ -15,11 +13,7 @@ export default async function NewsArticlePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const article = ARTICLES.find((a) => a.slug === slug);
+  const article = findArticleBySlug(slug);
 
-  if (!article) {
-    notFound();
-  }
-
-  return <NewsDetailView initialArticle={article} />;
+  return <ArticleDetailView initialArticle={article} slug={slug} />;
 }
