@@ -232,28 +232,46 @@
   color: #2E2B75 !important;
 }
 
-.sacred-card .text-white {
+body:not(.admin-layout) .sacred-card:not(.admin-card) .text-white {
   color: #28303D !important;
 }
 
-.sacred-card [class*="text-white/"] {
+body:not(.admin-layout) .sacred-card:not(.admin-card) [class*="text-white/"] {
   color: #4A5568 !important;
 }
 
-.sacred-card .text-sacred-goldLight {
+body:not(.admin-layout) .sacred-card:not(.admin-card) .text-sacred-goldLight {
   color: #B37E11 !important;
 }
 
-.sacred-card .bg-white\/5,
-.sacred-card .bg-white\/10 {
+body:not(.admin-layout) .sacred-card:not(.admin-card) .bg-white\/5,
+body:not(.admin-layout) .sacred-card:not(.admin-card) .bg-white\/10 {
   background-color: #F8F9FD !important;
   border-color: rgba(46, 43, 117, 0.12) !important;
 }
 
-.sacred-card .border-white\/10,
-.sacred-card .border-white\/20 {
+body:not(.admin-layout) .sacred-card:not(.admin-card) .border-white\/10,
+body:not(.admin-layout) .sacred-card:not(.admin-card) .border-white\/20 {
   border-color: rgba(46, 43, 117, 0.12) !important;
 }
+
+/* ADMIN & RICH TEXT VISUAL EDITOR - GUARANTEED BRIGHT WHITE TEXT FOR ALL BUTTONS */
+.admin-layout .rich-text-editor-toolbar,
+.rich-text-editor-toolbar,
+.rich-text-editor-toolbar *,
+.rich-text-toolbar-btn,
+.rich-text-toolbar-btn * {
+  color: #FFFFFF !important;
+}
+
+.rich-text-editor-toolbar button {
+  color: #FFFFFF !important;
+}
+
+.admin-layout .text-white {
+  color: #FFFFFF !important;
+}
+
 
 
 

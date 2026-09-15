@@ -269,7 +269,7 @@ export default function RichTextVisualEditor({
   return (
     <div className="rounded-2xl border border-white/25 bg-[#16142E] overflow-hidden shadow-xl transition-all">
       {/* TOOLBAR */}
-      <div className="bg-[#1C1848] border-b border-white/25 px-3 py-2.5 flex flex-wrap items-center justify-between gap-2 select-none">
+      <div className="rich-text-editor-toolbar bg-[#1C1848] border-b border-white/25 px-3 py-2.5 flex flex-wrap items-center justify-between gap-2 select-none">
         
         {/* FORMATTING ICONS */}
         <div className="flex flex-wrap items-center gap-1.5">
@@ -278,11 +278,12 @@ export default function RichTextVisualEditor({
             type="button"
             onMouseDown={(e) => e.preventDefault()}
             onClick={openLinkDialog}
-            className="px-3.5 py-1.5 rounded-lg bg-[#3833BA] hover:bg-[#4E48D6] active:scale-95 text-white text-xs font-bold flex items-center gap-1.5 transition shadow-sm border border-indigo-400/50"
+            style={{ color: '#ffffff' }}
+            className="px-3.5 py-1.5 rounded-lg bg-[#3833BA] hover:bg-[#4E48D6] active:scale-95 !text-white text-xs font-bold flex items-center gap-1.5 transition shadow-sm border border-indigo-400/50 cursor-pointer"
             title="Виділіть слово або речення та натисніть, щоб зробити посиланням"
           >
-            <Link2 className="w-4 h-4 text-yellow-300" />
-            <span className="text-white font-bold">🔗 Зробити посиланням</span>
+            <Link2 className="w-4 h-4 text-yellow-300 shrink-0" />
+            <span className="!text-white font-bold" style={{ color: '#ffffff' }}>🔗 Зробити посиланням</span>
           </button>
 
           {/* IMAGE BUTTON */}
@@ -290,11 +291,12 @@ export default function RichTextVisualEditor({
             type="button"
             onMouseDown={(e) => e.preventDefault()}
             onClick={openImageDialog}
-            className="px-3 py-1.5 rounded-lg bg-[#D97706] hover:bg-[#F59E0B] active:scale-95 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-sm border border-amber-300/60 ml-0.5"
+            style={{ color: '#ffffff' }}
+            className="px-3 py-1.5 rounded-lg bg-[#D97706] hover:bg-[#F59E0B] active:scale-95 !text-white text-xs font-bold transition flex items-center gap-1.5 shadow-sm border border-amber-300/60 ml-0.5 cursor-pointer"
             title="Вставити фотографію окремим красивим блоком всередину тексту"
           >
-            <ImageIcon className="w-4 h-4 text-white" />
-            <span className="text-white font-bold">🖼️ Фото в текст</span>
+            <ImageIcon className="w-4 h-4 text-white shrink-0" />
+            <span className="!text-white font-bold" style={{ color: '#ffffff' }}>🖼️ Фото в текст</span>
           </button>
 
           <div className="w-[1px] h-5 bg-white/30 mx-1 hidden sm:block" />
@@ -304,7 +306,8 @@ export default function RichTextVisualEditor({
             type="button"
             onMouseDown={(e) => e.preventDefault()}
             onClick={() => execCmd('bold')}
-            className="p-1.5 px-2.5 rounded-lg bg-white/20 hover:bg-white/35 text-white text-xs font-extrabold border border-white/30 transition shadow-sm"
+            style={{ color: '#ffffff' }}
+            className="p-1.5 px-2.5 rounded-lg bg-white/20 hover:bg-white/35 !text-white text-xs font-extrabold border border-white/30 transition shadow-sm cursor-pointer"
             title="Жирний (Ctrl+B)"
           >
             <Bold className="w-4 h-4 text-white stroke-[2.5]" />
@@ -315,7 +318,8 @@ export default function RichTextVisualEditor({
             type="button"
             onMouseDown={(e) => e.preventDefault()}
             onClick={() => execCmd('italic')}
-            className="p-1.5 px-2.5 rounded-lg bg-white/20 hover:bg-white/35 text-white text-xs italic border border-white/30 transition shadow-sm"
+            style={{ color: '#ffffff' }}
+            className="p-1.5 px-2.5 rounded-lg bg-white/20 hover:bg-white/35 !text-white text-xs italic border border-white/30 transition shadow-sm cursor-pointer"
             title="Курсив (Ctrl+I)"
           >
             <Italic className="w-4 h-4 text-white stroke-[2.5]" />
@@ -326,7 +330,8 @@ export default function RichTextVisualEditor({
             type="button"
             onMouseDown={(e) => e.preventDefault()}
             onClick={() => execCmd('underline')}
-            className="p-1.5 px-2.5 rounded-lg bg-white/20 hover:bg-white/35 text-white text-xs border border-white/30 transition shadow-sm"
+            style={{ color: '#ffffff' }}
+            className="p-1.5 px-2.5 rounded-lg bg-white/20 hover:bg-white/35 !text-white text-xs border border-white/30 transition shadow-sm cursor-pointer"
             title="Підкреслений (Ctrl+U)"
           >
             <Underline className="w-4 h-4 text-white stroke-[2.5]" />
@@ -339,20 +344,22 @@ export default function RichTextVisualEditor({
             type="button"
             onMouseDown={(e) => e.preventDefault()}
             onClick={() => formatBlock('<h2>')}
-            className="px-2.5 py-1.5 rounded-lg bg-white/20 hover:bg-white/35 text-white text-xs font-serif font-bold border border-white/30 transition shadow-sm"
+            style={{ color: '#ffffff' }}
+            className="px-2.5 py-1.5 rounded-lg bg-white/20 hover:bg-white/35 !text-white text-xs font-serif font-bold border border-white/30 transition shadow-sm cursor-pointer"
             title="Заголовок H2"
           >
-            <span className="text-white font-bold">H2</span>
+            <span className="!text-white font-bold" style={{ color: '#ffffff' }}>H2</span>
           </button>
 
           <button
             type="button"
             onMouseDown={(e) => e.preventDefault()}
             onClick={() => formatBlock('<h3>')}
-            className="px-2.5 py-1.5 rounded-lg bg-white/20 hover:bg-white/35 text-white text-xs font-serif font-bold border border-white/30 transition shadow-sm"
+            style={{ color: '#ffffff' }}
+            className="px-2.5 py-1.5 rounded-lg bg-white/20 hover:bg-white/35 !text-white text-xs font-serif font-bold border border-white/30 transition shadow-sm cursor-pointer"
             title="Підзаголовок H3"
           >
-            <span className="text-white font-bold">H3</span>
+            <span className="!text-white font-bold" style={{ color: '#ffffff' }}>H3</span>
           </button>
 
           {/* PARAGRAPH / NORMAL */}
@@ -360,10 +367,11 @@ export default function RichTextVisualEditor({
             type="button"
             onMouseDown={(e) => e.preventDefault()}
             onClick={() => formatBlock('<p>')}
-            className="px-2.5 py-1.5 rounded-lg bg-white/20 hover:bg-white/35 text-white text-xs font-bold border border-white/30 transition shadow-sm"
+            style={{ color: '#ffffff' }}
+            className="px-2.5 py-1.5 rounded-lg bg-white/20 hover:bg-white/35 !text-white text-xs font-bold border border-white/30 transition shadow-sm cursor-pointer"
             title="Звичайний абзац"
           >
-            <span className="text-white font-bold">Текст</span>
+            <span className="!text-white font-bold" style={{ color: '#ffffff' }}>Текст</span>
           </button>
 
           <div className="w-[1px] h-5 bg-white/30 mx-1" />
@@ -373,7 +381,8 @@ export default function RichTextVisualEditor({
             type="button"
             onMouseDown={(e) => e.preventDefault()}
             onClick={() => formatBlock('<blockquote>')}
-            className="p-1.5 px-2 rounded-lg bg-white/20 hover:bg-white/35 text-white text-xs border border-white/30 transition shadow-sm"
+            style={{ color: '#ffffff' }}
+            className="p-1.5 px-2 rounded-lg bg-white/20 hover:bg-white/35 !text-white text-xs border border-white/30 transition shadow-sm cursor-pointer"
             title="Цитата"
           >
             <Quote className="w-4 h-4 text-white stroke-[2.5]" />
@@ -384,7 +393,8 @@ export default function RichTextVisualEditor({
             type="button"
             onMouseDown={(e) => e.preventDefault()}
             onClick={() => execCmd('insertUnorderedList')}
-            className="p-1.5 px-2 rounded-lg bg-white/20 hover:bg-white/35 text-white text-xs border border-white/30 transition shadow-sm"
+            style={{ color: '#ffffff' }}
+            className="p-1.5 px-2 rounded-lg bg-white/20 hover:bg-white/35 !text-white text-xs border border-white/30 transition shadow-sm cursor-pointer"
             title="Список з маркерами"
           >
             <List className="w-4 h-4 text-white stroke-[2.5]" />
@@ -395,7 +405,8 @@ export default function RichTextVisualEditor({
             type="button"
             onMouseDown={(e) => e.preventDefault()}
             onClick={() => execCmd('insertOrderedList')}
-            className="p-1.5 px-2 rounded-lg bg-white/20 hover:bg-white/35 text-white text-xs border border-white/30 transition shadow-sm"
+            style={{ color: '#ffffff' }}
+            className="p-1.5 px-2 rounded-lg bg-white/20 hover:bg-white/35 !text-white text-xs border border-white/30 transition shadow-sm cursor-pointer"
             title="Нумерований список"
           >
             <ListOrdered className="w-4 h-4 text-white stroke-[2.5]" />
@@ -406,7 +417,8 @@ export default function RichTextVisualEditor({
             type="button"
             onMouseDown={(e) => e.preventDefault()}
             onClick={() => execCmd('removeFormat')}
-            className="p-1.5 px-2 rounded-lg bg-white/15 hover:bg-white/25 text-white text-xs transition ml-1 border border-white/25 shadow-sm"
+            style={{ color: '#ffffff' }}
+            className="p-1.5 px-2 rounded-lg bg-white/15 hover:bg-white/25 !text-white text-xs transition ml-1 border border-white/25 shadow-sm cursor-pointer"
             title="Очистити форматування виділеного тексту"
           >
             <RemoveFormatting className="w-4 h-4 text-white" />
@@ -422,11 +434,12 @@ export default function RichTextVisualEditor({
             className={`px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 ${
               activeMode === 'visual'
                 ? 'bg-white text-[#14122E] shadow-md'
-                : 'text-white hover:text-white/80'
+                : '!text-white hover:text-white/80'
             }`}
+            style={activeMode !== 'visual' ? { color: '#ffffff' } : {}}
           >
             <Sparkles className="w-3.5 h-3.5 text-[#3833BA]" />
-            <span>Візуальний редактор</span>
+            <span style={activeMode === 'visual' ? { color: '#14122E' } : { color: '#ffffff' }}>Візуальний редактор</span>
           </button>
 
           <button
@@ -435,12 +448,13 @@ export default function RichTextVisualEditor({
             className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
               activeMode === 'code'
                 ? 'bg-white text-[#14122E] shadow-md'
-                : 'text-white hover:text-white/80'
+                : '!text-white hover:text-white/80'
             }`}
+            style={activeMode !== 'code' ? { color: '#ffffff' } : {}}
             title="Переглянути та редагувати HTML код напряму (для технічних правок)"
           >
             <Code className="w-3.5 h-3.5" />
-            <span>HTML</span>
+            <span style={activeMode === 'code' ? { color: '#14122E' } : { color: '#ffffff' }}>HTML</span>
           </button>
 
           <button
@@ -449,12 +463,13 @@ export default function RichTextVisualEditor({
             className={`px-2.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 ${
               activeMode === 'preview'
                 ? 'bg-[#C99A2C] text-[#14122E] shadow-md'
-                : 'text-white hover:text-white/80'
+                : '!text-white hover:text-white/80'
             }`}
+            style={activeMode !== 'preview' ? { color: '#ffffff' } : {}}
             title="Попередній перегляд статті так, як її побачить читач на сайті"
           >
             <Eye className="w-3.5 h-3.5" />
-            <span>Перегляд</span>
+            <span style={activeMode === 'preview' ? { color: '#14122E' } : { color: '#ffffff' }}>Перегляд</span>
           </button>
         </div>
       </div>

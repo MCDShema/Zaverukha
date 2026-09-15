@@ -234,7 +234,7 @@ export default function AdminArticlesPage() {
 
       {/* CREATE / EDIT FORM */}
       {(isCreating || editingArticle) && (
-        <div className="sacred-card rounded-2xl p-6 border border-sacred-gold/40 shadow-xl space-y-6">
+        <div className="bg-[#14122C] rounded-2xl p-6 border border-sacred-gold/40 shadow-xl space-y-6">
           <div className="flex items-center justify-between border-b border-white/10 pb-4">
             <h2 className="text-lg font-serif text-white font-bold flex items-center gap-2">
               <Edit3 className="w-5 h-5 text-sacred-gold" />
@@ -431,7 +431,7 @@ export default function AdminArticlesPage() {
       </div>
 
       {/* ARTICLES TABLE / LIST */}
-      <div className="sacred-card rounded-2xl border border-white/10 overflow-hidden">
+      <div className="bg-[#14122C] rounded-2xl border border-white/10 overflow-hidden shadow-xl">
         <div className="p-4 bg-white/5 border-b border-white/10 text-xs font-semibold text-sacred-goldLight uppercase tracking-wider flex items-center justify-between">
           <span>{activeTab === 'news' ? 'Новини' : 'Блог'} ({filtered.length})</span>
         </div>
