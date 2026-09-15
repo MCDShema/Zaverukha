@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { LogoZaverukha, LogoImaria } from '@/components/ui/Logo';
@@ -17,22 +17,29 @@ import {
   CalendarCheck,
   PhoneCall,
   Search,
-  Globe
+  Globe,
+  Newspaper,
+  PenLine
 } from 'lucide-react';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [educationOpen, setEducationOpen] = useState(false);
+  const [infoOpen, setInfoOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [scrolled, setScrolled] = useState(false);
+  const [mobileEducationOpen, setMobileEducationOpen] = useState(false);
+  const [mobileInfoOpen, setMobileInfoOpen] = useState(false);
   const pathname = usePathname();
 
+  // Timers to delay closing dropdowns (prevents gap flicker)
+  const educationTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const infoTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -40,7 +47,8 @@ export default function Header() {
   // Close mobile menu on page navigation
   useEffect(() => {
     setIsOpen(false);
-    setEducationOpen(false);
+    setMobileEducationOpen(false);
+    setMobileInfoOpen(false);
     setLangOpen(false);
     setSearchOpen(false);
   }, [pathname]);
@@ -48,6 +56,26 @@ export default function Header() {
   const isActive = (path: string) => {
     if (path === '/') return pathname === '/';
     return pathname.startsWith(path);
+  };
+
+  // Education dropdown handlers with delay to prevent gap flicker
+  const handleEducationEnter = () => {
+    if (educationTimer.current) clearTimeout(educationTimer.current);
+    setInfoOpen(false);
+    setEducationOpen(true);
+  };
+  const handleEducationLeave = () => {
+    educationTimer.current = setTimeout(() => setEducationOpen(false), 120);
+  };
+
+  // Info dropdown handlers with delay
+  const handleInfoEnter = () => {
+    if (infoTimer.current) clearTimeout(infoTimer.current);
+    setEducationOpen(false);
+    setInfoOpen(true);
+  };
+  const handleInfoLeave = () => {
+    infoTimer.current = setTimeout(() => setInfoOpen(false), 120);
   };
 
   return (
@@ -59,7 +87,7 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between gap-2">
           
-          {/* LOGOS (Exact authentic pair: Zaverukha + IMARIA) */}
+          {/* LOGOS */}
           <div className="flex items-center gap-2 sm:gap-4 shrink-0">
             <LogoZaverukha className="h-7 sm:h-8 md:h-9 w-auto" />
             <div className="hidden sm:block">
@@ -67,22 +95,14 @@ export default function Header() {
             </div>
           </div>
 
-          {/* DESKTOP NAV (From left to right per TZ & Drawing:
-              1. Навчання (з випадаючим: Екосистема PIPL, IMARIA Academia)
-              2. Моя творчість
-              3. Сатсанги.DivineYoga (Про мене)
-              4. Калькулятор («Way of the Soul»)
-              5. Блог
-              6. Контакти і реквізити
-              7. Консультаційний центр
-          ) */}
+          {/* DESKTOP NAV */}
           <nav className="hidden lg:flex items-center justify-center gap-1 xl:gap-2.5 2xl:gap-3.5 mx-auto">
             
-            {/* 1. Навчання (Dropdown: Екосистема PIPL / IMARIA Academia) */}
+            {/* 1. Навчання (Dropdown) */}
             <div 
-              className="relative group shrink-0"
-              onMouseEnter={() => setEducationOpen(true)}
-              onMouseLeave={() => setEducationOpen(false)}
+              className="relative shrink-0"
+              onMouseEnter={handleEducationEnter}
+              onMouseLeave={handleEducationLeave}
             >
               <button 
                 className={`flex items-center gap-1 px-2 xl:px-2.5 py-1.5 text-xs xl:text-sm font-light tracking-wide whitespace-nowrap transition-colors ${
@@ -96,45 +116,45 @@ export default function Header() {
                 <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${educationOpen ? 'rotate-180 text-white' : 'text-white/70'}`} />
               </button>
 
-              {/* Dropdown Menu */}
-              <div 
-                className={`absolute left-0 mt-1 w-64 rounded-xl bg-[#2E2B75] border border-white/20 shadow-2xl p-2 transition-all duration-200 origin-top-left ${
+              {/* Dropdown — note: pt-2 closes the gap between button and panel */}
+              <div className="absolute left-0 top-full pt-2">
+                <div className={`w-64 rounded-xl bg-[#2E2B75] border border-white/20 shadow-2xl p-2 transition-all duration-200 origin-top-left ${
                   educationOpen ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'
-                }`}
-              >
-                <div className="px-3 py-1.5 text-[11px] font-medium text-white/60 tracking-wider uppercase border-b border-white/10 mb-1">
-                  2 напрямки розвитку
-                </div>
-                
-                <Link 
-                  href="/education/pipl" 
-                  className="flex items-start gap-2.5 p-2.5 rounded-lg hover:bg-white/10 text-white/90 hover:text-white transition-colors group/item"
-                >
-                  <Compass className="w-4 h-4 text-white/80 mt-0.5" />
-                  <div>
-                    <div className="font-normal text-sm text-white">Екосистема PIPL</div>
-                    <div className="text-xs text-white/60 font-light">Курси, марафони, клуб для новачків і практиків</div>
+                }`}>
+                  <div className="px-3 py-1.5 text-[11px] font-medium text-white/60 tracking-wider uppercase border-b border-white/10 mb-1">
+                    2 напрямки розвитку
                   </div>
-                </Link>
-
-                <Link 
-                  href="/education/academia" 
-                  className="flex items-start gap-2.5 p-2.5 rounded-lg hover:bg-white/10 text-white/90 hover:text-white transition-colors group/item"
-                >
-                  <GraduationCap className="w-4 h-4 text-white/80 mt-0.5" />
-                  <div>
-                    <div className="font-normal text-sm text-white">IMARIA Academia</div>
-                    <div className="text-xs text-white/60 font-light">Сертифікація провідників, хілерів та менторів</div>
-                  </div>
-                </Link>
-                
-                <div className="mt-1 pt-1 border-t border-white/10">
+                  
                   <Link 
-                    href="/education" 
-                    className="block text-center text-xs text-white/80 hover:text-white hover:underline py-1 font-light"
+                    href="/education/pipl" 
+                    className="flex items-start gap-2.5 p-2.5 rounded-lg hover:bg-white/10 text-white/90 hover:text-white transition-colors"
                   >
-                    Огляд розділу «Навчання» →
+                    <Compass className="w-4 h-4 text-white/80 mt-0.5 shrink-0" />
+                    <div>
+                      <div className="font-normal text-sm text-white">Екосистема PIPL</div>
+                      <div className="text-xs text-white/60 font-light">Курси, марафони, клуб для новачків і практиків</div>
+                    </div>
                   </Link>
+
+                  <Link 
+                    href="/education/academia" 
+                    className="flex items-start gap-2.5 p-2.5 rounded-lg hover:bg-white/10 text-white/90 hover:text-white transition-colors"
+                  >
+                    <GraduationCap className="w-4 h-4 text-white/80 mt-0.5 shrink-0" />
+                    <div>
+                      <div className="font-normal text-sm text-white">IMARIA Academia</div>
+                      <div className="text-xs text-white/60 font-light">Сертифікація провідників, хілерів та менторів</div>
+                    </div>
+                  </Link>
+                  
+                  <div className="mt-1 pt-1 border-t border-white/10">
+                    <Link 
+                      href="/education" 
+                      className="block text-center text-xs text-white/80 hover:text-white hover:underline py-1 font-light"
+                    >
+                      Огляд розділу «Навчання» →
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
@@ -151,7 +171,7 @@ export default function Header() {
               Моя творчість
             </Link>
 
-            {/* 3. Сатсанги.DivineYoga (без бейджа УТП) */}
+            {/* 3. Сатсанги.DivineYoga */}
             <Link 
               href="/satsang-divine-yoga" 
               className={`shrink-0 px-2 xl:px-2.5 py-1.5 text-xs xl:text-sm font-light tracking-wide whitespace-nowrap transition-colors ${
@@ -164,7 +184,7 @@ export default function Header() {
               Сатсанги.DivineYoga
             </Link>
 
-            {/* 4. Калькулятор (однаковий білий тонкий стиль) */}
+            {/* 4. Калькулятор */}
             <Link 
               href="/calculator" 
               className={`shrink-0 px-2 xl:px-2.5 py-1.5 text-xs xl:text-sm font-light tracking-wide whitespace-nowrap transition-colors ${
@@ -177,17 +197,53 @@ export default function Header() {
               Калькулятор
             </Link>
 
-            {/* 5. Блог */}
-            <Link 
-              href="/blog" 
-              className={`shrink-0 px-2 xl:px-2.5 py-1.5 text-xs xl:text-sm font-light tracking-wide whitespace-nowrap transition-colors ${
-                isActive('/blog') 
-                  ? 'text-white font-normal underline underline-offset-4 decoration-white/60' 
-                  : 'text-white/90 hover:text-white'
-              }`}
+            {/* 5. Інфо (Dropdown: Блог + Новини) */}
+            <div
+              className="relative shrink-0"
+              onMouseEnter={handleInfoEnter}
+              onMouseLeave={handleInfoLeave}
             >
-              Блог
-            </Link>
+              <button
+                className={`flex items-center gap-1 px-2 xl:px-2.5 py-1.5 text-xs xl:text-sm font-light tracking-wide whitespace-nowrap transition-colors ${
+                  isActive('/blog') || isActive('/news')
+                    ? 'text-white font-normal underline underline-offset-4 decoration-white/60'
+                    : 'text-white/90 hover:text-white'
+                }`}
+                aria-expanded={infoOpen}
+              >
+                <span>Інфо</span>
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${infoOpen ? 'rotate-180 text-white' : 'text-white/70'}`} />
+              </button>
+
+              {/* Dropdown — pt-2 closes the gap */}
+              <div className="absolute left-0 top-full pt-2">
+                <div className={`w-52 rounded-xl bg-[#2E2B75] border border-white/20 shadow-2xl p-2 transition-all duration-200 origin-top-left ${
+                  infoOpen ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'
+                }`}>
+                  <Link
+                    href="/blog"
+                    className="flex items-center gap-2.5 p-2.5 rounded-lg hover:bg-white/10 text-white/90 hover:text-white transition-colors"
+                  >
+                    <PenLine className="w-4 h-4 text-white/80 shrink-0" />
+                    <div>
+                      <div className="font-normal text-sm text-white">Блог</div>
+                      <div className="text-xs text-white/60 font-light">Статті, роздуми, творчість</div>
+                    </div>
+                  </Link>
+
+                  <Link
+                    href="/news"
+                    className="flex items-center gap-2.5 p-2.5 rounded-lg hover:bg-white/10 text-white/90 hover:text-white transition-colors"
+                  >
+                    <Newspaper className="w-4 h-4 text-white/80 shrink-0" />
+                    <div>
+                      <div className="font-normal text-sm text-white">Новини</div>
+                      <div className="text-xs text-white/60 font-light">Події, анонси, оголошення</div>
+                    </div>
+                  </Link>
+                </div>
+              </div>
+            </div>
 
             {/* 6. Контакти і реквізити */}
             <Link 
@@ -201,7 +257,7 @@ export default function Header() {
               Контакти і реквізити
             </Link>
 
-            {/* 7. Консультаційний центр (однаковий білий тонкий стиль як у всіх) */}
+            {/* 7. Консультаційний центр */}
             <Link 
               href="/consultation-center" 
               className={`shrink-0 px-2 xl:px-2.5 py-1.5 text-xs xl:text-sm font-light tracking-wide whitespace-nowrap transition-colors ${
@@ -306,14 +362,14 @@ export default function Header() {
             {/* 1. Навчання (Mobile Accordion) */}
             <div className="border-b border-white/10 pb-2">
               <button
-                onClick={() => setEducationOpen(!educationOpen)}
+                onClick={() => setMobileEducationOpen(!mobileEducationOpen)}
                 className="w-full flex items-center justify-between px-3 py-2.5 text-base font-light text-white hover:bg-white/5 rounded-lg"
               >
                 <span>Навчання</span>
-                <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${educationOpen ? 'rotate-180 text-white' : 'text-white/60'}`} />
+                <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${mobileEducationOpen ? 'rotate-180 text-white' : 'text-white/60'}`} />
               </button>
 
-              {educationOpen && (
+              {mobileEducationOpen && (
                 <div className="pl-4 pr-2 py-1 space-y-1 bg-white/5 rounded-lg mt-1">
                   <Link
                     href="/education/pipl"
@@ -345,7 +401,7 @@ export default function Header() {
               Моя творчість
             </Link>
 
-            {/* 3. Сатсанги.DivineYoga (без УТП) */}
+            {/* 3. Сатсанги.DivineYoga */}
             <Link
               href="/satsang-divine-yoga"
               className="block px-3 py-2.5 text-base font-light text-white hover:bg-white/5 rounded-lg"
@@ -353,7 +409,7 @@ export default function Header() {
               Сатсанги.DivineYoga
             </Link>
 
-            {/* 4. Калькулятор (однаковий білий тонкий стиль) */}
+            {/* 4. Калькулятор */}
             <Link
               href="/calculator"
               className="block px-3 py-2.5 text-base font-light text-white hover:bg-white/5 rounded-lg"
@@ -361,13 +417,33 @@ export default function Header() {
               Калькулятор
             </Link>
 
-            {/* 5. Блог */}
-            <Link
-              href="/blog"
-              className="block px-3 py-2.5 text-base font-light text-white hover:bg-white/5 rounded-lg"
-            >
-              Блог
-            </Link>
+            {/* 5. Інфо (Mobile Accordion) */}
+            <div className="border-b border-white/10 pb-2">
+              <button
+                onClick={() => setMobileInfoOpen(!mobileInfoOpen)}
+                className="w-full flex items-center justify-between px-3 py-2.5 text-base font-light text-white hover:bg-white/5 rounded-lg"
+              >
+                <span>Інфо</span>
+                <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${mobileInfoOpen ? 'rotate-180 text-white' : 'text-white/60'}`} />
+              </button>
+
+              {mobileInfoOpen && (
+                <div className="pl-4 pr-2 py-1 space-y-1 bg-white/5 rounded-lg mt-1">
+                  <Link
+                    href="/blog"
+                    className="block py-2 px-3 text-sm text-white/90 hover:text-white font-light"
+                  >
+                    Блог (статті та роздуми)
+                  </Link>
+                  <Link
+                    href="/news"
+                    className="block py-2 px-3 text-sm text-white/90 hover:text-white font-light"
+                  >
+                    Новини (події та анонси)
+                  </Link>
+                </div>
+              )}
+            </div>
 
             {/* 6. Контакти і реквізити */}
             <Link
@@ -377,7 +453,7 @@ export default function Header() {
               Контакти і реквізити
             </Link>
 
-            {/* 7. Консультаційний центр (однаковий білий тонкий стиль) */}
+            {/* 7. Консультаційний центр */}
             <Link
               href="/consultation-center"
               className="block px-3 py-2.5 text-base font-light text-white hover:bg-white/5 rounded-lg"

@@ -7,6 +7,10 @@ export interface Article {
   readTime: string;
   content: string[];
   image?: string;
+  cover_image?: string;
+  author?: string;
+  tags?: string[];
+  published?: number;
 }
 
 export const ARTICLES: Article[] = [

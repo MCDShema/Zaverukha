@@ -23,6 +23,7 @@ export default function AdminArticlesPage() {
   const [search, setSearch] = useState('');
   const [editingArticle, setEditingArticle] = useState<Article | null>(null);
   const [isCreating, setIsCreating] = useState(false);
+  const [activeTab, setActiveTab] = useState<'blog' | 'news'>('blog');
 
   // Form State
   const [formSlug, setFormSlug] = useState('');
@@ -37,7 +38,8 @@ export default function AdminArticlesPage() {
     setFormSlug('');
     setFormTitle('');
     setFormExcerpt('');
-    setFormCategory('Блог');
+    // Default category based on active tab
+    setFormCategory(activeTab === 'news' ? 'Новини' : 'Блог');
     setFormDate(new Date().toLocaleDateString('uk-UA', { day: 'numeric', month: 'long', year: 'numeric' }));
     setFormReadTime('5 хв читання');
     setFormContentText('');
@@ -91,7 +93,13 @@ export default function AdminArticlesPage() {
     }
   };
 
-  const filtered = content.articles.filter((a) =>
+  // Filter by tab first (blog tab = not Новини, news tab = Новини only)
+  const tabArticles = content.articles.filter((a) =>
+    activeTab === 'news' ? a.category === 'Новини' : a.category !== 'Новини'
+  );
+
+  const filtered = tabArticles.filter((a) =>
+    !search.trim() ||
     a.title.toLowerCase().includes(search.toLowerCase()) ||
     a.category.toLowerCase().includes(search.toLowerCase()) ||
     a.excerpt.toLowerCase().includes(search.toLowerCase())
@@ -105,10 +113,10 @@ export default function AdminArticlesPage() {
         <div>
           <h1 className="text-2xl sm:text-3xl font-serif font-bold text-white flex items-center gap-2.5">
             <FileText className="w-6 h-6 text-sacred-gold" />
-            <span>Керування статтями блогу</span>
+            <span>Керування публікаціями</span>
           </h1>
           <p className="text-xs text-white/60 mt-1">
-            Створення нових публікацій, редагування існуючих та керування категоріями
+            Блог — статті, роздуми, творчість. Новини — події, анонси, оголошення.
           </p>
         </div>
 
@@ -117,7 +125,31 @@ export default function AdminArticlesPage() {
           className="sacred-gold-btn px-5 py-2.5 rounded-xl text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-1.5 shadow"
         >
           <Plus className="w-4 h-4" />
-          <span>Додати статтю</span>
+          <span>{activeTab === 'news' ? 'Додати новину' : 'Додати статтю'}</span>
+        </button>
+      </div>
+
+      {/* TABS */}
+      <div className="flex items-center gap-1 p-1 bg-white/5 rounded-xl border border-white/10 w-fit">
+        <button
+          onClick={() => { setActiveTab('blog'); setSearch(''); setIsCreating(false); setEditingArticle(null); }}
+          className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all ${
+            activeTab === 'blog'
+              ? 'bg-sacred-gold text-sacred-dark shadow'
+              : 'text-white/60 hover:text-white hover:bg-white/10'
+          }`}
+        >
+          Блог ({content.articles.filter(a => a.category !== 'Новини').length})
+        </button>
+        <button
+          onClick={() => { setActiveTab('news'); setSearch(''); setIsCreating(false); setEditingArticle(null); }}
+          className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all ${
+            activeTab === 'news'
+              ? 'bg-sacred-gold text-sacred-dark shadow'
+              : 'text-white/60 hover:text-white hover:bg-white/10'
+          }`}
+        >
+          Новини ({content.articles.filter(a => a.category === 'Новини').length})
         </button>
       </div>
 
@@ -279,13 +311,13 @@ export default function AdminArticlesPage() {
       {/* ARTICLES TABLE / LIST */}
       <div className="sacred-card rounded-2xl border border-white/10 overflow-hidden">
         <div className="p-4 bg-white/5 border-b border-white/10 text-xs font-semibold text-sacred-goldLight uppercase tracking-wider flex items-center justify-between">
-          <span>Список опублікованих статей ({filtered.length})</span>
+          <span>{activeTab === 'news' ? 'Новини' : 'Блог'} ({filtered.length})</span>
         </div>
 
         <div className="divide-y divide-white/10">
           {filtered.length === 0 ? (
             <div className="text-center py-10 text-xs text-white/50">
-              Статей не знайдено за вашим запитом.
+              {search ? 'Нічого не знайдено за вашим запитом.' : `Публікацій ще немає. Натисніть «${activeTab === 'news' ? 'Додати новину' : 'Додати статтю'}».`}
             </div>
           ) : (
             filtered.map((article) => (
@@ -313,7 +345,7 @@ export default function AdminArticlesPage() {
 
                 <div className="flex items-center gap-2 self-end sm:self-center shrink-0">
                   <Link
-                    href={`/blog/${article.slug}`}
+                    href={`/${article.category === 'Новини' ? 'news' : 'blog'}/${article.slug}`}
                     target="_blank"
                     title="Переглянути на сайті"
                     className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-white/70 hover:text-white"
