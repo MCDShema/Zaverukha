@@ -7,6 +7,7 @@ import { useContent } from '@/context/ContentContext';
 import { 
   LayoutDashboard, 
   FileText, 
+  Palette,
   Layers, 
   Users, 
   Settings, 
@@ -42,6 +43,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const navItems = [
     { label: 'Панель приладів', href: '/admin', icon: LayoutDashboard },
     { label: 'Статті блогу', href: '/admin/articles', icon: FileText },
+    { label: 'Моя Творчість', href: '/admin/creativity', icon: Palette },
     { label: 'Редактор сторінок', href: '/admin/pages', icon: Layers },
     { 
       label: 'Заявки на консультацію', 

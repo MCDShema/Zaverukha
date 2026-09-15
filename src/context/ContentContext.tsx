@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import { SiteContent, INITIAL_CONTENT } from '@/data/siteContent';
+import { SiteContent, INITIAL_CONTENT, CreativityItem } from '@/data/siteContent';
 import { Article, ARTICLES as DEFAULT_ARTICLES } from '@/data/articles';
 
 export interface Lead {
@@ -26,6 +26,9 @@ interface ContentContextType {
   addArticle: (article: Article) => Promise<void>;
   updateArticle: (slug: string, article: Partial<Article>) => Promise<void>;
   deleteArticle: (slug: string) => Promise<void>;
+  addCreativityItem: (item: CreativityItem) => Promise<void>;
+  updateCreativityItem: (id: string, item: Partial<CreativityItem>) => Promise<void>;
+  deleteCreativityItem: (id: string) => Promise<void>;
   leads: Lead[];
   addLead: (lead: Omit<Lead, 'id' | 'createdAt' | 'status'>) => Promise<void>;
   updateLeadStatus: (id: string, status: Lead['status']) => Promise<void>;
@@ -192,6 +195,14 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
         } else {
           parsed.articles = DEFAULT_ARTICLES;
         }
+
+        if (parsed.creativity) {
+          if (!parsed.creativity.items || !Array.isArray(parsed.creativity.items) || parsed.creativity.items.length === 0) {
+            parsed.creativity.items = INITIAL_CONTENT.creativity.items;
+          }
+        } else {
+          parsed.creativity = INITIAL_CONTENT.creativity;
+        }
         setContent(parsed);
       } else {
         setContent(INITIAL_CONTENT);
@@ -293,6 +304,25 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
     } catch (e) {
       console.warn('Failed to sync article deletion to D1, preserved locally:', e);
     }
+  };
+
+  // Creativity items management: immediate optimistic update + D1 sync
+  const addCreativityItem = async (item: CreativityItem) => {
+    const currentItems = content.creativity?.items || INITIAL_CONTENT.creativity.items;
+    const updatedItems = [item, ...currentItems];
+    await updateSection('creativity', { items: updatedItems });
+  };
+
+  const updateCreativityItem = async (id: string, values: Partial<CreativityItem>) => {
+    const currentItems = content.creativity?.items || INITIAL_CONTENT.creativity.items;
+    const updatedItems = currentItems.map((it) => (it.id === id ? { ...it, ...values } : it));
+    await updateSection('creativity', { items: updatedItems });
+  };
+
+  const deleteCreativityItem = async (id: string) => {
+    const currentItems = content.creativity?.items || INITIAL_CONTENT.creativity.items;
+    const updatedItems = currentItems.filter((it) => it.id !== id);
+    await updateSection('creativity', { items: updatedItems });
   };
 
   // Add lead: immediate optimistic update + D1 sync
@@ -439,6 +469,9 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
         addArticle,
         updateArticle,
         deleteArticle,
+        addCreativityItem,
+        updateCreativityItem,
+        deleteCreativityItem,
         leads,
         addLead,
         updateLeadStatus,
