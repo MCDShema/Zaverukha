@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import BannerSlider from '@/components/home/BannerSlider';
 import SoulPathCalculator from '@/components/calculator/SoulPathCalculator';
+import BlogGridWithPagination from '@/components/blog/BlogGridWithPagination';
 import { FacebookIcon, InstagramIcon, TelegramIcon, YoutubeIcon } from '@/components/ui/Icons';
 import { useContent } from '@/context/ContentContext';
 
@@ -702,65 +703,16 @@ export default function HomePage() {
       </section>
 
 
-      {/* 10. БЛОГ ТА НОВИНИ: З реальними статтями та зображеннями з zaverukha.com */}
+      {/* 10. БЛОГ ТА НОВИНИ: 9 карток на сторінку, пагінація 1,2,3... та сортування по тегах */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
-          <div>
-            <h2 className="text-2xl sm:text-3xl font-serif text-[#2E2B75] font-bold">
-              Блог та Новини
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-600 mt-1">
-              Свіжі роздуми, медійні інтерв&apos;ю та події простору IMARIA & PIPL
-            </p>
-          </div>
-          <Link 
-            href="/blog"
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl btn-outline-blue text-xs font-semibold uppercase tracking-wider transition-colors"
-          >
-            <span>Всі публікації</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {articles.slice(0, 3).map((article) => (
-            <div key={article.slug} className="card-zaverukha rounded-2xl overflow-hidden border border-slate-200 hover:border-[#C99A2C] transition-all flex flex-col justify-between shadow-md hover:shadow-lg group">
-              {article.image && (
-                <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img 
-                    src={article.image} 
-                    alt={article.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <span className="absolute top-3 left-3 bg-[#2E2B75] text-[#F5DF7E] text-[10px] font-bold px-2.5 py-0.5 rounded shadow uppercase">
-                    {article.category}
-                  </span>
-                </div>
-              )}
-              <div className="p-5 space-y-2.5 flex-1 flex flex-col justify-between">
-                <div className="space-y-2">
-                  <div className="text-[11px] text-[#B37E11] font-bold">{article.date}</div>
-                  <h3 className="font-serif text-base text-[#2E2B75] font-bold line-clamp-2 group-hover:text-[#3833BA] transition-colors">
-                    {article.title}
-                  </h3>
-                  <p className="text-xs text-slate-600 line-clamp-3 leading-relaxed">
-                    {article.excerpt}
-                  </p>
-                </div>
-                <div className="pt-3 border-t border-slate-150">
-                  <Link 
-                    href={`/blog/${article.slug}`}
-                    className="inline-flex items-center gap-1 text-xs font-bold text-[#2E2B75] hover:text-[#B37E11] uppercase tracking-wider"
-                  >
-                    <span>Читати далі</span>
-                    <ArrowRight className="w-3 h-3" />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        <BlogGridWithPagination 
+          articles={articles}
+          itemsPerPage={9}
+          sectionTitle="Блог та Новини"
+          sectionSubtitle="Свіжі роздуми, медійні інтерв'ю та події простору IMARIA & PIPL"
+          showAllLink={true}
+          baseRoutePrefix="auto"
+        />
       </section>
 
     </div>

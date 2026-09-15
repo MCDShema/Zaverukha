@@ -33,6 +33,18 @@ function rowToArticle(row: DbArticleRow) {
     parsedContent = [row.content];
   }
 
+  let parsedTags: string[] = [];
+  try {
+    parsedTags = JSON.parse(row.tags || '[]');
+    if (!Array.isArray(parsedTags)) {
+      parsedTags = [];
+    }
+  } catch {
+    parsedTags = [];
+  }
+
+  const cover = row.cover_image || '/images/posts/viva-interview.jpg';
+
   return {
     slug: row.slug,
     title: row.title,
@@ -40,7 +52,10 @@ function rowToArticle(row: DbArticleRow) {
     category: row.category,
     date: row.date,
     readTime: row.read_time,
-    image: row.cover_image,
+    image: cover,
+    cover_image: cover,
+    tags: parsedTags,
+    author: row.author || 'Ірина Заверуха',
     content: parsedContent,
     published: Boolean(row.published),
   };

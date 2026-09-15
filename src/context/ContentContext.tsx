@@ -43,7 +43,7 @@ interface ContentContextType {
 
 const ContentContext = createContext<ContentContextType | undefined>(undefined);
 
-const CONTENT_STORAGE_KEY = 'zaverukha_site_content_v1';
+const CONTENT_STORAGE_KEY = 'zaverukha_site_content_v2';
 const LEADS_STORAGE_KEY = 'zaverukha_leads_v1';
 const AUTH_STORAGE_KEY = 'zaverukha_admin_auth_v1';
 const PASSWORD_STORAGE_KEY = 'zaverukha_admin_password_v1';
