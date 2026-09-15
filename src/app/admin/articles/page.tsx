@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { useContent } from '@/context/ContentContext';
 import { Article } from '@/data/articles';
 import { 
@@ -14,18 +14,11 @@ import {
   X, 
   Calendar, 
   Clock, 
-  Tag,
-  Link2,
-  Bold,
-  Italic,
-  Quote,
-  List,
-  Eye,
-  Code,
-  Image as ImageIcon
+  Tag
 } from 'lucide-react';
 import Link from 'next/link';
 import ImageInputWithPreview from '@/components/admin/ImageInputWithPreview';
+import RichTextVisualEditor from '@/components/admin/RichTextVisualEditor';
 
 export default function AdminArticlesPage() {
   const { content, addArticle, updateArticle, deleteArticle } = useContent();
@@ -45,14 +38,6 @@ export default function AdminArticlesPage() {
   const [formTags, setFormTags] = useState('');
   const [formContentText, setFormContentText] = useState('');
 
-  // Rich text & Preview states
-  const [previewMode, setPreviewMode] = useState(false);
-  const [linkModalOpen, setLinkModalOpen] = useState(false);
-  const [linkUrl, setLinkUrl] = useState('');
-  const [linkText, setLinkText] = useState('');
-  const [linkOpenNewTab, setLinkOpenNewTab] = useState(true);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-
   const openCreate = () => {
     setFormSlug('');
     setFormTitle('');
@@ -63,7 +48,6 @@ export default function AdminArticlesPage() {
     setFormCoverImage('/images/posts/viva-interview.jpg');
     setFormTags(activeTab === 'news' ? 'Новини' : 'Мої блоги');
     setFormContentText('');
-    setPreviewMode(false);
     setIsCreating(true);
     setEditingArticle(null);
   };
@@ -77,132 +61,21 @@ export default function AdminArticlesPage() {
     setFormReadTime(article.readTime);
     setFormCoverImage(article.cover_image || article.image || '');
     setFormTags(article.tags ? article.tags.join(', ') : '');
-    // Prefer full rich HTML if available, otherwise paragraphs
-    setFormContentText(article.contentHtml || article.content.join('\n\n'));
-    setPreviewMode(false);
+    // In visual editor: load existing rich HTML or wrap paragraphs into <p>
+    const initialContent = article.contentHtml || (article.content ? article.content.map(p => `<p>${p}</p>`).join('') : '');
+    setFormContentText(initialContent);
     setEditingArticle(article);
     setIsCreating(false);
-  };
-
-  // Helper to open link modal with selected text
-  const openLinkModal = () => {
-    const textarea = textareaRef.current;
-    if (textarea) {
-      const start = textarea.selectionStart;
-      const end = textarea.selectionEnd;
-      const selected = textarea.value.substring(start, end).trim();
-      if (selected.startsWith('http://') || selected.startsWith('https://')) {
-        setLinkUrl(selected);
-        setLinkText(selected);
-      } else {
-        setLinkText(selected);
-        setLinkUrl('');
-      }
-    } else {
-      setLinkText('');
-      setLinkUrl('');
-    }
-    setLinkOpenNewTab(true);
-    setLinkModalOpen(true);
-  };
-
-  // Insert link into textarea
-  const insertLink = () => {
-    if (!linkUrl.trim()) {
-      alert('Будь ласка, введіть URL адресу посилання');
-      return;
-    }
-
-    const textarea = textareaRef.current;
-    const cleanUrl = linkUrl.trim();
-    const cleanText = linkText.trim() || cleanUrl;
-    const targetAttr = linkOpenNewTab ? ' target="_blank" rel="noopener"' : '';
-    const linkHtml = `<a href="${cleanUrl}"${targetAttr}>${cleanText}</a>`;
-
-    if (textarea) {
-      const start = textarea.selectionStart;
-      const end = textarea.selectionEnd;
-      const val = textarea.value;
-      const updated = val.substring(0, start) + linkHtml + val.substring(end);
-      setFormContentText(updated);
-
-      setTimeout(() => {
-        textarea.focus();
-        textarea.setSelectionRange(start + linkHtml.length, start + linkHtml.length);
-      }, 0);
-    } else {
-      setFormContentText((prev) => prev + '\n' + linkHtml);
-    }
-
-    setLinkModalOpen(false);
-  };
-
-  // Wrap selected text helper
-  const applyWrap = (before: string, after: string, defaultPlaceholder: string) => {
-    const textarea = textareaRef.current;
-    if (!textarea) return;
-
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const val = textarea.value;
-    const selected = val.substring(start, end);
-    const content = selected || defaultPlaceholder;
-    const wrapped = before + content + after;
-
-    const updated = val.substring(0, start) + wrapped + val.substring(end);
-    setFormContentText(updated);
-
-    setTimeout(() => {
-      textarea.focus();
-      textarea.setSelectionRange(start + before.length, start + before.length + content.length);
-    }, 0);
-  };
-
-  // Insert list helper
-  const insertList = () => {
-    const textarea = textareaRef.current;
-    const listHtml = '\n<ul>\n  <li>Пункт 1</li>\n  <li>Пункт 2</li>\n</ul>\n';
-    if (!textarea) {
-      setFormContentText((prev) => prev + listHtml);
-      return;
-    }
-    const start = textarea.selectionStart;
-    const val = textarea.value;
-    const updated = val.substring(0, start) + listHtml + val.substring(start);
-    setFormContentText(updated);
-    setTimeout(() => {
-      textarea.focus();
-      textarea.setSelectionRange(start + listHtml.length, start + listHtml.length);
-    }, 0);
-  };
-
-  // Insert inline image
-  const insertImage = () => {
-    const url = prompt('Введіть посилання на зображення (наприклад, /images/posts/... або https://...):');
-    if (!url || !url.trim()) return;
-    const imgHtml = `\n<figure class="wp-block-image"><img src="${url.trim()}" alt="" /></figure>\n`;
-    setFormContentText((prev) => prev + imgHtml);
   };
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Check if formContentText has HTML tags
-    const hasHtmlTags = /<[a-z][\s\S]*>/i.test(formContentText);
-    const finalHtml = hasHtmlTags
-      ? formContentText
-      : formContentText
-          .split('\n\n')
-          .filter((p) => p.trim().length > 0)
-          .map((p) => `<p>${p.trim()}</p>`)
-          .join('\n\n');
+    const finalHtml = formContentText.trim();
 
     // Extract plain text paragraphs for card excerpt / search
-    const plainText = formContentText.replace(/<[^>]+>/g, ' ');
-    const paragraphs = plainText
-      .split('\n\n')
-      .map((p) => p.trim())
-      .filter((p) => p.length > 0);
+    let plainText = formContentText.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    const paragraphs = plainText.length > 0 ? [plainText] : [];
 
     const parsedTags = formTags
       .split(',')
@@ -487,145 +360,22 @@ export default function AdminArticlesPage() {
               />
             </div>
 
-            {/* RICH CONTENT EDITOR WITH FORMATTING & LINK TOOLBAR */}
+            {/* VISUAL WYSIWYG RICH TEXT EDITOR */}
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <label className="block text-xs font-semibold text-sacred-goldLight uppercase">
-                  Повний текст статті та форматування *
+                  Текст публікації (візуальний редактор) *
                 </label>
                 <div className="text-[11px] text-white/50">
-                  Підтримуються посилання, абзаци та HTML-теги
+                  Звичайний текст • Виділіть потрібні слова для додавання посилання
                 </div>
               </div>
 
-              {/* TOOLBAR */}
-              <div className="bg-[#1C1A3A] border border-white/15 rounded-t-xl px-3 py-2 flex flex-wrap items-center justify-between gap-2">
-                <div className="flex flex-wrap items-center gap-1.5">
-                  {/* LINK BUTTON */}
-                  <button
-                    type="button"
-                    onClick={openLinkModal}
-                    className="px-3 py-1.5 rounded-lg bg-[#3833BA] hover:bg-[#4E48D6] text-white text-xs font-semibold flex items-center gap-1.5 transition shadow-sm"
-                    title="Зробити виділений текст посиланням або вставити посилання"
-                  >
-                    <Link2 className="w-3.5 h-3.5" />
-                    <span>🔗 Зробити посиланням</span>
-                  </button>
-
-                  <div className="w-[1px] h-4 bg-white/20 mx-1" />
-
-                  {/* BOLD */}
-                  <button
-                    type="button"
-                    onClick={() => applyWrap('<strong>', '</strong>', 'жирний текст')}
-                    className="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-white/90 text-xs font-bold transition"
-                    title="Жирний (strong)"
-                  >
-                    <Bold className="w-3.5 h-3.5" />
-                  </button>
-
-                  {/* ITALIC */}
-                  <button
-                    type="button"
-                    onClick={() => applyWrap('<em>', '</em>', 'курсивний текст')}
-                    className="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-white/90 text-xs italic transition"
-                    title="Курсив (em)"
-                  >
-                    <Italic className="w-3.5 h-3.5" />
-                  </button>
-
-                  {/* QUOTE */}
-                  <button
-                    type="button"
-                    onClick={() => applyWrap('\n<blockquote>', '</blockquote>\n', 'Цитата')}
-                    className="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-white/90 text-xs transition"
-                    title="Цитата"
-                  >
-                    <Quote className="w-3.5 h-3.5" />
-                  </button>
-
-                  {/* LIST */}
-                  <button
-                    type="button"
-                    onClick={insertList}
-                    className="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-white/90 text-xs transition"
-                    title="Маркований список"
-                  >
-                    <List className="w-3.5 h-3.5" />
-                  </button>
-
-                  {/* IMAGE */}
-                  <button
-                    type="button"
-                    onClick={insertImage}
-                    className="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-white/90 text-xs transition"
-                    title="Вставити фото в текст"
-                  >
-                    <ImageIcon className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-
-                {/* EDITOR / PREVIEW SWITCHER */}
-                <div className="flex items-center gap-1 bg-black/30 p-1 rounded-lg">
-                  <button
-                    type="button"
-                    onClick={() => setPreviewMode(false)}
-                    className={`px-3 py-1 rounded-md text-xs font-medium transition flex items-center gap-1 ${
-                      !previewMode
-                        ? 'bg-white/20 text-white font-semibold shadow-sm'
-                        : 'text-white/60 hover:text-white'
-                    }`}
-                  >
-                    <Code className="w-3 h-3" />
-                    <span>Редактор</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setPreviewMode(true)}
-                    className={`px-3 py-1 rounded-md text-xs font-medium transition flex items-center gap-1 ${
-                      previewMode
-                        ? 'bg-[#C99A2C] text-[#1a1836] font-bold shadow-sm'
-                        : 'text-white/60 hover:text-white'
-                    }`}
-                  >
-                    <Eye className="w-3 h-3" />
-                    <span>Попередній перегляд</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* TEXTAREA OR PREVIEW BOX */}
-              {!previewMode ? (
-                <textarea
-                  ref={textareaRef}
-                  required
-                  rows={12}
-                  value={formContentText}
-                  onChange={(e) => setFormContentText(e.target.value)}
-                  placeholder="Введіть повний текст публікації. Виділіть потрібний текст та натисніть «🔗 Зробити посиланням», щоб додати клікабельне посилання..."
-                  className="w-full bg-white/5 border border-t-0 border-white/15 focus:border-sacred-gold rounded-b-xl px-4 py-3 text-sm text-white focus:outline-none font-sans leading-relaxed"
-                />
-              ) : (
-                <div className="bg-white rounded-b-xl p-6 text-[#28303D] min-h-[250px] max-h-[500px] overflow-y-auto border border-t-0 border-white/15">
-                  <div className="mb-4 pb-2 border-b border-slate-100 flex items-center justify-between text-xs text-slate-500">
-                    <span className="font-semibold text-[#2E2B75]">Попередній перегляд того, як стаття виглядає для читача:</span>
-                    <span>{formCategory} • {formDate || 'сьогодні'}</span>
-                  </div>
-                  <div
-                    className="prose prose-slate max-w-none text-[#28303D] leading-relaxed
-                      [&_p]:mb-4 [&_p]:text-[16px] [&_p]:leading-[1.75]
-                      [&_strong]:font-semibold [&_strong]:text-[#1e1b4b]
-                      [&_em]:italic [&_em]:text-slate-700
-                      [&_a]:text-[#3833ba] [&_a]:underline [&_a]:underline-offset-4 [&_a]:font-medium hover:[&_a]:text-[#2b2670]
-                      [&_blockquote]:border-l-4 [&_blockquote]:border-[#3833ba] [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-slate-700 [&_blockquote]:my-4
-                      [&_img]:rounded-xl [&_img]:shadow-md [&_img]:my-4 [&_img]:mx-auto [&_img]:max-w-full
-                      [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-1.5 [&_ul]:mb-4"
-                    dangerouslySetInnerHTML={{
-                      __html: formContentText || '<p className="text-slate-400 italic">Текст відсутній...</p>',
-                    }}
-                  />
-                </div>
-              )}
+              <RichTextVisualEditor
+                value={formContentText}
+                onChange={setFormContentText}
+                placeholder="Введіть або вставте текст публікації сюди. Виділіть потрібні слова та натисніть на іконку «🔗», щоб додати посилання..."
+              />
             </div>
 
             {/* ACTION BUTTONS */}
@@ -649,87 +399,6 @@ export default function AdminArticlesPage() {
               </button>
             </div>
           </form>
-        </div>
-      )}
-
-      {/* MODAL: INSERT / EDIT LINK */}
-      {linkModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fadeIn">
-          <div className="bg-[#1E1B38] border border-sacred-gold/40 rounded-2xl p-6 w-full max-w-md shadow-2xl space-y-4">
-            <div className="flex items-center justify-between border-b border-white/10 pb-3">
-              <div className="flex items-center gap-2 text-sacred-goldLight font-serif font-bold text-base">
-                <Link2 className="w-5 h-5 text-sacred-gold" />
-                <span>Додати посилання в текст</span>
-              </div>
-              <button
-                type="button"
-                onClick={() => setLinkModalOpen(false)}
-                className="p-1 rounded-lg text-white/60 hover:text-white hover:bg-white/10"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-
-            <div className="space-y-3">
-              <div>
-                <label className="block text-xs font-semibold text-white/80 mb-1">
-                  Текст посилання (що бачить читач)
-                </label>
-                <input
-                  type="text"
-                  value={linkText}
-                  onChange={(e) => setLinkText(e.target.value)}
-                  placeholder="Наприклад: Читати повне інтерв'ю на сайті Viva!"
-                  className="w-full bg-white/5 border border-white/20 focus:border-sacred-gold rounded-xl px-4 py-2 text-sm text-white focus:outline-none"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-white/80 mb-1">
-                  URL-адреса посилання *
-                </label>
-                <input
-                  type="url"
-                  required
-                  value={linkUrl}
-                  onChange={(e) => setLinkUrl(e.target.value)}
-                  placeholder="https://viva.ua/... або https://t.me/..."
-                  className="w-full bg-white/5 border border-white/20 focus:border-sacred-gold rounded-xl px-4 py-2 text-sm text-white focus:outline-none"
-                />
-              </div>
-
-              <div className="flex items-center gap-2 pt-1">
-                <input
-                  id="newTabCheckbox"
-                  type="checkbox"
-                  checked={linkOpenNewTab}
-                  onChange={(e) => setLinkOpenNewTab(e.target.checked)}
-                  className="rounded border-white/20 bg-white/10 text-sacred-gold focus:ring-sacred-gold w-4 h-4 cursor-pointer"
-                />
-                <label htmlFor="newTabCheckbox" className="text-xs text-white/80 cursor-pointer select-none">
-                  Відкривати у новій вкладці (рекомендовано для зовнішніх сайтів)
-                </label>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-end gap-2.5 pt-4 border-t border-white/10">
-              <button
-                type="button"
-                onClick={() => setLinkModalOpen(false)}
-                className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-medium"
-              >
-                Скасувати
-              </button>
-              <button
-                type="button"
-                onClick={insertLink}
-                className="sacred-gold-btn px-5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 shadow"
-              >
-                <Check className="w-4 h-4" />
-                <span>Вставити посилання</span>
-              </button>
-            </div>
-          </div>
         </div>
       )}
 
