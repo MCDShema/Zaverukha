@@ -3,7 +3,7 @@
 import React from 'react';
 import { useContent } from '@/context/ContentContext';
 import { Article } from '@/data/articles';
-import { Calendar, Clock, ArrowLeft, Newspaper } from 'lucide-react';
+import { Calendar, Clock, ArrowLeft, ArrowRight, Newspaper, MessageSquareHeart, GraduationCap } from 'lucide-react';
 import Link from 'next/link';
 
 interface NewsDetailViewProps {
@@ -85,14 +85,42 @@ export default function NewsDetailView({ initialArticle }: NewsDetailViewProps) 
         ))}
       </div>
 
-      {/* FOOTER */}
-      <div className="flex justify-center pt-4">
+      {/* FOOTER CTA & NAV */}
+      <div className="mt-12 pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a
+          href="https://t.me/pipl_platform_bot?start=consultation"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-full sm:w-auto px-8 py-3.5 rounded-xl btn-primary-dark text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg"
+        >
+          <MessageSquareHeart className="w-4 h-4" />
+          <span>Замовити консультацію</span>
+        </a>
+
+        <Link
+          href="/education"
+          className="w-full sm:w-auto px-8 py-3.5 rounded-xl btn-outline-blue text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2 shadow-md"
+        >
+          <GraduationCap className="w-4 h-4" />
+          <span>Запрошуємо на навчання</span>
+        </Link>
+      </div>
+
+      <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
         <Link
           href="/news"
-          className="btn-outline-blue px-8 py-3 rounded-xl text-sm font-semibold flex items-center gap-2"
+          className="w-full sm:w-auto px-6 py-3 rounded-xl btn-outline-blue text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm"
         >
           <ArrowLeft className="w-4 h-4" />
-          Всі новини
+          <span>Всі новини</span>
+        </Link>
+
+        <Link
+          href="/"
+          className="w-full sm:w-auto px-6 py-3 rounded-xl btn-outline-blue text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm"
+        >
+          <span>На головну сторінку</span>
+          <ArrowRight className="w-4 h-4" />
         </Link>
       </div>
     </article>

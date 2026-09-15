@@ -224,13 +224,13 @@ export default function ArticleDetailView({ initialArticle, slug: propSlug }: Ar
             </div>
           )}
 
-          {/* AUTHENTIC ACTION BUTTONS AT BOTTOM (Exact WordPress CTA) */}
+          {/* AUTHENTIC ACTION BUTTONS AT BOTTOM (Exact WordPress CTA & Homepage Button Styles) */}
           <div className="mt-12 pt-8 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
               href="https://t.me/pipl_platform_bot?start=consultation"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto px-8 py-4 rounded-full bg-[#2b2670] hover:bg-[#3833ba] text-white text-xs font-bold uppercase tracking-wider text-center shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-8 py-3.5 rounded-xl btn-primary-dark text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg"
             >
               <MessageSquareHeart className="w-4 h-4" />
               <span>Замовити консультацію</span>
@@ -238,7 +238,7 @@ export default function ArticleDetailView({ initialArticle, slug: propSlug }: Ar
 
             <Link
               href="/education"
-              className="w-full sm:w-auto px-8 py-4 rounded-full border-2 border-[#2b2670] text-[#2b2670] hover:bg-[#2b2670] hover:text-white text-xs font-bold uppercase tracking-wider text-center shadow-sm hover:shadow transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-8 py-3.5 rounded-xl btn-outline-blue text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2 shadow-md"
             >
               <GraduationCap className="w-4 h-4" />
               <span>Запрошуємо на навчання</span>
@@ -295,20 +295,21 @@ export default function ArticleDetailView({ initialArticle, slug: propSlug }: Ar
         </div>
 
         {/* BOTTOM NAVIGATION */}
-        <div className="mt-8 flex justify-between items-center text-xs font-medium text-slate-600">
+        <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <Link
             href={categoryLink}
-            className="inline-flex items-center gap-1.5 hover:text-[#2b2670] transition"
+            className="w-full sm:w-auto px-6 py-3 rounded-xl btn-outline-blue text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>До списку {isNews ? 'новин' : 'статей'}</span>
+            <span>До списку {isNews ? 'новин' : 'статей блогу'}</span>
           </Link>
 
           <Link
             href="/"
-            className="hover:text-[#2b2670] transition"
+            className="w-full sm:w-auto px-6 py-3 rounded-xl btn-outline-blue text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm"
           >
-            На головну сторінку
+            <span>На головну сторінку</span>
+            <ChevronRight className="w-4 h-4" />
           </Link>
         </div>
 
