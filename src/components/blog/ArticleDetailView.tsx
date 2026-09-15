@@ -209,9 +209,8 @@ export default function ArticleDetailView({ initialArticle, slug: propSlug }: Ar
             <div
               className="prose prose-slate max-w-none text-[#28303D] leading-relaxed font-sans
                 [&_p]:mb-5 [&_p]:text-[17px] [&_p]:leading-[1.8] [&_p]:font-normal
-                [&_em]:italic [&_em]:text-slate-700
                 [&_strong]:font-semibold [&_strong]:text-[#1e1b4b]
-                [&_a]:text-[#3833ba] [&_a]:underline [&_a]:underline-offset-4 [&_a]:font-medium hover:[&_a]:text-[#2b2670]
+                [&_a]:text-[#3833BA] [&_a]:underline [&_a]:underline-offset-4 [&_a]:font-semibold [&_a]:decoration-[#3833BA] hover:[&_a]:text-[#221e75] hover:[&_a]:decoration-[#221e75] [&_a]:cursor-pointer [&_a]:transition-colors
                 [&_blockquote]:border-l-4 [&_blockquote]:border-[#3833ba] [&_blockquote]:pl-5 [&_blockquote]:italic [&_blockquote]:text-slate-700 [&_blockquote]:my-6
                 [&_img]:rounded-2xl [&_img]:shadow-md [&_img]:my-6 [&_img]:mx-auto [&_img]:max-w-full
                 [&_figure]:my-6 [&_figure]:mx-auto [&_figure.img_post]:my-2

@@ -43,7 +43,7 @@ interface ContentContextType {
 
 const ContentContext = createContext<ContentContextType | undefined>(undefined);
 
-const CONTENT_STORAGE_KEY = 'zaverukha_site_content_v2';
+const CONTENT_STORAGE_KEY = 'zaverukha_site_content_v6';
 const LEADS_STORAGE_KEY = 'zaverukha_leads_v1';
 const AUTH_STORAGE_KEY = 'zaverukha_admin_auth_v1';
 const PASSWORD_STORAGE_KEY = 'zaverukha_admin_password_v1';
@@ -104,7 +104,35 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
       if (articlesRes.status === 'fulfilled' && articlesRes.value.ok) {
         const json = await articlesRes.value.json();
         if (json.success && Array.isArray(json.articles) && json.articles.length > 0) {
-          updatedContent.articles = json.articles;
+          // Merge D1 articles with DEFAULT_ARTICLES, ensuring contentHtml is preserved
+          const d1ArticlesMap = new Map<string, Article>();
+          for (const a of json.articles) {
+            if (a.slug) d1ArticlesMap.set(a.slug, a);
+            if (a.id) d1ArticlesMap.set(a.id, a);
+          }
+
+          const mergedArticles = DEFAULT_ARTICLES.map((defArt) => {
+            const fromD1 = d1ArticlesMap.get(defArt.slug) || (defArt.id && d1ArticlesMap.get(defArt.id));
+            if (fromD1) {
+              return {
+                ...defArt,
+                ...fromD1,
+                // Ensure contentHtml from defArt is never lost if D1 sent an empty string
+                contentHtml: fromD1.contentHtml || defArt.contentHtml,
+              };
+            }
+            return defArt;
+          });
+
+          // Add any newly created articles from D1 not in DEFAULT_ARTICLES
+          for (const a of json.articles) {
+            const exists = mergedArticles.some((m) => m.slug === a.slug || (a.id && m.id === a.id));
+            if (!exists) {
+              mergedArticles.push(a);
+            }
+          }
+
+          updatedContent.articles = mergedArticles;
           hasDbConnection = true;
         }
       }
@@ -130,24 +158,43 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
     }
   }, [content, saveContentLocal]);
 
-  // Initial client hydration from localStorage, then background sync from D1
+  // Initial client hydration: purge obsolete caches and ensure full 123 articles
   useEffect(() => {
     try {
+      // Purge obsolete cache keys that stored incomplete/dummy articles
+      ['zaverukha_site_content_v1', 'zaverukha_site_content_v2', 'zaverukha_site_content_v3', 'zaverukha_site_content_v4', 'zaverukha_site_content_v5'].forEach((k) => {
+        try { localStorage.removeItem(k); } catch {}
+      });
+
       const savedContent = localStorage.getItem(CONTENT_STORAGE_KEY);
       if (savedContent) {
         const parsed = JSON.parse(savedContent);
+        // Guarantee all 123 articles with contentHtml are present
         if (Array.isArray(parsed.articles)) {
-          parsed.articles = parsed.articles.map((art: Article) => {
-            const def = DEFAULT_ARTICLES.find(
-              (d) => d.slug === art.slug || (art.id && d.id === art.id) || (d.raw_slug && d.raw_slug === art.slug)
+          const validArticles = DEFAULT_ARTICLES.map((defArt) => {
+            const cached = parsed.articles.find(
+              (c: Article) =>
+                c.slug === defArt.slug ||
+                (defArt.id && c.id === defArt.id) ||
+                (defArt.raw_slug && c.slug === defArt.raw_slug) ||
+                (defArt.aliases && defArt.aliases.includes(c.slug))
             );
-            if (def && (!art.contentHtml || art.contentHtml.length < 50)) {
-              return { ...art, contentHtml: def.contentHtml };
+            if (cached) {
+              return {
+                ...defArt,
+                ...cached,
+                contentHtml: cached.contentHtml && cached.contentHtml.length > 50 ? cached.contentHtml : defArt.contentHtml,
+              };
             }
-            return art;
+            return defArt;
           });
+          parsed.articles = validArticles;
+        } else {
+          parsed.articles = DEFAULT_ARTICLES;
         }
         setContent(parsed);
+      } else {
+        setContent(INITIAL_CONTENT);
       }
 
       const savedLeads = localStorage.getItem(LEADS_STORAGE_KEY);
