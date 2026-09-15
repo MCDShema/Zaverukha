@@ -150,7 +150,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
       article.author || 'Ірина Заверуха',
       article.date || new Date().toLocaleDateString('uk-UA'),
       article.readTime || '5 хв',
-      article.image || '/images/posts/default.jpg',
+      article.cover_image || article.image || '/images/posts/viva-interview.jpg',
       tagsStr,
       published
     ).run();

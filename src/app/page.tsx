@@ -46,7 +46,7 @@ export default function HomePage() {
                 <div className="relative rounded-3xl overflow-hidden border-2 border-[#C99A2C]/40 shadow-2xl bg-white group">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img 
-                    src="/images/hero-irina.jpg" 
+                    src={homepage.heroImage || "/images/hero-irina.jpg"} 
                     alt="Ірина Заверуха - IMARIA MASTER" 
                     className="w-full h-auto object-cover object-top transition-transform duration-700 group-hover:scale-105"
                   />
@@ -321,7 +321,7 @@ export default function HomePage() {
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl border-2 border-white max-w-sm w-full group">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img 
-                    src="/images/about-irina.png" 
+                    src={homepage.aboutImage || "/images/about-irina.png"} 
                     alt="Ірина Заверуха - Про мене" 
                     className="w-full h-auto object-cover hover:scale-105 transition-transform duration-500"
                   />
@@ -431,7 +431,7 @@ export default function HomePage() {
               <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-200 max-w-sm w-full group">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img 
-                  src="/images/consultations-banner.jpg" 
+                  src={content.consultationCenter.bannerImage || "/images/consultations-banner.jpg"} 
                   alt="Мої консультації" 
                   className="w-full h-auto object-cover hover:scale-105 transition-transform duration-500"
                 />
@@ -579,7 +579,7 @@ export default function HomePage() {
                 <div className="relative rounded-xl overflow-hidden aspect-[16/9] border border-slate-200 mb-4 shadow">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img 
-                    src="/images/satsang-banner.jpg" 
+                    src={content.satsangYoga.bannerImage || "/images/satsang-banner.jpg"} 
                     alt="Відкриті практикуми служіння" 
                     className="w-full h-full object-cover"
                   />
@@ -609,7 +609,7 @@ export default function HomePage() {
                 <div className="relative rounded-xl overflow-hidden aspect-[16/9] border border-slate-200 mb-4 shadow">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img 
-                    src="/images/meditations-banner.jpg" 
+                    src={content.satsangYoga.meditationsBannerImage || "/images/meditations-banner.jpg"} 
                     alt="Медитації Ірини Заверухи" 
                     className="w-full h-full object-cover"
                   />
@@ -659,7 +659,7 @@ export default function HomePage() {
             <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 text-center space-y-3 hover:border-[#C99A2C] transition-all hover:shadow-md">
               <div className="h-44 flex items-center justify-center">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/images/creativity/book.png" alt="Бесіди з Ангелами" className="max-h-full object-contain drop-shadow-xl" />
+                <img src={content.creativity.book1Image || "/images/creativity/book.png"} alt="Бесіди з Ангелами" className="max-h-full object-contain drop-shadow-xl" />
               </div>
               <h4 className="font-serif text-base text-[#2E2B75] font-bold">Книга &laquo;Бесіди з Ангелами&raquo;</h4>
               <p className="text-xs text-slate-600 leading-relaxed">Книга-цілитель прямого зв&apos;язку з духовними наставниками</p>
@@ -671,7 +671,7 @@ export default function HomePage() {
             <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 text-center space-y-3 hover:border-[#C99A2C] transition-all hover:shadow-md">
               <div className="h-44 flex items-center justify-center">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/images/creativity/dress.png" alt="Сукня Споріднені" className="max-h-full object-contain drop-shadow-xl" />
+                <img src={content.creativity.dressImage || "/images/creativity/dress.png"} alt="Сукня Споріднені" className="max-h-full object-contain drop-shadow-xl" />
               </div>
               <h4 className="font-serif text-base text-[#2E2B75] font-bold">Сукня Берегині &laquo;Споріднені&raquo;</h4>
               <p className="text-xs text-slate-600 leading-relaxed">Сакральний одяг-оберіг з натуральних тканин та вишивки</p>
@@ -683,7 +683,7 @@ export default function HomePage() {
             <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 text-center space-y-3 hover:border-[#C99A2C] transition-all hover:shadow-md">
               <div className="h-44 flex items-center justify-center">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/images/creativity/amulet.png" alt="Кулон АВАТАР" className="max-h-full object-contain drop-shadow-xl" />
+                <img src={content.creativity.avatarImage || "/images/creativity/amulet.png"} alt="Кулон АВАТАР" className="max-h-full object-contain drop-shadow-xl" />
               </div>
               <h4 className="font-serif text-base text-[#2E2B75] font-bold">Кулон-оберіг &laquo;АВАТАР&raquo;</h4>
               <p className="text-xs text-slate-600 leading-relaxed">Срібний сакральний знак для захисту та заземлення</p>

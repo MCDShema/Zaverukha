@@ -45,7 +45,7 @@ export default function SatsangDivineYogaPage() {
             <div className="rounded-2xl overflow-hidden shadow-2xl border border-sacred-gold/40 group max-w-md w-full">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img 
-                src="/images/satsang-banner.jpg" 
+                src={satsangYoga.bannerImage || "/images/satsang-banner.jpg"} 
                 alt="Сатсанги та DivineYoga" 
                 className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500"
               />

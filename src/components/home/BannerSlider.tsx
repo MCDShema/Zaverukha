@@ -71,7 +71,7 @@ export default function BannerSlider() {
     if (paused) return;
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % slides.length);
-    }, 4500);
+    }, 2800);
     return () => clearInterval(timer);
   }, [paused]);
 
@@ -93,7 +93,7 @@ export default function BannerSlider() {
         {slides.map((slide, idx) => (
           <div
             key={slide.id}
-            className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+            className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${
               idx === current ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
             }`}
           >

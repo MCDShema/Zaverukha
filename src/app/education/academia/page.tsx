@@ -45,7 +45,7 @@ export default function ImariaAcademiaPage() {
             <div className="rounded-2xl overflow-hidden shadow-2xl border border-sacred-gold/40 group max-w-md w-full">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img 
-                src="/images/banners/academia-banner.jpg" 
+                src={education.academiaBannerImage || "/images/banners/academia-banner.jpg"} 
                 alt="IMARIA Academia" 
                 className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500"
               />

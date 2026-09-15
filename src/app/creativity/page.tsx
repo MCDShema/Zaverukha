@@ -180,7 +180,7 @@ export default function CreativityPage() {
             <div className="space-y-3">
               <div className="h-48 flex items-center justify-center bg-sacred-night/50 rounded-lg p-2">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/images/creativity/dress.png" alt="Сукня Споріднені" className="max-h-full object-contain drop-shadow-xl" />
+                <img src={creativity.dressImage || "/images/creativity/dress.png"} alt="Сукня Споріднені" className="max-h-full object-contain drop-shadow-xl" />
               </div>
               <h3 className="text-lg font-serif text-sacred-goldLight font-semibold">
                 Сукня Берегині «Споріднені»
@@ -203,7 +203,7 @@ export default function CreativityPage() {
             <div className="space-y-3">
               <div className="h-48 flex items-center justify-center bg-sacred-night/50 rounded-lg p-2">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/images/creativity/amulet.png" alt="Кулон АВАТАР" className="max-h-full object-contain drop-shadow-xl" />
+                <img src={creativity.avatarImage || "/images/creativity/amulet.png"} alt="Кулон АВАТАР" className="max-h-full object-contain drop-shadow-xl" />
               </div>
               <h3 className="text-lg font-serif text-sacred-goldLight font-semibold">
                 Кулон-оберіг «АВАТАР»
@@ -226,7 +226,7 @@ export default function CreativityPage() {
             <div className="space-y-3">
               <div className="h-48 flex items-center justify-center bg-sacred-night/50 rounded-lg p-2">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/images/creativity/book.png" alt="Бесіди з Ангелами" className="max-h-full object-contain drop-shadow-xl" />
+                <img src={creativity.book1Image || "/images/creativity/book.png"} alt="Бесіди з Ангелами" className="max-h-full object-contain drop-shadow-xl" />
               </div>
               <h3 className="text-lg font-serif text-sacred-goldLight font-semibold">
                 Книга «Бесіди з Ангелами»

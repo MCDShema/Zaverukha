@@ -5,6 +5,8 @@ export interface SiteContent {
     heroTitle: string;
     heroSubtitle: string;
     heroDescription: string;
+    heroImage?: string;
+    aboutImage?: string;
     statConsultations: string;
     statProtocols: string;
     statYears: string;
@@ -18,6 +20,9 @@ export interface SiteContent {
   };
   education: {
     piplIntro: string;
+    krylaBannerImage?: string;
+    alhimicumBannerImage?: string;
+    academiaBannerImage?: string;
     hordyniDesc: string;
     healerDesc: string;
     krylaDesc: string;
@@ -32,6 +37,7 @@ export interface SiteContent {
   consultationCenter: {
     title: string;
     intro: string;
+    bannerImage?: string;
     calculatorBannerTitle: string;
     calculatorBannerDesc: string;
     service1Title: string;
@@ -45,6 +51,8 @@ export interface SiteContent {
   };
   satsangYoga: {
     intro: string;
+    bannerImage?: string;
+    meditationsBannerImage?: string;
     divineYogaDesc: string;
     marathonsDesc: string;
     recordedDesc: string;
@@ -56,12 +64,15 @@ export interface SiteContent {
     intro: string;
     book1Title: string;
     book1Desc: string;
+    book1Image?: string;
     book2Title: string;
     book2Desc: string;
     musicBaladaDesc: string;
     musicShamankaDesc: string;
     dressDesc: string;
+    dressImage?: string;
     avatarDesc: string;
+    avatarImage?: string;
     cardsDesc: string;
     instagramShopUrl: string;
   };
@@ -97,6 +108,8 @@ export const INITIAL_CONTENT: SiteContent = {
     heroTitle: 'Ірина Заверуха',
     heroSubtitle: 'Засновниця та пульсар проєктів IMARIA® & PIPL®',
     heroDescription: 'Провідник Нового часу, майстер трансформації свідомості, космоеніопсихолог і містик, цілитель у родовій традиції прямої передачі. Понад 17 років практики та більше 50 000 осіб, які віднайшли свій істинний шлях душі.',
+    heroImage: '/images/hero-irina.jpg',
+    aboutImage: '/images/about-irina.png',
     statConsultations: '50 000+',
     statProtocols: '3 000+',
     statYears: '17 років',
@@ -110,6 +123,9 @@ export const INITIAL_CONTENT: SiteContent = {
   },
   education: {
     piplIntro: 'Це не просто клуб, а цілісна система прикладного духовного навчання та зцілення. Тут зібрані знання для новачків і аматорів, які хочуть налагодити життя, гармонізувати рід та розкрити ресурс, а також програми глибинної трансформації для досвідчених практиків.',
+    krylaBannerImage: '/images/banners/kryla-banner.jpg',
+    alhimicumBannerImage: '/images/banners/alhimicum-banner.jpg',
+    academiaBannerImage: '/images/banners/academia-banner.jpg',
     hordyniDesc: 'Найчастіша причина блоків у грошах, здоров\'ї та коханні — це невирішені конфлікти з першоджерелами нашого життя: мамою і татом. Пройдіть шлях від претензії до благословення.',
     healerDesc: '3 фундаментальні україномовні лекції прямої передачі. Мінімальний рекомендований обсяг знань перед доступом до «ПроРесурсу» та глибоких практик. Продається і окремо.',
     krylaDesc: 'Ієрархічні академічні знання для повної квантової трансформації жінки. Самостійний бренд: річний супровід, прямі ефіри з Іриною Заверухою та глибинна ініціація.',
@@ -124,6 +140,7 @@ export const INITIAL_CONTENT: SiteContent = {
   consultationCenter: {
     title: 'Консультаційний центр',
     intro: 'Простір глибинної трансформації вашої реальності на квантовому рівні. Інтеграція серця, найчистішого цілительного потоку інтуїції та практичного заземлення в матерії.',
+    bannerImage: '/images/consultations-banner.jpg',
     calculatorBannerTitle: 'Безкоштовний калькулятор «Путь Душі»',
     calculatorBannerDesc: 'Розрахуйте свої сакральні енергії народження прямо зараз. Це допоможе визначити ключові точки призначення, кармічні завдання та фінансові вузли.',
     service1Title: 'Космоеніопсихологія',
@@ -137,6 +154,8 @@ export const INITIAL_CONTENT: SiteContent = {
   },
   satsangYoga: {
     intro: 'Сакральний простір, де кожен може торкнутися чистоти потоку абсолютно безоплатно. Йога Свідомості (#Divineyoga by IMARIA) та щирі Сатсанги.',
+    bannerImage: '/images/satsang-banner.jpg',
+    meditationsBannerImage: '/images/meditations-banner.jpg',
     divineYogaDesc: 'Дивань-йога — це адаптована м\'яка йога свідомості, яка підходить кожній людині незалежно від фізичної форми та віку. Робота з мікрорухами, увагою та диханням.',
     marathonsDesc: 'Регулярні онлайн-інтенсиви та сезонні марафони перезавантаження тіла і духу.',
     recordedDesc: 'Золота колекція тематичних вебінарів для самостійного проходження у власному темпі.',
@@ -148,12 +167,15 @@ export const INITIAL_CONTENT: SiteContent = {
     intro: 'Мистецтво, народжене в стані чистого цілительного потоку. Книги, музика та фізичні артефакти сили, які зберігають високу вібрацію.',
     book1Title: '«Бесіди з Ангелами»',
     book1Desc: 'Книга-ініціація, створена в каналі вищих духовних наставників. Відкривається саме на тій сторінці, яка містить точну відповідь на ваш запит.',
+    book1Image: '/images/creativity/book.png',
     book2Title: '«Пір\'я до твоїх крил»',
     book2Desc: 'Збірка сакральних віршів, притч та одкровень для кожної жінки, яка розправляє крила своєї внутрішньої Берегині.',
     musicBaladaDesc: '«Балада Берегині» — мистецький інструмент для трансформації свідомості та ініціації сакрального зв\'язку з родом.',
     musicShamankaDesc: 'SHAMANKA by IMARIA — реміксова версія пробуджує родову силу в ритмі космічно-земного імпульсу.',
     dressDesc: 'Сукня Берегині «Споріднені» — вібраційне полотно, що збирає жіночу енергію, не розсіюючи її назовні.',
+    dressImage: '/images/creativity/dress.png',
     avatarDesc: 'Кулон-оберіг «АВАТАР» — ювелірний сакральний знак захисту тонких полів.',
+    avatarImage: '/images/creativity/amulet.png',
     cardsDesc: 'Метафоричні колоди — інструмент для щоденного інтуїтивного діалогу з підсвідомістю.',
     instagramShopUrl: 'https://www.instagram.com/imaria_space?igsh=MWNrdjJ0dGtsd29jNA==',
   },

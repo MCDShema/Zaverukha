@@ -16,6 +16,7 @@ import {
   ExternalLink
 } from 'lucide-react';
 import Link from 'next/link';
+import ImageInputWithPreview from '@/components/admin/ImageInputWithPreview';
 
 export default function AdminPagesEditorPage() {
   const { content, updateSection } = useContent();
@@ -33,6 +34,17 @@ export default function AdminPagesEditorPage() {
   const [creativityState, setCreativityState] = useState(content.creativity);
   const [practicesState, setPracticesState] = useState(content.practices);
   const [contactsState, setContactsState] = useState(content.contacts);
+
+  // Keep local form states in sync when remote D1 data arrives
+  React.useEffect(() => {
+    setHomepageState(content.homepage);
+    setEducationState(content.education);
+    setConsultationState(content.consultationCenter);
+    setSatsangState(content.satsangYoga);
+    setCreativityState(content.creativity);
+    setPracticesState(content.practices);
+    setContactsState(content.contacts);
+  }, [content]);
 
   const showNotification = () => {
     setSavedSuccess(true);
@@ -222,6 +234,27 @@ export default function AdminPagesEditorPage() {
                 className="w-full bg-white/5 border border-white/20 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-sacred-gold italic"
               />
             </div>
+
+            {/* Homepage Images */}
+            <div className="pt-4 border-t border-white/10 space-y-4">
+              <h3 className="text-xs font-semibold text-sacred-goldLight uppercase tracking-wider">
+                Фотографії Головної Сторінки
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <ImageInputWithPreview
+                  label="Головне фото Ірини (Hero)"
+                  value={homepageState.heroImage || '/images/hero-irina.jpg'}
+                  onChange={(val) => setHomepageState({ ...homepageState, heroImage: val })}
+                  placeholder="/images/hero-irina.jpg"
+                />
+                <ImageInputWithPreview
+                  label="Фото у секції «Про Ірину Заверуху»"
+                  value={homepageState.aboutImage || '/images/about-irina.png'}
+                  onChange={(val) => setHomepageState({ ...homepageState, aboutImage: val })}
+                  placeholder="/images/about-irina.png"
+                />
+              </div>
+            </div>
           </div>
 
           {/* Cold Funnel Settings */}
@@ -385,6 +418,33 @@ export default function AdminPagesEditorPage() {
                 className="w-full bg-white/5 border border-white/20 rounded-xl px-3 py-2 text-xs text-white"
               />
             </div>
+
+            {/* Education Banners */}
+            <div className="pt-4 border-t border-white/10 space-y-4">
+              <h3 className="text-xs font-semibold text-sacred-goldLight uppercase tracking-wider">
+                Банери освітніх програм
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <ImageInputWithPreview
+                  label="Банер програми «КРИЛА®»"
+                  value={educationState.krylaBannerImage || '/images/banners/kryla-banner.jpg'}
+                  onChange={(val) => setEducationState({ ...educationState, krylaBannerImage: val })}
+                  placeholder="/images/banners/kryla-banner.jpg"
+                />
+                <ImageInputWithPreview
+                  label="Банер «Алхімікум»"
+                  value={educationState.alhimicumBannerImage || '/images/banners/alhimicum-banner.jpg'}
+                  onChange={(val) => setEducationState({ ...educationState, alhimicumBannerImage: val })}
+                  placeholder="/images/banners/alhimicum-banner.jpg"
+                />
+                <ImageInputWithPreview
+                  label="Банер «IMARIA Academia»"
+                  value={educationState.academiaBannerImage || '/images/banners/academia-banner.jpg'}
+                  onChange={(val) => setEducationState({ ...educationState, academiaBannerImage: val })}
+                  placeholder="/images/banners/academia-banner.jpg"
+                />
+              </div>
+            </div>
           </div>
 
           <div className="flex justify-end">
@@ -415,6 +475,16 @@ export default function AdminPagesEditorPage() {
                 value={consultationState.intro}
                 onChange={(e) => setConsultationState({ ...consultationState, intro: e.target.value })}
                 className="w-full bg-white/5 border border-white/20 rounded-xl px-4 py-2.5 text-sm text-white"
+              />
+            </div>
+
+            {/* Consultation Banner Image */}
+            <div className="pt-2">
+              <ImageInputWithPreview
+                label="Головний банер сторінки консультацій"
+                value={consultationState.bannerImage || '/images/consultations-banner.jpg'}
+                onChange={(val) => setConsultationState({ ...consultationState, bannerImage: val })}
+                placeholder="/images/consultations-banner.jpg"
               />
             </div>
 
@@ -532,6 +602,27 @@ export default function AdminPagesEditorPage() {
                 />
               </div>
             </div>
+
+            {/* Satsang Banners */}
+            <div className="pt-4 border-t border-white/10 space-y-4">
+              <h3 className="text-xs font-semibold text-sacred-goldLight uppercase tracking-wider">
+                Банери сторінки
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <ImageInputWithPreview
+                  label="Банер Сатсангів та йоги"
+                  value={satsangState.bannerImage || '/images/satsang-banner.jpg'}
+                  onChange={(val) => setSatsangState({ ...satsangState, bannerImage: val })}
+                  placeholder="/images/satsang-banner.jpg"
+                />
+                <ImageInputWithPreview
+                  label="Банер Медитацій"
+                  value={satsangState.meditationsBannerImage || '/images/meditations-banner.jpg'}
+                  onChange={(val) => setSatsangState({ ...satsangState, meditationsBannerImage: val })}
+                  placeholder="/images/meditations-banner.jpg"
+                />
+              </div>
+            </div>
           </div>
 
           <div className="flex justify-end">
@@ -617,6 +708,33 @@ export default function AdminPagesEditorPage() {
                 onChange={(e) => setCreativityState({ ...creativityState, instagramShopUrl: e.target.value })}
                 className="w-full bg-white/5 border border-white/20 rounded-xl px-3 py-2 text-xs text-white"
               />
+            </div>
+
+            {/* Creativity Photos */}
+            <div className="pt-4 border-t border-white/10 space-y-4">
+              <h3 className="text-xs font-semibold text-sacred-goldLight uppercase tracking-wider">
+                Фотографії артефактів та творчості
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <ImageInputWithPreview
+                  label="Фото книги «Бесіди з Ангелами»"
+                  value={creativityState.book1Image || '/images/creativity/book.png'}
+                  onChange={(val) => setCreativityState({ ...creativityState, book1Image: val })}
+                  placeholder="/images/creativity/book.png"
+                />
+                <ImageInputWithPreview
+                  label="Фото сукні «Споріднені»"
+                  value={creativityState.dressImage || '/images/creativity/dress.png'}
+                  onChange={(val) => setCreativityState({ ...creativityState, dressImage: val })}
+                  placeholder="/images/creativity/dress.png"
+                />
+                <ImageInputWithPreview
+                  label="Фото кулона «АВАТАР»"
+                  value={creativityState.avatarImage || '/images/creativity/amulet.png'}
+                  onChange={(val) => setCreativityState({ ...creativityState, avatarImage: val })}
+                  placeholder="/images/creativity/amulet.png"
+                />
+              </div>
             </div>
           </div>
 

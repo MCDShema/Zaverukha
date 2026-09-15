@@ -170,7 +170,7 @@ export default function PiplEcosystemPage() {
               <div className="rounded-2xl overflow-hidden shadow-2xl border border-sacred-gold/50 group">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img 
-                  src="/images/banners/kryla-banner.jpg" 
+                  src={education.krylaBannerImage || "/images/banners/kryla-banner.jpg"} 
                   alt="Крила Ірини Заверухи" 
                   className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500"
                 />
@@ -206,7 +206,7 @@ export default function PiplEcosystemPage() {
               <div className="rounded-2xl overflow-hidden shadow-2xl border border-sacred-gold/50 group">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img 
-                  src="/images/banners/alhimicum-banner.jpg" 
+                  src={education.alhimicumBannerImage || "/images/banners/alhimicum-banner.jpg"} 
                   alt="Алхімікум" 
                   className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500"
                 />

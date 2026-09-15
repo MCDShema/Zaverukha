@@ -17,6 +17,7 @@ import {
   Tag 
 } from 'lucide-react';
 import Link from 'next/link';
+import ImageInputWithPreview from '@/components/admin/ImageInputWithPreview';
 
 export default function AdminArticlesPage() {
   const { content, addArticle, updateArticle, deleteArticle } = useContent();
@@ -32,6 +33,8 @@ export default function AdminArticlesPage() {
   const [formCategory, setFormCategory] = useState<'Новини' | 'Блог' | 'Творчість' | 'Екологія'>('Блог');
   const [formDate, setFormDate] = useState('');
   const [formReadTime, setFormReadTime] = useState('');
+  const [formCoverImage, setFormCoverImage] = useState('');
+  const [formTags, setFormTags] = useState('');
   const [formContentText, setFormContentText] = useState('');
 
   const openCreate = () => {
@@ -42,6 +45,8 @@ export default function AdminArticlesPage() {
     setFormCategory(activeTab === 'news' ? 'Новини' : 'Блог');
     setFormDate(new Date().toLocaleDateString('uk-UA', { day: 'numeric', month: 'long', year: 'numeric' }));
     setFormReadTime('5 хв читання');
+    setFormCoverImage('');
+    setFormTags('');
     setFormContentText('');
     setIsCreating(true);
     setEditingArticle(null);
@@ -54,6 +59,8 @@ export default function AdminArticlesPage() {
     setFormCategory(article.category);
     setFormDate(article.date);
     setFormReadTime(article.readTime);
+    setFormCoverImage(article.cover_image || article.image || '');
+    setFormTags(article.tags ? article.tags.join(', ') : '');
     setFormContentText(article.content.join('\n\n'));
     setEditingArticle(article);
     setIsCreating(false);
@@ -67,6 +74,11 @@ export default function AdminArticlesPage() {
       .map((p) => p.trim())
       .filter((p) => p.length > 0);
 
+    const parsedTags = formTags
+      .split(',')
+      .map((t) => t.trim())
+      .filter((t) => t.length > 0);
+
     const articleData: Article = {
       slug: formSlug || formTitle.toLowerCase().replace(/[^a-z0-9а-яіїєґ]+/gi, '-').replace(/^-|-$/g, ''),
       title: formTitle,
@@ -75,6 +87,9 @@ export default function AdminArticlesPage() {
       date: formDate,
       readTime: formReadTime,
       content: paragraphs.length > 0 ? paragraphs : [formExcerpt],
+      image: formCoverImage || undefined,
+      cover_image: formCoverImage || undefined,
+      tags: parsedTags.length > 0 ? parsedTags : undefined,
     };
 
     if (isCreating) {
@@ -245,6 +260,28 @@ export default function AdminArticlesPage() {
               </div>
             </div>
 
+            {/* Image Input with Upload / URL / Presets */}
+            <ImageInputWithPreview
+              label="Головне фото / Обкладинка статті"
+              value={formCoverImage}
+              onChange={setFormCoverImage}
+              placeholder="/images/posts/your-photo.jpg або https://..."
+            />
+
+            <div>
+              <label className="block text-xs font-semibold text-sacred-goldLight uppercase mb-1 flex items-center gap-1.5">
+                <Tag className="w-3.5 h-3.5 text-sacred-gold" />
+                <span>Теги (через кому)</span>
+              </label>
+              <input
+                type="text"
+                value={formTags}
+                onChange={(e) => setFormTags(e.target.value)}
+                placeholder="Психологія, Стосунки, Духовність, Карми..."
+                className="w-full bg-white/5 border border-white/20 focus:border-sacred-gold rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none"
+              />
+            </div>
+
             <div>
               <label className="block text-xs font-semibold text-sacred-goldLight uppercase mb-1">
                 Короткий опис (анонс для списку) *
@@ -325,22 +362,45 @@ export default function AdminArticlesPage() {
                 key={article.slug}
                 className="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-white/5 transition-colors"
               >
-                <div className="space-y-1.5 max-w-2xl">
-                  <div className="flex items-center gap-2 text-[11px] text-white/60">
-                    <span className="px-2 py-0.5 rounded bg-sacred-gold/20 text-sacred-gold font-semibold uppercase text-[10px]">
-                      {article.category}
-                    </span>
-                    <span>•</span>
-                    <span>{article.date}</span>
-                    <span>•</span>
-                    <span>{article.readTime}</span>
+                <div className="flex items-start gap-3.5 max-w-2xl">
+                  {/* Thumbnail Preview */}
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden shrink-0 bg-sacred-blue/30 border border-white/10 relative">
+                    <img
+                      src={article.cover_image || article.image || '/images/posts/viva-interview.jpg'}
+                      alt={article.title}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = '/images/posts/viva-interview.jpg';
+                      }}
+                    />
                   </div>
-                  <h3 className="text-base font-serif font-medium text-white leading-snug">
-                    {article.title}
-                  </h3>
-                  <p className="text-xs text-white/60 line-clamp-2">
-                    {article.excerpt}
-                  </p>
+
+                  <div className="space-y-1.5 min-w-0">
+                    <div className="flex flex-wrap items-center gap-2 text-[11px] text-white/60">
+                      <span className="px-2 py-0.5 rounded bg-sacred-gold/20 text-sacred-gold font-semibold uppercase text-[10px]">
+                        {article.category}
+                      </span>
+                      <span>•</span>
+                      <span>{article.date}</span>
+                      <span>•</span>
+                      <span>{article.readTime}</span>
+                    </div>
+                    <h3 className="text-base font-serif font-medium text-white leading-snug truncate sm:whitespace-normal">
+                      {article.title}
+                    </h3>
+                    <p className="text-xs text-white/60 line-clamp-2">
+                      {article.excerpt}
+                    </p>
+                    {article.tags && article.tags.length > 0 && (
+                      <div className="flex flex-wrap gap-1 pt-0.5">
+                        {article.tags.slice(0, 3).map((t) => (
+                          <span key={t} className="text-[10px] text-white/40 bg-white/5 px-1.5 py-0.5 rounded">
+                            #{t}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 <div className="flex items-center gap-2 self-end sm:self-center shrink-0">
