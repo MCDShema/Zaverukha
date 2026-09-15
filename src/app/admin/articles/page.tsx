@@ -108,10 +108,38 @@ export default function AdminArticlesPage() {
     }
   };
 
-  // Filter by tab first (blog tab = not Новини, news tab = Новини only)
-  const tabArticles = content.articles.filter((a) =>
-    activeTab === 'news' ? a.category === 'Новини' : a.category !== 'Новини'
-  );
+  const UK_MONTHS: Record<string, number> = {
+    'січня': 0, 'лютого': 1, 'березня': 2, 'квітня': 3, 'травня': 4, 'червня': 5,
+    'липня': 6, 'серпня': 7, 'вересня': 8, 'жовтня': 9, 'листопада': 10, 'грудня': 11,
+    'січень': 0, 'лютий': 1, 'березень': 2, 'квітень': 3, 'травень': 4, 'червень': 5,
+    'липень': 6, 'серпень': 7, 'вересень': 8, 'жовтень': 9, 'листопад': 10, 'грудень': 11,
+  };
+
+  const getArticleTime = (art: Article) => {
+    if (art.created_at) {
+      const t = new Date(art.created_at).getTime();
+      if (!isNaN(t) && t > 0) return t;
+    }
+    if (!art.date) return 0;
+    const direct = new Date(art.date).getTime();
+    if (!isNaN(direct) && direct > 0) return direct;
+    const clean = art.date.replace(/,/g, '').trim().toLowerCase();
+    const parts = clean.split(/\s+/);
+    if (parts.length >= 3) {
+      const day = parseInt(parts[0], 10);
+      const m = parts[1];
+      const y = parseInt(parts[2], 10);
+      if (!isNaN(day) && !isNaN(y) && m in UK_MONTHS) {
+        return new Date(y, UK_MONTHS[m], day).getTime();
+      }
+    }
+    return 0;
+  };
+
+  // Filter by tab first (blog tab = not Новини, news tab = Новини only) and sort by date descending
+  const tabArticles = content.articles
+    .filter((a) => (activeTab === 'news' ? a.category === 'Новини' : a.category !== 'Новини'))
+    .sort((a, b) => getArticleTime(b) - getArticleTime(a));
 
   const filtered = tabArticles.filter((a) =>
     !search.trim() ||

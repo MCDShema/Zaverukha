@@ -58,6 +58,7 @@ function rowToArticle(row: DbArticleRow) {
     author: row.author || 'Ірина Заверуха',
     content: parsedContent,
     published: Boolean(row.published),
+    created_at: row.created_at,
   };
 }
 

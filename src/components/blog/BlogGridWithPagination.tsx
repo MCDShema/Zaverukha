@@ -17,6 +17,37 @@ interface BlogGridWithPaginationProps {
 
 const DEFAULT_FALLBACK_IMAGE = '/images/posts/viva-interview.jpg';
 
+const UK_MONTH_MAP: Record<string, number> = {
+  'січня': 0, 'лютого': 1, 'березня': 2, 'квітня': 3, 'травня': 4, 'червня': 5,
+  'липня': 6, 'серпня': 7, 'вересня': 8, 'жовтня': 9, 'листопада': 10, 'грудня': 11,
+  'січень': 0, 'лютий': 1, 'березень': 2, 'квітень': 3, 'травень': 4, 'червень': 5,
+  'липень': 6, 'серпень': 7, 'вересень': 8, 'жовтень': 9, 'листопад': 10, 'грудень': 11,
+};
+
+function parseArticleTimestamp(article: Article): number {
+  if (article.created_at) {
+    const t = new Date(article.created_at).getTime();
+    if (!isNaN(t) && t > 0) return t;
+  }
+  if (!article.date) return 0;
+  
+  const directTime = new Date(article.date).getTime();
+  if (!isNaN(directTime) && directTime > 0) return directTime;
+
+  const clean = article.date.replace(/,/g, '').trim().toLowerCase();
+  const parts = clean.split(/\s+/);
+  if (parts.length >= 3) {
+    const day = parseInt(parts[0], 10);
+    const monthName = parts[1];
+    const year = parseInt(parts[2], 10);
+    if (!isNaN(day) && !isNaN(year) && monthName in UK_MONTH_MAP) {
+      return new Date(year, UK_MONTH_MAP[monthName], day).getTime();
+    }
+  }
+
+  return 0;
+}
+
 export default function BlogGridWithPagination({
   articles,
   itemsPerPage = 9,
@@ -29,10 +60,19 @@ export default function BlogGridWithPagination({
   const [selectedTag, setSelectedTag] = useState<string>(initialTag);
   const [currentPage, setCurrentPage] = useState<number>(1);
 
-  // Collect available tags across articles
+  // 1. Sort articles chronologically descending (newest articles first)
+  const sortedArticles = useMemo(() => {
+    return [...articles].sort((a, b) => {
+      const tb = parseArticleTimestamp(b);
+      const ta = parseArticleTimestamp(a);
+      return tb - ta;
+    });
+  }, [articles]);
+
+  // 2. Collect available tags across sorted articles
   const availableTags = useMemo(() => {
     const tagSet = new Set<string>();
-    articles.forEach((a) => {
+    sortedArticles.forEach((a) => {
       if (a.category) {
         tagSet.add(a.category);
       }
@@ -70,17 +110,17 @@ export default function BlogGridWithPagination({
     });
 
     return ['Всі', ...sorted];
-  }, [articles]);
+  }, [sortedArticles]);
 
-  // Filter articles by selected tag
+  // 3. Filter sorted articles by selected tag
   const filteredArticles = useMemo(() => {
-    if (selectedTag === 'Всі') return articles;
-    return articles.filter((a) => {
+    if (selectedTag === 'Всі') return sortedArticles;
+    return sortedArticles.filter((a) => {
       if (a.category === selectedTag) return true;
       if (Array.isArray(a.tags) && a.tags.includes(selectedTag)) return true;
       return false;
     });
-  }, [articles, selectedTag]);
+  }, [sortedArticles, selectedTag]);
 
   // Pagination calculations
   const totalPages = Math.max(1, Math.ceil(filteredArticles.length / itemsPerPage));
