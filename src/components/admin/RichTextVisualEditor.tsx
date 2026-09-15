@@ -267,35 +267,47 @@ export default function RichTextVisualEditor({
   };
 
   return (
-    <div className="rounded-2xl border border-white/20 bg-[#16142E] overflow-hidden shadow-lg transition-all">
+    <div className="rounded-2xl border border-white/25 bg-[#16142E] overflow-hidden shadow-xl transition-all">
       {/* TOOLBAR */}
-      <div className="bg-[#1C1A3A] border-b border-white/15 px-3 py-2 flex flex-wrap items-center justify-between gap-2 select-none">
+      <div className="bg-[#1C1848] border-b border-white/25 px-3 py-2.5 flex flex-wrap items-center justify-between gap-2 select-none">
         
         {/* FORMATTING ICONS */}
-        <div className="flex flex-wrap items-center gap-1 sm:gap-1.5">
-          {/* LINK (THE STAR OF THE SHOW) */}
+        <div className="flex flex-wrap items-center gap-1.5">
+          {/* LINK BUTTON */}
           <button
             type="button"
             onMouseDown={(e) => e.preventDefault()}
             onClick={openLinkDialog}
-            className="px-3 py-1.5 rounded-lg bg-[#3833BA] hover:bg-[#4E48D6] active:scale-95 text-white text-xs font-semibold flex items-center gap-1.5 transition shadow-sm"
+            className="px-3.5 py-1.5 rounded-lg bg-[#3833BA] hover:bg-[#4E48D6] active:scale-95 text-white text-xs font-bold flex items-center gap-1.5 transition shadow-sm border border-indigo-400/50"
             title="Виділіть слово або речення та натисніть, щоб зробити посиланням"
           >
-            <Link2 className="w-3.5 h-3.5 text-yellow-300" />
-            <span>🔗 Зробити посиланням</span>
+            <Link2 className="w-4 h-4 text-yellow-300" />
+            <span className="text-white font-bold">🔗 Зробити посиланням</span>
           </button>
 
-          <div className="w-[1px] h-4 bg-white/20 mx-1 hidden sm:block" />
+          {/* IMAGE BUTTON */}
+          <button
+            type="button"
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={openImageDialog}
+            className="px-3 py-1.5 rounded-lg bg-[#D97706] hover:bg-[#F59E0B] active:scale-95 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-sm border border-amber-300/60 ml-0.5"
+            title="Вставити фотографію окремим красивим блоком всередину тексту"
+          >
+            <ImageIcon className="w-4 h-4 text-white" />
+            <span className="text-white font-bold">🖼️ Фото в текст</span>
+          </button>
+
+          <div className="w-[1px] h-5 bg-white/30 mx-1 hidden sm:block" />
 
           {/* BOLD */}
           <button
             type="button"
             onMouseDown={(e) => e.preventDefault()}
             onClick={() => execCmd('bold')}
-            className="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-white/90 text-xs font-bold transition"
+            className="p-1.5 px-2.5 rounded-lg bg-white/20 hover:bg-white/35 text-white text-xs font-extrabold border border-white/30 transition shadow-sm"
             title="Жирний (Ctrl+B)"
           >
-            <Bold className="w-4 h-4" />
+            <Bold className="w-4 h-4 text-white stroke-[2.5]" />
           </button>
 
           {/* ITALIC */}
@@ -303,10 +315,10 @@ export default function RichTextVisualEditor({
             type="button"
             onMouseDown={(e) => e.preventDefault()}
             onClick={() => execCmd('italic')}
-            className="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-white/90 text-xs italic transition"
+            className="p-1.5 px-2.5 rounded-lg bg-white/20 hover:bg-white/35 text-white text-xs italic border border-white/30 transition shadow-sm"
             title="Курсив (Ctrl+I)"
           >
-            <Italic className="w-4 h-4" />
+            <Italic className="w-4 h-4 text-white stroke-[2.5]" />
           </button>
 
           {/* UNDERLINE */}
@@ -314,33 +326,33 @@ export default function RichTextVisualEditor({
             type="button"
             onMouseDown={(e) => e.preventDefault()}
             onClick={() => execCmd('underline')}
-            className="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-white/90 text-xs transition"
+            className="p-1.5 px-2.5 rounded-lg bg-white/20 hover:bg-white/35 text-white text-xs border border-white/30 transition shadow-sm"
             title="Підкреслений (Ctrl+U)"
           >
-            <Underline className="w-4 h-4" />
+            <Underline className="w-4 h-4 text-white stroke-[2.5]" />
           </button>
 
-          <div className="w-[1px] h-4 bg-white/20 mx-1" />
+          <div className="w-[1px] h-5 bg-white/30 mx-1" />
 
           {/* HEADINGS */}
           <button
             type="button"
             onMouseDown={(e) => e.preventDefault()}
             onClick={() => formatBlock('<h2>')}
-            className="px-2 py-1 rounded-lg bg-white/5 hover:bg-white/15 text-white/90 text-xs font-serif font-bold transition"
+            className="px-2.5 py-1.5 rounded-lg bg-white/20 hover:bg-white/35 text-white text-xs font-serif font-bold border border-white/30 transition shadow-sm"
             title="Заголовок H2"
           >
-            H2
+            <span className="text-white font-bold">H2</span>
           </button>
 
           <button
             type="button"
             onMouseDown={(e) => e.preventDefault()}
             onClick={() => formatBlock('<h3>')}
-            className="px-2 py-1 rounded-lg bg-white/5 hover:bg-white/15 text-white/90 text-xs font-serif font-bold transition"
+            className="px-2.5 py-1.5 rounded-lg bg-white/20 hover:bg-white/35 text-white text-xs font-serif font-bold border border-white/30 transition shadow-sm"
             title="Підзаголовок H3"
           >
-            H3
+            <span className="text-white font-bold">H3</span>
           </button>
 
           {/* PARAGRAPH / NORMAL */}
@@ -348,23 +360,23 @@ export default function RichTextVisualEditor({
             type="button"
             onMouseDown={(e) => e.preventDefault()}
             onClick={() => formatBlock('<p>')}
-            className="px-2 py-1 rounded-lg bg-white/5 hover:bg-white/15 text-white/80 text-xs font-medium transition"
+            className="px-2.5 py-1.5 rounded-lg bg-white/20 hover:bg-white/35 text-white text-xs font-bold border border-white/30 transition shadow-sm"
             title="Звичайний абзац"
           >
-            Текст
+            <span className="text-white font-bold">Текст</span>
           </button>
 
-          <div className="w-[1px] h-4 bg-white/20 mx-1" />
+          <div className="w-[1px] h-5 bg-white/30 mx-1" />
 
           {/* QUOTE */}
           <button
             type="button"
             onMouseDown={(e) => e.preventDefault()}
             onClick={() => formatBlock('<blockquote>')}
-            className="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-white/90 text-xs transition"
+            className="p-1.5 px-2 rounded-lg bg-white/20 hover:bg-white/35 text-white text-xs border border-white/30 transition shadow-sm"
             title="Цитата"
           >
-            <Quote className="w-3.5 h-3.5" />
+            <Quote className="w-4 h-4 text-white stroke-[2.5]" />
           </button>
 
           {/* BULLET LIST */}
@@ -372,10 +384,10 @@ export default function RichTextVisualEditor({
             type="button"
             onMouseDown={(e) => e.preventDefault()}
             onClick={() => execCmd('insertUnorderedList')}
-            className="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-white/90 text-xs transition"
+            className="p-1.5 px-2 rounded-lg bg-white/20 hover:bg-white/35 text-white text-xs border border-white/30 transition shadow-sm"
             title="Список з маркерами"
           >
-            <List className="w-4 h-4" />
+            <List className="w-4 h-4 text-white stroke-[2.5]" />
           </button>
 
           {/* NUMBERED LIST */}
@@ -383,22 +395,10 @@ export default function RichTextVisualEditor({
             type="button"
             onMouseDown={(e) => e.preventDefault()}
             onClick={() => execCmd('insertOrderedList')}
-            className="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-white/90 text-xs transition"
+            className="p-1.5 px-2 rounded-lg bg-white/20 hover:bg-white/35 text-white text-xs border border-white/30 transition shadow-sm"
             title="Нумерований список"
           >
-            <ListOrdered className="w-4 h-4" />
-          </button>
-
-          {/* IMAGE BLOCK BUTTON */}
-          <button
-            type="button"
-            onMouseDown={(e) => e.preventDefault()}
-            onClick={openImageDialog}
-            className="px-2.5 py-1.5 rounded-lg bg-sacred-gold/20 hover:bg-sacred-gold/30 text-sacred-goldLight text-xs font-semibold transition flex items-center gap-1.5 border border-sacred-gold/30 ml-1"
-            title="Вставити фотографію окремим блоком всередину тексту"
-          >
-            <ImageIcon className="w-3.5 h-3.5 text-sacred-gold" />
-            <span>🖼️ Фото в текст</span>
+            <ListOrdered className="w-4 h-4 text-white stroke-[2.5]" />
           </button>
 
           {/* REMOVE FORMATTING */}
@@ -406,53 +406,54 @@ export default function RichTextVisualEditor({
             type="button"
             onMouseDown={(e) => e.preventDefault()}
             onClick={() => execCmd('removeFormat')}
-            className="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-white/60 hover:text-white text-xs transition ml-1"
+            className="p-1.5 px-2 rounded-lg bg-white/15 hover:bg-white/25 text-white text-xs transition ml-1 border border-white/25 shadow-sm"
             title="Очистити форматування виділеного тексту"
           >
-            <RemoveFormatting className="w-3.5 h-3.5" />
+            <RemoveFormatting className="w-4 h-4 text-white" />
           </button>
         </div>
 
+
         {/* MODE SWITCHER (VISUAL / CODE / PREVIEW) */}
-        <div className="flex items-center gap-1 bg-black/40 p-1 rounded-xl">
+        <div className="flex items-center gap-1.5 bg-black/40 p-1 rounded-xl border border-white/20">
           <button
             type="button"
             onClick={() => handleModeSwitch('visual')}
-            className={`px-3 py-1 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 ${
               activeMode === 'visual'
-                ? 'bg-white text-[#1a1836] shadow-md'
-                : 'text-white/60 hover:text-white'
+                ? 'bg-white text-[#14122E] shadow-md'
+                : 'text-white hover:text-white/80'
             }`}
           >
-            <Sparkles className="w-3 h-3 text-[#3833BA]" />
+            <Sparkles className="w-3.5 h-3.5 text-[#3833BA]" />
             <span>Візуальний редактор</span>
           </button>
 
           <button
             type="button"
             onClick={() => handleModeSwitch('code')}
-            className={`px-2.5 py-1 rounded-lg text-xs font-medium transition flex items-center gap-1.5 ${
+            className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
               activeMode === 'code'
-                ? 'bg-white/20 text-white shadow-sm'
-                : 'text-white/50 hover:text-white'
+                ? 'bg-white text-[#14122E] shadow-md'
+                : 'text-white hover:text-white/80'
             }`}
             title="Переглянути та редагувати HTML код напряму (для технічних правок)"
           >
-            <Code className="w-3 h-3" />
+            <Code className="w-3.5 h-3.5" />
             <span>HTML</span>
           </button>
 
           <button
             type="button"
             onClick={() => handleModeSwitch('preview')}
-            className={`px-2.5 py-1 rounded-lg text-xs font-medium transition flex items-center gap-1.5 ${
+            className={`px-2.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 ${
               activeMode === 'preview'
-                ? 'bg-[#C99A2C] text-[#1a1836] font-bold shadow-sm'
-                : 'text-white/50 hover:text-white'
+                ? 'bg-[#C99A2C] text-[#14122E] shadow-md'
+                : 'text-white hover:text-white/80'
             }`}
             title="Попередній перегляд статті так, як її побачить читач на сайті"
           >
-            <Eye className="w-3 h-3" />
+            <Eye className="w-3.5 h-3.5" />
             <span>Перегляд</span>
           </button>
         </div>
@@ -460,16 +461,16 @@ export default function RichTextVisualEditor({
 
       {/* HELPFUL QUICK TIP BANNER */}
       {activeMode === 'visual' && (
-        <div className="bg-[#211E48] px-4 py-1.5 text-[11px] text-white/70 flex items-center justify-between border-b border-white/5">
+        <div className="bg-[#241F54] px-4 py-2 text-xs text-white border-b border-white/15 flex items-center justify-between font-normal">
           <div className="flex items-center gap-2">
-            <span className="font-semibold text-sacred-gold">💡 Підказка:</span>
-            <span>Виділіть мишкою будь-яке слово або фразу і натисніть <b>«🔗 Зробити посиланням»</b> у верхній панелі.</span>
+            <span className="font-bold text-yellow-300">💡 Підказка:</span>
+            <span className="text-white font-medium">Виділіть мишкою будь-яке слово або фразу і натисніть <b>«🔗 Зробити посиланням»</b> у верхній панелі.</span>
           </div>
-          <span className="text-white/40 hidden md:inline">Enter — новий абзац • Shift+Enter — перенесення рядка</span>
+          <span className="text-white/80 hidden md:inline font-medium">Enter — новий абзац • Shift+Enter — перенесення рядка</span>
         </div>
       )}
 
-      {/* 1. VISUAL WYSIWYG CANVAS */}
+      {/* 1. VISUAL WYSIWYG CANVAS (WHITE BACKGROUND FOR COMFORTABLE WRITING) */}
       <div className={activeMode === 'visual' ? 'block' : 'hidden'}>
         <div
           ref={editorRef}
@@ -477,24 +478,23 @@ export default function RichTextVisualEditor({
           suppressContentEditableWarning
           onInput={handleVisualInput}
           onPaste={handlePaste}
-          className="w-full min-h-[360px] max-h-[650px] overflow-y-auto bg-[#121026] text-white px-6 sm:px-10 py-6 focus:outline-none selection:bg-[#3833BA]/40 selection:text-white
-            prose prose-invert max-w-none font-sans leading-relaxed
-            [&_*]:!text-white
-            [&_p]:mb-4 [&_p]:!text-white/95 [&_p]:text-[16px] [&_p]:leading-[1.8] [&_p]:font-normal
-            [&_strong]:!text-white [&_strong]:font-bold
-            [&_em]:!text-white/90 [&_em]:italic
+          className="w-full min-h-[360px] max-h-[650px] overflow-y-auto bg-white text-[#28303D] px-6 sm:px-10 py-6 focus:outline-none selection:bg-[#3833BA]/20 selection:text-[#1e1b4b]
+            prose prose-slate max-w-none font-sans leading-relaxed
+            [&_p]:mb-4 [&_p]:text-[16px] [&_p]:leading-[1.8] [&_p]:text-[#28303D] [&_p]:font-normal
+            [&_strong]:font-bold [&_strong]:text-[#1e1b4b]
+            [&_em]:italic [&_em]:text-slate-800
             [&_u]:underline [&_u]:underline-offset-2
-            [&_a]:!text-[#A5B4FC] [&_a]:underline [&_a]:underline-offset-4 [&_a]:font-semibold [&_a]:decoration-[#A5B4FC] hover:[&_a]:!text-[#C7D2FE]
-            [&_h2]:!text-sacred-goldLight [&_h2]:text-2xl [&_h2]:font-serif [&_h2]:font-bold [&_h2]:mt-6 [&_h2]:mb-3
-            [&_h3]:!text-sacred-gold [&_h3]:text-xl [&_h3]:font-serif [&_h3]:font-bold [&_h3]:mt-5 [&_h3]:mb-2
-            [&_blockquote]:border-l-4 [&_blockquote]:border-sacred-gold [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:!text-white/90 [&_blockquote]:my-4 [&_blockquote]:bg-white/5 [&_blockquote]:py-2.5 [&_blockquote]:rounded-r-xl
-            [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-1 [&_ul]:mb-4 [&_ul]:!text-white/90
-            [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:space-y-1 [&_ol]:mb-4 [&_ol]:!text-white/90
-            [&_li]:!text-white/90
-            [&_figure]:my-6 [&_figure]:mx-auto [&_figure]:text-center [&_figure]:p-3 [&_figure]:rounded-2xl [&_figure]:bg-white/5 [&_figure]:border [&_figure]:border-white/10
-            [&_figcaption]:!text-white/60 [&_figcaption]:text-xs [&_figcaption]:mt-2
+            [&_a]:text-[#3833BA] [&_a]:underline [&_a]:underline-offset-4 [&_a]:font-semibold [&_a]:decoration-[#3833BA] hover:[&_a]:text-[#221e75]
+            [&_h2]:text-2xl [&_h2]:font-serif [&_h2]:font-bold [&_h2]:text-[#2b2670] [&_h2]:mt-6 [&_h2]:mb-3
+            [&_h3]:text-xl [&_h3]:font-serif [&_h3]:font-bold [&_h3]:text-[#2b2670] [&_h3]:mt-5 [&_h3]:mb-2
+            [&_blockquote]:border-l-4 [&_blockquote]:border-[#3833ba] [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-slate-700 [&_blockquote]:my-4 [&_blockquote]:bg-slate-50 [&_blockquote]:py-2.5 [&_blockquote]:rounded-r-xl
+            [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-1 [&_ul]:mb-4 [&_ul]:text-[#28303D]
+            [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:space-y-1 [&_ol]:mb-4 [&_ol]:text-[#28303D]
+            [&_li]:text-[#28303D]
+            [&_figure]:my-6 [&_figure]:mx-auto [&_figure]:text-center [&_figure]:p-3 [&_figure]:rounded-2xl [&_figure]:bg-slate-50 [&_figure]:border [&_figure]:border-slate-200
+            [&_figcaption]:text-slate-600 [&_figcaption]:text-xs [&_figcaption]:mt-2
             [&_img]:rounded-xl [&_img]:shadow-md [&_img]:mx-auto [&_img]:max-w-full
-            empty:before:content-[attr(data-placeholder)] empty:before:!text-white/40 empty:before:pointer-events-none"
+            empty:before:content-[attr(data-placeholder)] empty:before:text-slate-400 empty:before:pointer-events-none"
           data-placeholder={placeholder}
         />
       </div>
